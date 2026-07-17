@@ -910,6 +910,7 @@ if(typeof THREE!=='undefined'&&!reduced){
   const sceneFumee=new THREE.Scene();
   const camOrtho=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
   const fumeeMat=new THREE.ShaderMaterial({
+    depthWrite:false,depthTest:false,
     uniforms:{
       uTime:{value:0},uRes:{value:new THREE.Vector2(innerWidth,innerHeight)},
       uMouse:{value:new THREE.Vector2(0,0)},uAmp:{value:.9},uMix:{value:0}
@@ -1007,6 +1008,7 @@ if(typeof THREE!=='undefined'&&!reduced){
     camPersp.lookAt(0,0,0);
     renderer.clear();
     renderer.render(sceneFumee,camOrtho);
+    renderer.clearDepth();
     renderer.render(sceneBraises,camPersp);
   })();
 
