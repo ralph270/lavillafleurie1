@@ -2,31 +2,31 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Overview
+## Vue d'ensemble
 
-This is a single-page static website for "La Villa Fleurie", a fictional Michelin-starred Creole gastronomic restaurant in Saint-Gilles-les-Bains, Réunion Island. The entire site lives in `index.html` — all CSS and JavaScript are inlined. There is no build system, package manager, test suite, or linter.
+Ce dépôt contient un site web statique d'une seule page pour « La Villa Fleurie », un restaurant gastronomique créole étoilé (fictif) situé à Saint-Gilles-les-Bains, à l'île de La Réunion. L'intégralité du site tient dans `index.html` — tout le CSS et le JavaScript y sont inclus en ligne. Il n'y a ni système de build, ni gestionnaire de paquets, ni suite de tests, ni linter.
 
-## Development
+## Développement
 
-- No build or install step. Open `index.html` directly in a browser, or serve it locally (e.g. `python3 -m http.server`) to preview changes.
-- The only external dependencies are Google Fonts (Manrope + Lora) and an embedded Google Maps iframe; everything else is self-contained, including SVG artwork embedded as data URIs.
+- Aucune étape de build ou d'installation. Ouvrir `index.html` directement dans un navigateur, ou le servir localement (par ex. `python3 -m http.server`) pour prévisualiser les modifications.
+- Les seules dépendances externes sont Google Fonts (Manrope + Lora) et une iframe Google Maps intégrée ; tout le reste est autonome, y compris les illustrations SVG intégrées en data URI.
 
-## Architecture of index.html
+## Architecture de index.html
 
-The file is organized into clearly delimited blocks (marked with `/* ============ NAME ============ */` comments in CSS and `<!-- ============ NAME ============ -->` in HTML):
+Le fichier est organisé en blocs clairement délimités (marqués par des commentaires `/* ============ NOM ============ */` dans le CSS et `<!-- ============ NOM ============ -->` dans le HTML) :
 
-- **`<head>`**: French-language SEO meta tags and a Schema.org `Restaurant` JSON-LD block. Keep these in sync when changing restaurant details (address, phone, hours).
-- **CSS design tokens**: All colors and fonts are CSS custom properties on `:root` (e.g. `--ivoire`, `--vert`, `--or`, `--font-titre`, `--font-corps`). Use these tokens instead of hardcoding colors. French names are used throughout for classes and variables (`.plat`, `.avis-card`, `--or-clair`).
-- **Sections**: nav, hero, histoire, menu, chef, galerie, réservation, avis/presse, événements, contact, footer. Dark sections use the `.dark` class; scroll-reveal animation uses `.reveal` (with `.d1`/`.d2`/`.d3` delay modifiers) driven by an IntersectionObserver.
-- **Placeholder imagery**: There are no photo assets. The `.ph` class (with variants `ph-a`–`ph-d`) renders branded gradient placeholders with an inline SVG orchid motif where photos would go.
-- **Inline `<script>` at the bottom** handles all behavior:
-  - Nav scroll state and mobile burger menu.
-  - Scroll-reveal via IntersectionObserver.
-  - The menu ("La Carte") is data-driven: dish data lives in the `menuData` object (categories `entrees`, `plats`, `desserts`, `accords`) and is rendered into `#menuGrid` by `renderMenu()`. To change dishes or prices, edit `menuData`, not the HTML.
-  - The reservation form is front-end only: on valid submit it hides the form and shows the `#resaOk` confirmation. No data is sent anywhere.
+- **`<head>`** : balises meta SEO en français et un bloc JSON-LD Schema.org de type `Restaurant`. Les garder synchronisés lors de toute modification des coordonnées du restaurant (adresse, téléphone, horaires).
+- **Tokens de design CSS** : toutes les couleurs et polices sont des propriétés personnalisées CSS sur `:root` (par ex. `--ivoire`, `--vert`, `--or`, `--font-titre`, `--font-corps`). Utiliser ces tokens plutôt que des couleurs codées en dur. Les noms de classes et de variables sont en français dans tout le fichier (`.plat`, `.avis-card`, `--or-clair`).
+- **Sections** : nav, hero, histoire, menu, chef, galerie, réservation, avis/presse, événements, contact, footer. Les sections sombres utilisent la classe `.dark` ; l'animation d'apparition au défilement utilise `.reveal` (avec les modificateurs de délai `.d1`/`.d2`/`.d3`), pilotée par un IntersectionObserver.
+- **Images de substitution** : il n'y a aucune photo. La classe `.ph` (avec les variantes `ph-a` à `ph-d`) affiche des dégradés de marque avec un motif d'orchidée en SVG inline à la place des photos.
+- **Le `<script>` inline en bas de page** gère tout le comportement :
+  - État de la nav au défilement et menu burger mobile.
+  - Apparition au défilement via IntersectionObserver.
+  - Le menu (« La Carte ») est piloté par les données : les plats sont définis dans l'objet `menuData` (catégories `entrees`, `plats`, `desserts`, `accords`) et rendus dans `#menuGrid` par `renderMenu()`. Pour modifier les plats ou les prix, éditer `menuData`, pas le HTML.
+  - Le formulaire de réservation est purement front-end : après une soumission valide, il masque le formulaire et affiche la confirmation `#resaOk`. Aucune donnée n'est envoyée nulle part.
 
 ## Conventions
 
-- All user-facing content is in French; keep new copy in French and match the existing elegant, gastronomic tone.
-- Preserve the existing accessibility patterns: `aria-label`/`aria-expanded` on interactive elements, `role="tab"`/`aria-selected` on menu tabs, `:focus-visible` styling, and the `prefers-reduced-motion` media query.
-- Responsive breakpoints are at 960px and 820px (mobile nav); test layout changes against both.
+- Tout le contenu destiné aux visiteurs est en français ; rédiger les nouveaux textes en français en respectant le ton élégant et gastronomique existant.
+- Préserver les pratiques d'accessibilité en place : `aria-label`/`aria-expanded` sur les éléments interactifs, `role="tab"`/`aria-selected` sur les onglets du menu, le style `:focus-visible` et la media query `prefers-reduced-motion`.
+- Les points de rupture responsive sont à 960px et 820px (nav mobile) ; tester tout changement de mise en page sur les deux.
