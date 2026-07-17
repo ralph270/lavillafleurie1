@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Vue d'ensemble
 
-Ce dépôt contient un site web statique d'une seule page pour « La Villa Fleurie », un restaurant gastronomique créole étoilé (fictif) situé à Saint-Gilles-les-Bains, à l'île de La Réunion. L'intégralité du site tient dans `index.html` — tout le CSS et le JavaScript y sont inclus en ligne. Il n'y a ni système de build, ni gestionnaire de paquets, ni suite de tests, ni linter.
+Ce dépôt contient un site web statique pour « La Villa Fleurie », un restaurant gastronomique créole étoilé (fictif) situé à Saint-Gilles-les-Bains, à l'île de La Réunion. Il n'y a ni système de build, ni gestionnaire de paquets, ni suite de tests, ni linter. Deux pages autonomes :
+
+- `index.html` — le site vitrine classique, entièrement autonome (CSS et JavaScript inclus en ligne, aucune dépendance JS externe).
+- `premium.html` — la démo « Édition Immersive » : mêmes contenus et même identité visuelle, mais avec animations au scroll (GSAP + ScrollTrigger), smooth scroll (Lenis), fond WebGL (Three.js), typographie révélée lettre par lettre, curseur personnalisé et boutons magnétiques. Les librairies sont chargées via CDN (jsDelivr) ; tout le code applicatif reste inline. Le script détecte l'absence de GSAP ou `prefers-reduced-motion` et laisse alors le contenu entièrement visible sans animations — préserver ce mécanisme de secours lors de toute modification.
 
 ## Développement
 
