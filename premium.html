@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Villa Fleurie — Édition Immersive · Restaurant Étoilé, Île de La Réunion</title>
+<meta name="description" content="Expérience immersive — La Villa Fleurie, restaurant gastronomique étoilé au Guide Michelin, Saint-Gilles-les-Bains, île de La Réunion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --noir:#07120D;
+  --vert:#0B241D;
+  --vert-2:#10352B;
+  --ivoire:#F6F2E9;
+  --or:#B99763;
+  --or-clair:#D8BE93;
+  --sauge:#8FA396;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Manrope',sans-serif;
+  --ease:cubic-bezier(.22,.61,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{
+  font-family:var(--sans);
+  background:var(--noir);
+  color:var(--ivoire);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--or);color:var(--noir)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ PRELOADER ============ */
+#loader{
+  position:fixed;inset:0;z-index:1000;background:var(--noir);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;
+}
+#loader .l-logo{
+  font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.6rem);font-weight:500;
+  letter-spacing:.04em;color:var(--ivoire);font-style:italic;
+}
+#loader .l-logo em{color:var(--or-clair)}
+#loader .l-count{
+  font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.4em;
+  color:var(--or);text-transform:uppercase;
+}
+#loader .l-bar{width:min(260px,60vw);height:1px;background:rgba(246,242,233,.14);overflow:hidden}
+#loader .l-bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--or),var(--or-clair))}
+
+/* ============ CURSEUR ============ */
+#cursor,#cursorRing{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:900;
+  transform:translate(-50%,-50%);border-radius:50%;
+}
+#cursor{width:6px;height:6px;background:var(--or-clair)}
+#cursorRing{
+  width:42px;height:42px;border:1px solid rgba(216,190,147,.55);
+  display:flex;align-items:center;justify-content:center;
+  transition:width .35s var(--ease),height .35s var(--ease),background .35s,border-color .35s;
+}
+#cursorRing .c-label{
+  font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--noir);opacity:0;transition:opacity .25s;white-space:nowrap;
+}
+#cursorRing.is-hover{width:64px;height:64px;background:rgba(216,190,147,.18);border-color:var(--or-clair)}
+#cursorRing.is-label{width:92px;height:92px;background:var(--or-clair);border-color:var(--or-clair)}
+#cursorRing.is-label .c-label{opacity:1}
+@media(hover:none),(pointer:coarse){#cursor,#cursorRing{display:none}}
+@media(hover:hover) and (pointer:fine){body{cursor:none} a,button{cursor:none}}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.6rem 4vw;mix-blend-mode:difference;
+}
+nav .n-logo{font-family:var(--serif);font-style:italic;font-size:1.3rem;letter-spacing:.03em}
+nav .n-logo em{color:#fff}
+.btn-resa{
+  font-size:.72rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+  padding:.9rem 1.8rem;border:1px solid rgba(255,255,255,.5);border-radius:999px;
+  display:inline-block;background:none;color:#fff;
+  transition:background .35s,color .35s,border-color .35s;
+}
+.btn-resa:hover{background:#fff;color:#000;border-color:#fff}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#webgl{position:absolute;inset:0;z-index:0}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 100%,rgba(7,18,13,.85),transparent 55%),
+             linear-gradient(180deg,rgba(7,18,13,.35),transparent 30%,transparent 70%,var(--noir) 100%);
+}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:0 5vw;width:100%}
+.hero .h-eyebrow{
+  font-size:.72rem;font-weight:700;letter-spacing:.44em;text-transform:uppercase;color:var(--or-clair);
+  display:block;margin-bottom:2.2rem;
+}
+.hero h1{
+  font-family:var(--serif);font-weight:500;line-height:.92;letter-spacing:-.01em;
+  font-size:clamp(3.4rem,13vw,11.5rem);color:var(--ivoire);
+}
+.hero h1 .ligne,.final h2 .ligne{display:block;overflow:hidden;padding:.05em 0}
+.hero h1 .ligne:nth-child(2){font-style:italic;color:var(--or-clair)}
+.hero h1 .char{display:inline-block;will-change:transform}
+.hero .h-tagline{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.5rem);
+  color:rgba(246,242,233,.75);margin-top:2.4rem;
+}
+.h-scroll{
+  position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);z-index:2;
+  font-size:.64rem;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:rgba(246,242,233,.55);
+  display:flex;flex-direction:column;align-items:center;gap:.9rem;
+}
+.h-scroll::after{content:"";width:1px;height:52px;background:linear-gradient(180deg,var(--or-clair),transparent);animation:sline 2.4s var(--ease) infinite}
+@keyframes sline{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ MANIFESTE ============ */
+.manifeste{padding:22vh 6vw;max-width:1300px;margin:0 auto}
+.manifeste p{
+  font-family:var(--serif);font-weight:500;line-height:1.14;letter-spacing:-.01em;
+  font-size:clamp(2rem,6.4vw,5.4rem);color:var(--ivoire);
+}
+.manifeste .m-ligne{display:block}
+.manifeste em{font-style:italic;color:var(--or-clair)}
+.manifeste .m-note{
+  font-family:var(--sans);font-size:1rem;line-height:1.8;color:var(--sauge);
+  max-width:44ch;margin-top:4rem;font-weight:400;
+}
+
+/* ============ HORIZONTAL ============ */
+.h-section{position:relative;overflow:hidden}
+.h-head{padding:0 6vw 5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;max-width:none}
+.h-head h2,.section-titre{
+  font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6vw,5rem);line-height:1;letter-spacing:-.01em;
+}
+.h-head h2 em{font-style:italic;color:var(--or-clair)}
+.h-head .h-hint{font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--sauge)}
+.h-track{display:flex;gap:3vw;padding:0 6vw;width:max-content;align-items:stretch}
+.carte{
+  width:min(520px,78vw);flex:none;border-radius:20px;overflow:hidden;position:relative;
+  border:1px solid rgba(216,190,147,.16);
+  transition:border-color .4s;
+}
+.carte:hover{border-color:rgba(216,190,147,.55)}
+.carte .c-visuel{aspect-ratio:4/3;position:relative;overflow:hidden}
+.carte .c-fond{position:absolute;inset:0;transition:transform .9s var(--ease)}
+.carte:hover .c-fond{transform:scale(1.07)}
+.f-a{background:radial-gradient(circle at 30% 25%,#1B5240,#0B241D 75%)}
+.f-b{background:radial-gradient(circle at 70% 30%,#26523F,#07120D 80%)}
+.f-c{background:radial-gradient(circle at 40% 70%,#144536,#0A1F18 78%)}
+.f-d{background:radial-gradient(circle at 65% 60%,#1B5240,#081712 80%)}
+.c-orchidee{
+  position:absolute;top:50%;left:50%;width:64px;height:88px;transform:translate(-50%,-50%);
+  opacity:.9;transition:transform .9s var(--ease);
+}
+.carte:hover .c-orchidee{transform:translate(-50%,-50%) rotate(6deg) scale(1.12)}
+.carte .c-num{
+  position:absolute;top:1.4rem;left:1.6rem;font-family:var(--serif);font-style:italic;
+  font-size:1.1rem;color:rgba(216,190,147,.8);
+}
+.carte .c-body{padding:1.8rem 1.9rem 2rem;background:rgba(246,242,233,.03)}
+.carte .c-titre{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.carte h3{font-family:var(--serif);font-weight:500;font-size:1.7rem;line-height:1.1}
+.carte .c-prix{font-size:.9rem;font-weight:700;color:var(--or-clair);letter-spacing:.06em;white-space:nowrap}
+.carte .c-desc{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--sauge);margin-top:.6rem}
+.carte-fin{
+  width:min(520px,78vw);flex:none;display:flex;align-items:center;justify-content:center;
+  border-radius:20px;border:1px dashed rgba(216,190,147,.35);
+}
+.carte-fin a{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,3vw,2.4rem);color:var(--or-clair);
+  padding:3rem;text-align:center;display:block;
+}
+
+/* ============ CHEF ============ */
+.chef{padding:24vh 6vw;position:relative}
+.chef-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:6rem;align-items:center}
+.chef-visuel{position:relative;border-radius:200px 200px 22px 22px;overflow:hidden;aspect-ratio:3/4.1;will-change:transform}
+.chef-visuel .c-fond{position:absolute;inset:-12% 0}
+.chef-visuel .cv-nom{
+  position:absolute;bottom:2rem;left:0;right:0;text-align:center;
+  font-size:.68rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--or-clair);
+}
+.chef blockquote{
+  font-family:var(--serif);font-weight:500;font-style:italic;line-height:1.22;
+  font-size:clamp(1.7rem,3.6vw,3rem);color:var(--ivoire);
+}
+.chef blockquote .mot{display:inline-block;will-change:transform,opacity}
+.chef .ch-role{margin-top:2.4rem;font-size:.72rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--or)}
+.chef .ch-bio{margin-top:1.2rem;color:var(--sauge);max-width:52ch;line-height:1.85}
+
+/* ============ CHIFFRES ============ */
+.chiffres{padding:0 6vw 20vh}
+.ch-grid{
+  max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(216,190,147,.2);
+}
+.ch-item{padding:3.2rem 1rem 0;text-align:center}
+.ch-item b{
+  font-family:var(--serif);font-weight:500;font-size:clamp(2.6rem,5.5vw,4.6rem);line-height:1;
+  color:var(--ivoire);display:block;
+}
+.ch-item b sup{font-size:.4em;color:var(--or-clair)}
+.ch-item span{display:block;margin-top:.8rem;font-size:.68rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--sauge)}
+
+/* ============ MARQUEE ============ */
+.marquee{overflow:hidden;padding:3.2rem 0;border-top:1px solid rgba(216,190,147,.14);border-bottom:1px solid rgba(216,190,147,.14);white-space:nowrap}
+.marquee .m-inner{display:inline-block;animation:defile 28s linear infinite;will-change:transform}
+.marquee span{
+  font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.8rem);
+  color:var(--ivoire);padding:0 1.6rem;
+}
+.marquee i{font-style:normal;color:var(--or)}
+.marquee span:nth-child(even){font-style:italic;color:rgba(246,242,233,.45)}
+@keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ FINAL / RESA ============ */
+.final{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16vh 6vw;position:relative;overflow:hidden}
+.final .f-halo{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%,rgba(27,82,64,.55),transparent 60%);
+}
+.final h2{
+  position:relative;font-family:var(--serif);font-weight:500;line-height:1;letter-spacing:-.01em;
+  font-size:clamp(2.8rem,9vw,8rem);
+}
+.final h2 em,.final h2 .ligne:nth-child(2){font-style:italic;color:var(--or-clair)}
+.final .f-sub{position:relative;font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--sauge);margin-top:1.6rem}
+.cta-cercle{
+  position:relative;margin-top:4.5rem;width:190px;height:190px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--or),var(--or-clair));color:var(--noir);
+  font-size:.74rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  box-shadow:0 20px 70px rgba(185,151,99,.35);will-change:transform;
+}
+.cta-cercle svg{position:absolute;inset:-26px;width:calc(100% + 52px);height:calc(100% + 52px);animation:rot 16s linear infinite}
+.cta-cercle svg text{fill:var(--or-clair);font-size:9.5px;font-family:var(--sans);font-weight:700;letter-spacing:.34em;text-transform:uppercase}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ============ FOOTER ============ */
+footer{padding:3rem 4vw 2.6rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;border-top:1px solid rgba(246,242,233,.08)}
+footer,footer a{font-size:.78rem;color:rgba(246,242,233,.5);letter-spacing:.08em}
+footer a:hover{color:var(--or-clair)}
+footer .f-links{display:flex;gap:2rem}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:900px){
+  .chef-grid{grid-template-columns:1fr;gap:3.5rem}
+  .chef-visuel{max-width:420px;margin:0 auto}
+  .ch-grid{grid-template-columns:repeat(2,1fr);gap:2.5rem 0}
+  .manifeste{padding:16vh 7vw}
+}
+/* ============ REDUCED MOTION / FALLBACK ============ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div id="loader" role="status" aria-label="Chargement">
+  <div class="l-logo">La Villa <em>Fleurie</em></div>
+  <div class="l-bar"><i id="loaderBar"></i></div>
+  <div class="l-count"><span id="loaderCount">0</span> %</div>
+</div>
+
+<!-- ============ CURSEUR ============ -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursorRing" aria-hidden="true"><span class="c-label" id="cursorLabel">Voir</span></div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="#" class="n-logo">La Villa <em>Fleurie</em></a>
+  <a href="#reserver" class="btn-resa" data-magnetic>Réserver</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="haut">
+  <div id="webgl" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <span class="h-eyebrow" data-fade>✦ Étoilé au Guide Michelin — Île de La Réunion ✦</span>
+    <h1 aria-label="La Villa Fleurie">
+      <span class="ligne" data-split>La Villa</span>
+      <span class="ligne" data-split>Fleurie</span>
+    </h1>
+    <p class="h-tagline" data-fade>Où la vanille Bourbon rencontre l'excellence.</p>
+  </div>
+  <div class="h-scroll" aria-hidden="true">Défiler</div>
+</header>
+
+<!-- ============ MANIFESTE ============ -->
+<section class="manifeste">
+  <p>
+    <span class="m-ligne" data-ligne>Une cuisine d'émotion,</span>
+    <span class="m-ligne" data-ligne>née du <em>lagon,</em></span>
+    <span class="m-ligne" data-ligne>des Hauts de l'île</span>
+    <span class="m-ligne" data-ligne>et du <em>feu créole.</em></span>
+  </p>
+  <p class="m-note" data-fade>Nichée dans une demeure créole du XIXᵉ siècle entourée de vanilliers et de flamboyants, La Villa Fleurie célèbre depuis 2009 le mariage des terroirs réunionnais et de la haute gastronomie française.</p>
+</section>
+
+<!-- ============ CARTE — SCROLL HORIZONTAL ============ -->
+<section class="h-section" id="carte">
+  <div class="h-head">
+    <h2>La <em>Carte</em></h2>
+    <span class="h-hint">— Faites défiler</span>
+  </div>
+  <div class="h-track" id="hTrack">
+    <article class="carte" data-cursor="Goûter">
+      <div class="c-visuel"><div class="c-fond f-a"></div>
+        <svg class="c-orchidee" viewBox="0 0 100 140" aria-hidden="true"><path d="M50 135 C48 100 46 70 50 45 M50 45 C38 38 30 24 36 12 C46 4 58 10 56 24 M50 45 C62 40 74 28 68 14 C58 6 46 14 50 28 M50 45 C42 52 30 52 26 42 M50 45 C58 54 70 56 76 46 M50 70 C40 74 34 84 38 92 M50 90 C60 92 66 100 62 108" fill="none" stroke="#D8BE93" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="c-num">N°01</span>
+      </div>
+      <div class="c-body">
+        <div class="c-titre"><h3>Tartare de thon rouge</h3><span class="c-prix">28 €</span></div>
+        <p class="c-desc">Combava, mangue verte, tuile de riz noir</p>
+      </div>
+    </article>
+    <article class="carte" data-cursor="Goûter">
+      <div class="c-visuel"><div class="c-fond f-b"></div>
+        <svg class="c-orchidee" viewBox="0 0 100 140" aria-hidden="true"><path d="M50 135 C48 100 46 70 50 45 M50 45 C38 38 30 24 36 12 C46 4 58 10 56 24 M50 45 C62 40 74 28 68 14 C58 6 46 14 50 28 M50 45 C42 52 30 52 26 42 M50 45 C58 54 70 56 76 46 M50 70 C40 74 34 84 38 92 M50 90 C60 92 66 100 62 108" fill="none" stroke="#D8BE93" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="c-num">N°02</span>
+      </div>
+      <div class="c-body">
+        <div class="c-titre"><h3>Cabri massalé</h3><span class="c-prix">48 €</span></div>
+        <p class="c-desc">Épaule confite douze heures, jus corsé, grains créoles</p>
+      </div>
+    </article>
+    <article class="carte" data-cursor="Goûter">
+      <div class="c-visuel"><div class="c-fond f-c"></div>
+        <svg class="c-orchidee" viewBox="0 0 100 140" aria-hidden="true"><path d="M50 135 C48 100 46 70 50 45 M50 45 C38 38 30 24 36 12 C46 4 58 10 56 24 M50 45 C62 40 74 28 68 14 C58 6 46 14 50 28 M50 45 C42 52 30 52 26 42 M50 45 C58 54 70 56 76 46 M50 70 C40 74 34 84 38 92 M50 90 C60 92 66 100 62 108" fill="none" stroke="#D8BE93" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="c-num">N°03</span>
+      </div>
+      <div class="c-body">
+        <div class="c-titre"><h3>Légine australe</h3><span class="c-prix">52 €</span></div>
+        <p class="c-desc">Beurre blanc au combava, légumes lontan glacés</p>
+      </div>
+    </article>
+    <article class="carte" data-cursor="Goûter">
+      <div class="c-visuel"><div class="c-fond f-d"></div>
+        <svg class="c-orchidee" viewBox="0 0 100 140" aria-hidden="true"><path d="M50 135 C48 100 46 70 50 45 M50 45 C38 38 30 24 36 12 C46 4 58 10 56 24 M50 45 C62 40 74 28 68 14 C58 6 46 14 50 28 M50 45 C42 52 30 52 26 42 M50 45 C58 54 70 56 76 46 M50 70 C40 74 34 84 38 92 M50 90 C60 92 66 100 62 108" fill="none" stroke="#D8BE93" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="c-num">N°04</span>
+      </div>
+      <div class="c-body">
+        <div class="c-titre"><h3>Vanille Bourbon</h3><span class="c-prix">22 €</span></div>
+        <p class="c-desc">Soufflé, glace minute, caramel de canne</p>
+      </div>
+    </article>
+    <div class="carte-fin" data-cursor="Menu">
+      <a href="index.html#menu">Découvrir la carte<br>complète →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHEF ============ -->
+<section class="chef">
+  <div class="chef-grid">
+    <div class="chef-visuel" data-parallax>
+      <div class="c-fond f-b"></div>
+      <span class="cv-nom">Chef Antoine Payet</span>
+    </div>
+    <div>
+      <blockquote data-mots>« Mon île est un garde-manger extraordinaire. Mon métier, c'est simplement de l'écouter. »</blockquote>
+      <p class="ch-role" data-fade>— Antoine Payet · Chef étoilé</p>
+      <p class="ch-bio" data-fade>Enfant de l'île formé dans les plus grandes maisons parisiennes, il travaille main dans la main avec quinze producteurs — vanille de Bras-Panon, combava des Hauts, palmiste des Makes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHIFFRES ============ -->
+<section class="chiffres">
+  <div class="ch-grid">
+    <div class="ch-item" data-fade><b><span data-compte="1">0</span><sup>★</sup></b><span>Guide Michelin</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="15">0</span>+</b><span>Producteurs locaux</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="7">0</span></b><span>Services au menu</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="2009">0</span></b><span>Année de création</span></div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="m-inner">
+    <span>Guide Michelin <i>✦</i></span><span>Vanille Bourbon <i>✦</i></span><span>Cuisine créole <i>✦</i></span><span>Océan Indien <i>✦</i></span><span>Jardin tropical <i>✦</i></span>
+    <span>Guide Michelin <i>✦</i></span><span>Vanille Bourbon <i>✦</i></span><span>Cuisine créole <i>✦</i></span><span>Océan Indien <i>✦</i></span><span>Jardin tropical <i>✦</i></span>
+  </div>
+</div>
+
+<!-- ============ FINAL ============ -->
+<section class="final" id="reserver">
+  <div class="f-halo" aria-hidden="true"></div>
+  <h2 data-split-final><span class="ligne" data-split>Votre table</span><span class="ligne" data-split><em>vous attend.</em></span></h2>
+  <p class="f-sub" data-fade>Dîner · mardi — samedi · 19h00 – 21h30</p>
+  <a href="index.html#reservation" class="cta-cercle" data-magnetic data-cursor="Allons-y">
+    Réserver
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs><path id="cercleTxt" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
+      <text><textPath href="#cercleTxt">· La Villa Fleurie · Saint-Gilles-les-Bains · Étoilé Michelin </textPath></text>
+    </svg>
+  </a>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <span>© 2026 La Villa Fleurie</span>
+  <div class="f-links">
+    <a href="index.html">Site classique</a>
+    <a href="#" aria-label="Instagram">Instagram</a>
+    <a href="#" aria-label="Facebook">Facebook</a>
+  </div>
+</footer>
+
+<!-- ============ LIBRAIRIES CDN ============ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasGsap=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
+const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* ===== Découpage typographique (lettre par lettre) ===== */
+function splitChars(el){
+  const txt=el.textContent;el.textContent='';el.setAttribute('aria-hidden','true');
+  const frag=document.createDocumentFragment();
+  [...txt].forEach(ch=>{
+    const s=document.createElement('span');s.className='char';
+    s.textContent=ch===' '?' ':ch;frag.appendChild(s);
+  });
+  el.appendChild(frag);
+  return el.querySelectorAll('.char');
+}
+function splitMots(el){
+  const txt=el.textContent.trim();el.textContent='';el.setAttribute('aria-label',txt);
+  txt.split(/\s+/).forEach((m,i)=>{
+    const s=document.createElement('span');s.className='mot';s.setAttribute('aria-hidden','true');
+    s.textContent=m;el.appendChild(s);
+    el.appendChild(document.createTextNode(' '));
+  });
+  return el.querySelectorAll('.mot');
+}
+
+/* ===== Sans GSAP (CDN indisponible) : tout reste visible, on retire juste le loader ===== */
+if(!hasGsap||reduced){
+  const l=document.getElementById('loader');
+  if(l){l.style.transition='opacity .4s';l.style.opacity='0';setTimeout(()=>l.remove(),450);}
+}
+
+if(hasGsap&&!reduced){
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ===== Lenis — smooth scroll ===== */
+  let lenis=null;
+  if(typeof Lenis!=='undefined'){
+    lenis=new Lenis({lerp:.09,wheelMultiplier:1,smoothWheel:true});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* ===== Préparation des éléments ===== */
+  const heroChars=[];
+  document.querySelectorAll('.hero [data-split]').forEach(el=>heroChars.push(...splitChars(el)));
+  gsap.set(heroChars,{yPercent:120,rotate:4});
+  gsap.set('.hero [data-fade], .h-scroll, nav',{opacity:0,y:24});
+
+  /* ===== Preloader ===== */
+  const compteur={v:0};
+  const tlLoad=gsap.timeline();
+  tlLoad
+    .to(compteur,{v:100,duration:1.5,ease:'power2.inOut',onUpdate(){
+      document.getElementById('loaderCount').textContent=Math.round(compteur.v);
+      document.getElementById('loaderBar').style.width=compteur.v+'%';
+    }})
+    .to('#loader',{yPercent:-100,duration:.9,ease:'power3.inOut'},'+=.15')
+    .set('#loader',{display:'none'})
+    .to(heroChars,{yPercent:0,rotate:0,duration:1.1,ease:'power4.out',stagger:.035},'-=.55')
+    .to('.hero [data-fade]',{opacity:1,y:0,duration:.8,ease:'power2.out',stagger:.12},'-=.6')
+    .to('nav, .h-scroll',{opacity:1,y:0,duration:.8,ease:'power2.out'},'-=.5');
+
+  /* ===== Hero : la typographie glisse au scroll ===== */
+  gsap.to('.hero-inner',{yPercent:-18,opacity:.25,ease:'none',
+    scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  /* ===== Manifeste : révélation ligne par ligne (scrub) ===== */
+  document.querySelectorAll('[data-ligne]').forEach(l=>{
+    gsap.fromTo(l,{opacity:.1,y:40},{opacity:1,y:0,ease:'none',
+      scrollTrigger:{trigger:l,start:'top 88%',end:'top 45%',scrub:true}});
+  });
+
+  /* ===== Fades génériques ===== */
+  document.querySelectorAll('section [data-fade], .m-note').forEach(el=>{
+    gsap.from(el,{opacity:0,y:36,duration:1,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  /* ===== Section horizontale épinglée ===== */
+  const track=document.getElementById('hTrack');
+  const getDist=()=>Math.max(0,track.scrollWidth-window.innerWidth+window.innerWidth*.06);
+  gsap.to(track,{x:()=>-getDist(),ease:'none',
+    scrollTrigger:{trigger:'.h-section',start:'top 12%',end:()=>'+='+getDist(),
+      scrub:1,pin:true,anticipatePin:1,invalidateOnRefresh:true}});
+  document.querySelectorAll('.carte, .carte-fin').forEach((c,i)=>{
+    gsap.from(c,{opacity:0,y:60,duration:.9,ease:'power3.out',delay:i*.05,
+      scrollTrigger:{trigger:'.h-section',start:'top 70%'}});
+  });
+
+  /* ===== Chef : parallaxe + citation mot à mot ===== */
+  gsap.to('[data-parallax]',{yPercent:-10,ease:'none',
+    scrollTrigger:{trigger:'.chef',start:'top bottom',end:'bottom top',scrub:true}});
+  const mots=splitMots(document.querySelector('[data-mots]'));
+  gsap.set(mots,{opacity:0,y:26,rotate:2});
+  gsap.to(mots,{opacity:1,y:0,rotate:0,duration:.7,ease:'power3.out',stagger:.045,
+    scrollTrigger:{trigger:'.chef',start:'top 62%'}});
+
+  /* ===== Compteurs ===== */
+  document.querySelectorAll('[data-compte]').forEach(el=>{
+    const cible=parseInt(el.dataset.compte,10);const o={v:0};
+    gsap.to(o,{v:cible,duration:1.8,ease:'power2.out',
+      onUpdate(){el.textContent=Math.round(o.v);},
+      scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  /* ===== Final ===== */
+  const finChars=[];
+  document.querySelectorAll('.final [data-split]').forEach(el=>finChars.push(...splitChars(el)));
+  gsap.set(finChars,{yPercent:120});
+  gsap.to(finChars,{yPercent:0,duration:1,ease:'power4.out',stagger:.03,
+    scrollTrigger:{trigger:'.final',start:'top 62%'}});
+  gsap.from('.cta-cercle',{scale:.6,opacity:0,duration:1.1,ease:'elastic.out(1,.55)',
+    scrollTrigger:{trigger:'.final',start:'top 45%'}});
+
+  /* ===== Ancres avec Lenis ===== */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const cible=document.querySelector(a.getAttribute('href'));
+      if(cible&&lenis){e.preventDefault();lenis.scrollTo(cible,{offset:0,duration:1.6});}
+    });
+  });
+
+  /* ===== Boutons magnétiques ===== */
+  if(finePointer){
+    document.querySelectorAll('[data-magnetic]').forEach(btn=>{
+      btn.addEventListener('mousemove',e=>{
+        const r=btn.getBoundingClientRect();
+        gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.35,duration:.4,ease:'power2.out'});
+      });
+      btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
+    });
+  }
+}
+
+/* ===== Curseur personnalisé ===== */
+if(finePointer&&!reduced){
+  const dot=document.getElementById('cursor'),ring=document.getElementById('cursorRing'),
+        label=document.getElementById('cursorLabel');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function boucle(){
+    rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(boucle);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('is-hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('is-hover'));
+  });
+  document.querySelectorAll('[data-cursor]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{label.textContent=el.dataset.cursor;ring.classList.add('is-label');});
+    el.addEventListener('mouseleave',()=>ring.classList.remove('is-label'));
+  });
+}
+
+/* ===== WebGL — Three.js : poussière d'or + sphère organique ===== */
+if(typeof THREE!=='undefined'&&!reduced){
+  const conteneur=document.getElementById('webgl');
+  const scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0x07120d,.11);
+  const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,60);
+  camera.position.set(0,0,7);
+  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  conteneur.appendChild(renderer.domElement);
+
+  /* Poussière d'or (particules) */
+  const N=1400,pos=new Float32Array(N*3),vit=new Float32Array(N);
+  for(let i=0;i<N;i++){
+    pos[i*3]=(Math.random()-.5)*22;
+    pos[i*3+1]=(Math.random()-.5)*13;
+    pos[i*3+2]=(Math.random()-.5)*14;
+    vit[i]=.2+Math.random()*.8;
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const mat=new THREE.PointsMaterial({color:0xd8be93,size:.035,transparent:true,opacity:.75,
+    blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+  const points=new THREE.Points(geo,mat);
+  scene.add(points);
+
+  /* Sphère organique déformée (distorsion vertex shader) */
+  const sphereGeo=new THREE.IcosahedronGeometry(2.1,24);
+  const sphereMat=new THREE.ShaderMaterial({
+    wireframe:true,transparent:true,
+    uniforms:{uTime:{value:0},uCol:{value:new THREE.Color(0xb99763)}},
+    vertexShader:`
+      uniform float uTime;varying float vD;
+      void main(){
+        vec3 p=position;
+        float d=sin(p.y*2.4+uTime*.7)*cos(p.x*1.8+uTime*.5)*sin(p.z*2.0+uTime*.6);
+        p+=normal*d*.28;vD=d;
+        gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
+      }`,
+    fragmentShader:`
+      uniform vec3 uCol;varying float vD;
+      void main(){gl_FragColor=vec4(uCol,.10+abs(vD)*.16);}`
+  });
+  const sphere=new THREE.Mesh(sphereGeo,sphereMat);
+  sphere.position.set(0,-.3,0);
+  scene.add(sphere);
+
+  /* Parallaxe souris */
+  let sx=0,sy=0;
+  addEventListener('mousemove',e=>{
+    sx=(e.clientX/innerWidth-.5);sy=(e.clientY/innerHeight-.5);
+  });
+
+  const horloge=new THREE.Clock();
+  let visible=true;
+  new IntersectionObserver(ent=>{visible=ent[0].isIntersecting;},{threshold:0})
+    .observe(document.querySelector('.hero'));
+
+  (function rendu(){
+    requestAnimationFrame(rendu);
+    if(!visible)return;
+    const t=horloge.getElapsedTime();
+    sphereMat.uniforms.uTime.value=t;
+    sphere.rotation.y=t*.08;sphere.rotation.z=t*.03;
+    const p=geo.attributes.position;
+    for(let i=0;i<N;i++){
+      p.array[i*3+1]+=Math.sin(t*vit[i]+i)*.0009;
+      p.array[i*3]+=Math.cos(t*vit[i]*.7+i)*.0006;
+    }
+    p.needsUpdate=true;
+    points.rotation.y=t*.015;
+    camera.position.x+=(sx*1.1-camera.position.x)*.04;
+    camera.position.y+=(-sy*.7-camera.position.y)*.04;
+    camera.lookAt(0,0,0);
+    renderer.render(scene,camera);
+  })();
+
+  addEventListener('resize',()=>{
+    camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
+}
+})();
+</script>
+</body>
+</html>
