@@ -264,6 +264,48 @@ nav .n-logo em{color:#fff}
 .cta-cercle svg text{fill:var(--or-clair);font-size:9.5px;font-family:var(--sans);font-weight:700;letter-spacing:.34em;text-transform:uppercase}
 @keyframes rot{to{transform:rotate(360deg)}}
 
+/* ============ RÉSERVATION ============ */
+.resa{padding:0 6vw 16vh}
+.resa-card{
+  max-width:680px;margin:0 auto;border-radius:22px;padding:3rem clamp(1.6rem,4vw,3rem);
+  background:rgba(246,242,233,.04);border:1px solid rgba(216,190,147,.28);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+}
+.resa-titre{font-family:var(--serif);font-weight:500;font-size:clamp(1.8rem,3.4vw,2.6rem);text-align:center}
+.resa-titre em{font-style:italic;color:var(--or-clair)}
+.resa-sous{font-family:var(--serif);font-style:italic;color:var(--sauge);text-align:center;margin:.6rem 0 2.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.form-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.1rem}
+.form-row .form-group{margin-bottom:0}
+label{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--or-clair)}
+input,select,textarea{
+  font-family:var(--serif);font-size:1.05rem;color:var(--ivoire);
+  background:rgba(246,242,233,.06);border:1px solid rgba(246,242,233,.18);
+  border-radius:12px;padding:.9rem 1rem;width:100%;transition:border-color .3s,box-shadow .3s;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(185,151,99,.22)}
+select option{color:var(--noir)}
+input::placeholder,textarea::placeholder{color:rgba(246,242,233,.35)}
+.btn-envoi{
+  width:100%;margin-top:.6rem;padding:1.1rem;border:none;border-radius:999px;cursor:pointer;
+  font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;
+  background:linear-gradient(120deg,var(--or),var(--or-clair));color:var(--noir);
+  box-shadow:0 10px 40px rgba(185,151,99,.35);transition:transform .35s var(--ease),box-shadow .35s;
+}
+.btn-envoi:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(185,151,99,.5)}
+.resa-ok{display:none;text-align:center;padding:2.5rem 1rem}
+.resa-ok.show{display:block;animation:fadein .5s}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.resa-ok .check{
+  width:70px;height:70px;margin:0 auto 1.4rem;border-radius:50%;
+  border:2px solid var(--or);display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;color:var(--or-clair);box-shadow:0 0 40px rgba(185,151,99,.35);
+}
+.resa-ok h3{font-family:var(--serif);font-weight:500;font-size:1.6rem;margin-bottom:.7rem}
+.resa-ok p{color:var(--sauge);font-family:var(--serif);font-style:italic}
+@media(max-width:820px){.form-row{grid-template-columns:1fr}}
+
 /* ============ FOOTER ============ */
 footer{padding:3rem 4vw 2.6rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;border-top:1px solid rgba(246,242,233,.08)}
 footer,footer a{font-size:.78rem;color:rgba(246,242,233,.5);letter-spacing:.08em}
@@ -299,7 +341,7 @@ footer .f-links{display:flex;gap:2rem}
 <!-- ============ NAV ============ -->
 <nav>
   <a href="#" class="n-logo">La Villa <em>Fleurie</em></a>
-  <a href="#reserver" class="btn-resa" data-magnetic>Réserver</a>
+  <a href="#reservation" class="btn-resa" data-magnetic>Réserver</a>
 </nav>
 
 <!-- ============ HERO ============ -->
@@ -374,8 +416,8 @@ footer .f-links{display:flex;gap:2rem}
         <p class="c-desc">Soufflé, glace minute, caramel de canne</p>
       </div>
     </article>
-    <div class="carte-fin" data-cursor="Menu">
-      <a href="index.html#menu">Découvrir la carte<br>complète →</a>
+    <div class="carte-fin" data-cursor="Réserver">
+      <a href="#reservation">Menu Dégustation<br>« Jardin des Épices »<br>7 services · 145 € →</a>
     </div>
   </div>
 </section>
@@ -418,7 +460,7 @@ footer .f-links{display:flex;gap:2rem}
   <div class="f-halo" aria-hidden="true"></div>
   <h2 data-split-final><span class="ligne" data-split>Votre table</span><span class="ligne" data-split><em>vous attend.</em></span></h2>
   <p class="f-sub" data-fade>Dîner · mardi — samedi · 19h00 – 21h30</p>
-  <a href="index.html#reservation" class="cta-cercle" data-magnetic data-cursor="Allons-y">
+  <a href="#reservation" class="cta-cercle" data-magnetic data-cursor="Allons-y">
     Réserver
     <svg viewBox="0 0 100 100" aria-hidden="true">
       <defs><path id="cercleTxt" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
@@ -427,11 +469,67 @@ footer .f-links{display:flex;gap:2rem}
   </a>
 </section>
 
+<!-- ============ RÉSERVATION ============ -->
+<section class="resa" id="reservation">
+  <div class="resa-card" data-fade>
+    <h2 class="resa-titre">Réserver <em>une table</em></h2>
+    <p class="resa-sous">Notre équipe vous confirmera votre table par e-mail ou SMS dans les plus brefs délais.</p>
+    <form id="resaForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rDate">Date</label>
+          <input type="date" id="rDate" required>
+        </div>
+        <div class="form-group">
+          <label for="rHeure">Heure</label>
+          <select id="rHeure" required>
+            <option value="">Choisir…</option>
+            <option>12h00</option><option>12h30</option><option>13h00</option>
+            <option>19h00</option><option>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rCouverts">Convives</label>
+          <select id="rCouverts" required>
+            <option value="">Choisir…</option>
+            <option>2 personnes</option><option>3 personnes</option><option>4 personnes</option>
+            <option>5 personnes</option><option>6 personnes</option><option>7+ (nous contacter)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rTel">Téléphone</label>
+          <input type="tel" id="rTel" placeholder="+262 …" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rNom">Nom complet</label>
+        <input type="text" id="rNom" placeholder="Votre nom" required>
+      </div>
+      <div class="form-group">
+        <label for="rEmail">E-mail</label>
+        <input type="email" id="rEmail" placeholder="vous@exemple.com" required>
+      </div>
+      <div class="form-group">
+        <label for="rNote">Demandes particulières <span style="opacity:.6;text-transform:none;letter-spacing:0">(facultatif)</span></label>
+        <textarea id="rNote" rows="3" placeholder="Allergies, anniversaire, préférence de table…"></textarea>
+      </div>
+      <button type="submit" class="btn-envoi">Confirmer ma demande</button>
+    </form>
+    <div class="resa-ok" id="resaOk">
+      <div class="check">✓</div>
+      <h3>Demande envoyée</h3>
+      <p>Merci ! Notre équipe vous recontactera très vite pour confirmer votre table. À très bientôt à La Villa Fleurie.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   <span>© 2026 La Villa Fleurie</span>
   <div class="f-links">
-    <a href="index.html">Site classique</a>
+    <a href="#haut">Haut de page</a>
     <a href="#" aria-label="Instagram">Instagram</a>
     <a href="#" aria-label="Facebook">Facebook</a>
   </div>
@@ -577,6 +675,7 @@ if(hasGsap&&!reduced){
   etape('.h-section',Object.assign({x:-2.6,y:.2,s:1.2,amp:.5},SAUGE));
   etape('.chef',Object.assign({x:2.4,y:-.1,s:.75,amp:.2},OR));
   etape('.final',Object.assign({x:0,y:0,s:1.4,amp:.1},OR));
+  etape('.resa',Object.assign({x:2.6,y:.3,s:.8,amp:.18},OR));
 
   /* ===== Vélocité du scroll : inclinaison des titres + marquee réactif ===== */
   document.querySelector('.marquee').classList.add('js');
@@ -629,6 +728,19 @@ if(hasGsap&&!reduced){
       btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
     });
   }
+}
+
+/* ===== Formulaire de réservation (front-end uniquement) ===== */
+const resaForm=document.getElementById('resaForm');
+if(resaForm){
+  const champDate=document.getElementById('rDate');
+  if(champDate)champDate.min=new Date().toISOString().split('T')[0];
+  resaForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!resaForm.checkValidity()){resaForm.reportValidity();return}
+    resaForm.style.display='none';
+    document.getElementById('resaOk').classList.add('show');
+  });
 }
 
 /* ===== Curseur personnalisé ===== */
