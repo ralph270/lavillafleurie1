@@ -49,11 +49,13 @@ body::after{
   position:fixed;inset:0;z-index:1000;background:var(--noir);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;
 }
-#loader .l-logo{
-  font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.6rem);font-weight:500;
-  letter-spacing:.04em;color:var(--ivoire);font-style:italic;
+#loader .l-svg{width:min(560px,82vw);height:auto;overflow:visible}
+#loader .l-svg text{
+  font-family:var(--serif);font-style:italic;font-size:74px;
+  fill:var(--ivoire);fill-opacity:0;
+  stroke:var(--or-clair);stroke-width:1;
+  stroke-dasharray:300;stroke-dashoffset:300;
 }
-#loader .l-logo em{color:var(--or-clair)}
 #loader .l-count{
   font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.4em;
   color:var(--or);text-transform:uppercase;
@@ -100,7 +102,9 @@ nav .n-logo em{color:#fff}
 
 /* ============ HERO ============ */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-#webgl{position:absolute;inset:0;z-index:0}
+/* Le canvas WebGL est global : la sphère accompagne tout le défilement */
+#webgl{position:fixed;inset:0;z-index:1;pointer-events:none}
+.hero,section,footer,.marquee{position:relative;z-index:2}
 .hero::after{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:radial-gradient(ellipse at 50% 100%,rgba(7,18,13,.85),transparent 55%),
@@ -151,12 +155,18 @@ nav .n-logo em{color:#fff}
 }
 .h-head h2 em{font-style:italic;color:var(--or-clair)}
 .h-head .h-hint{font-size:.7rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--sauge)}
-.h-track{display:flex;gap:3vw;padding:0 6vw;width:max-content;align-items:stretch}
+.h-track{display:flex;gap:3vw;padding:0 6vw;width:max-content;align-items:stretch;perspective:1100px}
 .carte{
   width:min(520px,78vw);flex:none;border-radius:20px;overflow:hidden;position:relative;
   border:1px solid rgba(216,190,147,.16);
-  transition:border-color .4s;
+  transition:border-color .4s;transform-style:preserve-3d;
 }
+/* reflet doré qui suit la souris (tilt 3D) */
+.carte .c-visuel::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(216,190,147,.22),transparent 55%);
+}
+.carte:hover .c-visuel::after{opacity:1}
 .carte:hover{border-color:rgba(216,190,147,.55)}
 .carte .c-visuel{aspect-ratio:4/3;position:relative;overflow:hidden}
 .carte .c-fond{position:absolute;inset:0;transition:transform .9s var(--ease)}
@@ -222,6 +232,7 @@ nav .n-logo em{color:#fff}
 /* ============ MARQUEE ============ */
 .marquee{overflow:hidden;padding:3.2rem 0;border-top:1px solid rgba(216,190,147,.14);border-bottom:1px solid rgba(216,190,147,.14);white-space:nowrap}
 .marquee .m-inner{display:inline-block;animation:defile 28s linear infinite;will-change:transform}
+.marquee.js .m-inner{animation:none}
 .marquee span{
   font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.8rem);
   color:var(--ivoire);padding:0 1.6rem;
@@ -276,7 +287,7 @@ footer .f-links{display:flex;gap:2rem}
 
 <!-- ============ PRELOADER ============ -->
 <div id="loader" role="status" aria-label="Chargement">
-  <div class="l-logo">La Villa <em>Fleurie</em></div>
+  <svg class="l-svg" viewBox="0 0 640 120" aria-hidden="true"><text x="320" y="82" text-anchor="middle">La Villa Fleurie</text></svg>
   <div class="l-bar"><i id="loaderBar"></i></div>
   <div class="l-count"><span id="loaderCount">0</span> %</div>
 </div>
@@ -439,6 +450,10 @@ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGsap=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
 const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+/* État partagé de la sphère WebGL — position, échelle, amplitude de déformation, couleur.
+   Les ScrollTriggers le font évoluer, la boucle de rendu Three.js le lit à chaque frame. */
+const visu={x:0,y:-.3,s:1,amp:.28,r:185/255,g:151/255,b:99/255};
+
 /* ===== Découpage typographique (lettre par lettre) ===== */
 function splitChars(el){
   const txt=el.textContent;el.textContent='';el.setAttribute('aria-hidden','true');
@@ -484,14 +499,16 @@ if(hasGsap&&!reduced){
   gsap.set(heroChars,{yPercent:120,rotate:4});
   gsap.set('.hero [data-fade], .h-scroll, nav',{opacity:0,y:24});
 
-  /* ===== Preloader ===== */
+  /* ===== Preloader : le logo se dessine en trait doré, puis se remplit ===== */
   const compteur={v:0};
   const tlLoad=gsap.timeline();
   tlLoad
-    .to(compteur,{v:100,duration:1.5,ease:'power2.inOut',onUpdate(){
+    .to('.l-svg text',{strokeDashoffset:0,duration:1.7,ease:'power2.inOut'},0)
+    .to('.l-svg text',{fillOpacity:1,duration:.7,ease:'power2.out'},1.2)
+    .to(compteur,{v:100,duration:1.9,ease:'power2.inOut',onUpdate(){
       document.getElementById('loaderCount').textContent=Math.round(compteur.v);
       document.getElementById('loaderBar').style.width=compteur.v+'%';
-    }})
+    }},0)
     .to('#loader',{yPercent:-100,duration:.9,ease:'power3.inOut'},'+=.15')
     .set('#loader',{display:'none'})
     .to(heroChars,{yPercent:0,rotate:0,duration:1.1,ease:'power4.out',stagger:.035},'-=.55')
@@ -549,6 +566,50 @@ if(hasGsap&&!reduced){
     scrollTrigger:{trigger:'.final',start:'top 62%'}});
   gsap.from('.cta-cercle',{scale:.6,opacity:0,duration:1.1,ease:'elastic.out(1,.55)',
     scrollTrigger:{trigger:'.final',start:'top 45%'}});
+
+  /* ===== La sphère WebGL voyage de section en section ===== */
+  const OR={r:185/255,g:151/255,b:99/255},SAUGE={r:143/255,g:163/255,b:150/255};
+  function etape(sel,vals){
+    gsap.to(visu,Object.assign({ease:'none',immediateRender:false,
+      scrollTrigger:{trigger:sel,start:'top bottom',end:'top 20%',scrub:true}},vals));
+  }
+  etape('.manifeste',Object.assign({x:2.3,y:0,s:.65,amp:.15},OR));
+  etape('.h-section',Object.assign({x:-2.6,y:.2,s:1.2,amp:.5},SAUGE));
+  etape('.chef',Object.assign({x:2.4,y:-.1,s:.75,amp:.2},OR));
+  etape('.final',Object.assign({x:0,y:0,s:1.4,amp:.1},OR));
+
+  /* ===== Vélocité du scroll : inclinaison des titres + marquee réactif ===== */
+  document.querySelector('.marquee').classList.add('js');
+  const mq=gsap.to('.m-inner',{xPercent:-50,ease:'none',duration:22,repeat:-1});
+  const inclinaisons=gsap.utils.toArray('.manifeste p,.h-head h2,.chef blockquote,.final h2')
+    .map(el=>gsap.quickTo(el,'skewY',{duration:.5,ease:'power3.out'}));
+  let vel=0,mqTs=1;
+  if(lenis)lenis.on('scroll',e=>{vel=e.velocity;});
+  gsap.ticker.add(()=>{
+    vel*=.92;
+    const sk=gsap.utils.clamp(-4,4,vel*.06);
+    inclinaisons.forEach(f=>f(sk));
+    const cible=(vel>=0?1:-1)*(1+Math.min(Math.abs(vel)*.05,2.2));
+    mqTs+=(cible-mqTs)*.08;
+    mq.timeScale(mqTs);
+  });
+
+  /* ===== Tilt 3D des cartes + reflet doré ===== */
+  if(finePointer){
+    document.querySelectorAll('.carte').forEach(c=>{
+      gsap.set(c,{transformPerspective:900});
+      const rX=gsap.quickTo(c,'rotationX',{duration:.6,ease:'power3.out'});
+      const rY=gsap.quickTo(c,'rotationY',{duration:.6,ease:'power3.out'});
+      c.addEventListener('mousemove',e=>{
+        const r=c.getBoundingClientRect();
+        const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+        rY((px-.5)*10);rX((.5-py)*8);
+        c.style.setProperty('--mx',px*100+'%');
+        c.style.setProperty('--my',py*100+'%');
+      });
+      c.addEventListener('mouseleave',()=>{rX(0);rY(0);});
+    });
+  }
 
   /* ===== Ancres avec Lenis ===== */
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
@@ -623,13 +684,13 @@ if(typeof THREE!=='undefined'&&!reduced){
   const sphereGeo=new THREE.IcosahedronGeometry(2.1,24);
   const sphereMat=new THREE.ShaderMaterial({
     wireframe:true,transparent:true,
-    uniforms:{uTime:{value:0},uCol:{value:new THREE.Color(0xb99763)}},
+    uniforms:{uTime:{value:0},uAmp:{value:.28},uCol:{value:new THREE.Color(0xb99763)}},
     vertexShader:`
-      uniform float uTime;varying float vD;
+      uniform float uTime;uniform float uAmp;varying float vD;
       void main(){
         vec3 p=position;
         float d=sin(p.y*2.4+uTime*.7)*cos(p.x*1.8+uTime*.5)*sin(p.z*2.0+uTime*.6);
-        p+=normal*d*.28;vD=d;
+        p+=normal*d*uAmp;vD=d;
         gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
       }`,
     fragmentShader:`
@@ -647,23 +708,36 @@ if(typeof THREE!=='undefined'&&!reduced){
   });
 
   const horloge=new THREE.Clock();
-  let visible=true;
-  new IntersectionObserver(ent=>{visible=ent[0].isIntersecting;},{threshold:0})
-    .observe(document.querySelector('.hero'));
+  const base=pos.slice();
 
   (function rendu(){
     requestAnimationFrame(rendu);
-    if(!visible)return;
     const t=horloge.getElapsedTime();
+    /* la sphère lit l'état piloté par le scroll */
     sphereMat.uniforms.uTime.value=t;
+    sphereMat.uniforms.uAmp.value=visu.amp;
+    sphereMat.uniforms.uCol.value.setRGB(visu.r,visu.g,visu.b);
+    sphere.position.set(visu.x,visu.y,0);
+    sphere.scale.setScalar(visu.s);
     sphere.rotation.y=t*.08;sphere.rotation.z=t*.03;
+    /* particules : dérive lente + répulsion autour de la souris */
     const p=geo.attributes.position;
+    const mwx=sx*13,mwy=-sy*8;
     for(let i=0;i<N;i++){
-      p.array[i*3+1]+=Math.sin(t*vit[i]+i)*.0009;
-      p.array[i*3]+=Math.cos(t*vit[i]*.7+i)*.0006;
+      const ix=i*3;
+      const tx=base[ix]+Math.cos(t*vit[i]*.7+i)*.45;
+      const ty=base[ix+1]+Math.sin(t*vit[i]+i)*.55;
+      const px=p.array[ix],py=p.array[ix+1];
+      let fx=0,fy=0;
+      const dx=px-mwx,dy=py-mwy,d2=dx*dx+dy*dy;
+      if(d2<9&&d2>.0001){
+        const d=Math.sqrt(d2),f=(1-d2/9)*.09;
+        fx=dx/d*f;fy=dy/d*f;
+      }
+      p.array[ix]=px+(tx-px)*.02+fx;
+      p.array[ix+1]=py+(ty-py)*.02+fy;
     }
     p.needsUpdate=true;
-    points.rotation.y=t*.015;
     camera.position.x+=(sx*1.1-camera.position.x)*.04;
     camera.position.y+=(-sy*.7-camera.position.y)*.04;
     camera.lookAt(0,0,0);
