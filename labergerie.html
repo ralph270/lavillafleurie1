@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>La Bergerie — Table d'alpage aux bougies · Les Prioux, Pralognan-la-Vanoise</title>
+<meta name="description" content="Maquette de démonstration — La Bergerie, restaurant d'alpage à 1 700 m au cœur de la Vanoise. Raclette au feu de bois, dîner aux bougies, spécialités savoyardes.">
+<meta name="theme-color" content="#0B1226">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23D9A441' stroke-width='6' stroke-linecap='round' fill='none'%3E%3Cpath d='M50 8 V92 M14 29 L86 71 M86 29 L14 71 M50 24 L38 12 M50 24 L62 12 M50 76 L38 88 M50 76 L62 88'/%3E%3C/g%3E%3C/svg%3E">
+<!-- Open Graph : aperçu lors d'un partage WhatsApp / Instagram / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="La Bergerie — Table d'alpage aux bougies · 1 700 m, Vanoise">
+<meta property="og:description" content="Raclette au feu de bois, dîner à la bougie, fromages d'alpage — dans une vraie bergerie du hameau des Prioux. Maquette de démonstration.">
+<meta property="og:url" content="https://ralph270.github.io/lavillafleurie1/labergerie.html">
+<meta property="og:image" content="https://ralph270.github.io/lavillafleurie1/labergerie-og.jpg">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Données structurées (modèle pour le site final — sans effet tant que noindex) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "La Bergerie",
+  "servesCuisine": "Savoyarde",
+  "priceRange": "€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "135 traverse des Prioux",
+    "addressLocality": "Pralognan-la-Vanoise",
+    "addressRegion": "Savoie",
+    "postalCode": "73710",
+    "addressCountry": "FR"
+  },
+  "acceptsReservations": "True"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS — nuit alpine, neige, bougie ============ */
+:root{
+  --nuit:#0B1226;
+  --glacier:#16233F;
+  --neige:#F4F4F0;
+  --ink:#F0F1EC;
+  --bougie:#D9A441;
+  --bougie-claire:#F0CE85;
+  --braise:#B5502E;
+  --muted:#96A0B4;
+  --display:'Marcellus',serif;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Jost',sans-serif;
+  --ease:cubic-bezier(.22,.61,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--sans);background:var(--nuit);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--bougie);color:var(--nuit)}
+a{color:inherit;text-decoration:none}
+
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+#webgl{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:1}
+.hero,section,footer,.marquee{position:relative;z-index:2}
+
+#progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:600;background:linear-gradient(90deg,var(--bougie),var(--bougie-claire));transform-origin:left center;transform:scaleX(0)}
+
+/* ============ PRELOADER ============ */
+#loader{position:fixed;inset:0;z-index:1000;background:var(--nuit);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem}
+#loader .l-flocon{width:min(120px,26vw);height:auto}
+#loader .l-flocon path{fill:none;stroke:var(--bougie-claire);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+#loader .l-svg{width:min(520px,86vw);height:auto;overflow:visible}
+#loader .l-svg text{font-family:var(--display);font-size:58px;letter-spacing:.06em;fill:var(--ink);fill-opacity:0;stroke:var(--bougie-claire);stroke-width:1;stroke-dasharray:280;stroke-dashoffset:280}
+#loader .l-lieu{font-size:.66rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
+#loader .l-bar{width:min(240px,58vw);height:1px;background:rgba(240,241,236,.14);overflow:hidden}
+#loader .l-bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--braise),var(--bougie-claire))}
+#loader .l-count{font-size:.72rem;font-weight:600;letter-spacing:.4em;color:var(--bougie);text-transform:uppercase}
+
+/* ============ CURSEUR ============ */
+#cursor,#cursorRing{position:fixed;top:0;left:0;pointer-events:none;z-index:900;transform:translate(-50%,-50%);border-radius:50%}
+#cursor{width:6px;height:6px;background:var(--bougie-claire)}
+#cursorRing{width:42px;height:42px;border:1px solid rgba(240,206,133,.55);display:flex;align-items:center;justify-content:center;transition:width .35s var(--ease),height .35s var(--ease),background .35s,border-color .35s}
+#cursorRing .c-label{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--nuit);opacity:0;transition:opacity .25s;white-space:nowrap}
+#cursorRing.is-hover{width:64px;height:64px;background:rgba(240,206,133,.2);border-color:var(--bougie-claire)}
+#cursorRing.is-label{width:96px;height:96px;background:var(--bougie-claire);border-color:var(--bougie-claire)}
+#cursorRing.is-label .c-label{opacity:1}
+@media(hover:none),(pointer:coarse){#cursor,#cursorRing{display:none}}
+@media(hover:hover) and (pointer:fine){body{cursor:none} a,button{cursor:none}}
+
+/* ============ NAV ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4vw;mix-blend-mode:difference;color:#fff}
+nav .n-logo{font-family:var(--display);font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.n-droite{display:flex;align-items:center;gap:1.6rem}
+.btn-resa{font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;padding:.85rem 1.7rem;border:1px solid rgba(255,255,255,.5);border-radius:999px;display:inline-block;background:none;color:#fff;transition:background .35s,color .35s}
+.btn-resa:hover{background:#fff;color:#000}
+.burger{width:40px;height:30px;background:none;border:none;cursor:pointer;position:relative}
+.burger span{position:absolute;left:6px;right:6px;height:2px;background:#fff;transition:transform .4s var(--ease),opacity .3s,top .4s var(--ease)}
+.burger span:nth-child(1){top:9px}.burger span:nth-child(2){top:19px}
+.burger.ouvert span:nth-child(1){top:14px;transform:rotate(45deg)}
+.burger.ouvert span:nth-child(2){top:14px;transform:rotate(-45deg)}
+
+/* ============ MENU PLEIN ÉCRAN ============ */
+#voile{position:fixed;inset:0;z-index:400;background:#0A0F1F;display:flex;align-items:center;justify-content:center;clip-path:circle(0% at calc(100% - 4vw - 20px) 2.4rem);visibility:hidden}
+#voile .v-inner{text-align:center}
+#voile .v-lien{display:block;overflow:hidden;margin:.35em 0}
+#voile .v-lien a{display:inline-block;font-family:var(--display);font-size:clamp(1.7rem,5vw,3.4rem);letter-spacing:.06em;text-transform:uppercase;color:var(--neige);line-height:1.25;transition:color .3s,letter-spacing .4s var(--ease)}
+#voile .v-lien a:hover{color:var(--bougie-claire);letter-spacing:.12em}
+#voile .v-lien i{font-family:var(--serif);font-style:italic;font-size:.5em;color:var(--bougie);text-transform:none;margin-right:.6em;letter-spacing:0}
+#voile .v-pied{margin-top:3rem;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+
+/* ============ POINTS ============ */
+#dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:1.1rem}
+#dots a{width:8px;height:8px;border-radius:50%;display:block;background:rgba(217,164,65,.3);transition:background .3s,transform .3s}
+#dots a.actif{background:var(--bougie);transform:scale(1.5)}
+@media(max-width:820px){#dots{display:none}}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:0 5vw;width:100%}
+.hero .h-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.44em;text-transform:uppercase;color:var(--bougie-claire);display:block;margin-bottom:2.4rem}
+.hero h1{font-family:var(--display);line-height:1;letter-spacing:.04em;font-size:clamp(3rem,13vw,11rem);color:var(--ink)}
+.hero h1 .ligne,.final h2 .ligne{display:block;overflow:hidden;padding:.06em 0}
+.hero h1 .sub{display:block;font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;font-size:clamp(1.2rem,3.4vw,2.4rem);color:var(--bougie-claire);margin-top:.15em}
+.hero h1 .char{display:inline-block;will-change:transform}
+.hero .h-tagline{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.5rem);color:var(--muted);margin-top:2.2rem}
+.h-badges{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:2.6rem}
+.h-badge{padding:.65rem 1.4rem;border:1px solid rgba(240,206,133,.35);border-radius:999px;font-size:.63rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--bougie-claire);background:rgba(217,164,65,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.h-scroll{position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.64rem;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.9rem}
+.h-scroll::after{content:"";width:1px;height:52px;background:linear-gradient(180deg,var(--bougie-claire),transparent);animation:sline 2.4s var(--ease) infinite}
+@keyframes sline{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ MANIFESTE ============ */
+.manifeste{padding:26vh 6vw 14vh;max-width:1300px;margin:0 auto}
+.manifeste p{font-family:var(--serif);font-weight:500;line-height:1.14;letter-spacing:-.01em;font-size:clamp(1.9rem,6vw,5.1rem);color:var(--ink)}
+.manifeste .m-ligne{display:block}
+.manifeste em{font-style:italic;color:var(--bougie)}
+.manifeste .m-note{font-family:var(--sans);font-weight:300;font-size:1.05rem;line-height:1.85;color:var(--muted);max-width:46ch;margin-top:4rem}
+.manifeste .m-note b{color:var(--ink);font-weight:500}
+
+.frise{display:flex;justify-content:center;padding:2.5rem 0 0}
+.frise svg{width:min(360px,64vw);height:auto}
+.frise path{fill:none;stroke:var(--bougie);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ CHAPITRES ============ */
+.chapitres{position:relative}
+.chap-scene{min-height:100svh;display:flex;align-items:center;padding:0 6vw}
+.chap-cadre{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.9fr 1.1fr;gap:6rem;align-items:center;width:100%}
+.chap-visuel{position:relative;aspect-ratio:3/4;max-height:70vh}
+.chap-img{position:absolute;inset:0;border-radius:14px;overflow:hidden;opacity:0;display:flex;align-items:center;justify-content:center}
+.chap-img.c1{background:radial-gradient(circle at 40% 30%,#2A3654,#0A0F1F 80%)}
+.chap-img.c2{background:radial-gradient(circle at 60% 45%,#5A3A22,#150D08 80%)}
+.chap-img.c3{background:radial-gradient(circle at 45% 60%,#3A2E14,#0F0B06 80%)}
+.chap-img svg{width:96px;height:96px;opacity:.92;position:relative}
+.chap-img .ci-nom{position:absolute;bottom:1.8rem;left:0;right:0;text-align:center;font-size:.62rem;font-weight:700;letter-spacing:.36em;text-transform:uppercase;color:var(--bougie-claire)}
+.chap-txt{position:relative;min-height:16rem}
+.chap-bloc{position:absolute;inset:0;opacity:0}
+.chap-bloc .cb-num{font-family:var(--serif);font-style:italic;color:var(--bougie);font-size:1.1rem}
+.chap-bloc h3{font-family:var(--display);font-size:clamp(1.6rem,3.4vw,2.7rem);letter-spacing:.02em;margin:.6rem 0 1.2rem;color:var(--ink);line-height:1.15}
+.chap-bloc p{color:var(--muted);font-weight:300;line-height:1.85;max-width:46ch}
+@media(max-width:900px){.chap-cadre{grid-template-columns:1fr;gap:2.5rem}.chap-visuel{max-height:42vh;width:100%}}
+
+/* ============ TITRE VANOISE ============ */
+.vanoise-titre{padding:16vh 6vw 8vh;text-align:center;overflow:hidden}
+.fill-wrap{position:relative;display:inline-block;line-height:1}
+.fill-wrap span{font-family:var(--display);font-size:clamp(2.8rem,12.5vw,11.5rem);letter-spacing:.05em;display:block;white-space:nowrap}
+.txt-outline{color:transparent;-webkit-text-stroke:1px rgba(217,164,65,.6)}
+.txt-fill{position:absolute;inset:0;color:var(--ink);clip-path:inset(0 100% 0 0);will-change:clip-path}
+.vanoise-sous{margin-top:1.6rem;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:1.15rem}
+
+/* ============ CARTE ============ */
+.carte{padding:8vh 6vw 16vh;max-width:1240px;margin:0 auto}
+.carte-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+.carte-head h2{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);line-height:1;letter-spacing:.03em;color:var(--ink)}
+.carte-head h2 em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--bougie-claire)}
+.carte-head .c-hint{font-size:.66rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.plat-ligne{display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding:1.6rem 0;border-top:1px solid rgba(217,164,65,.18);transition:padding-left .4s var(--ease);position:relative}
+.plat-ligne:last-of-type{border-bottom:1px solid rgba(217,164,65,.18)}
+.plat-ligne:hover{padding-left:1.2rem}
+.plat-ligne .p-nom{font-family:var(--serif);font-weight:500;font-size:clamp(1.25rem,2.8vw,2rem);color:var(--ink)}
+.plat-ligne:hover .p-nom{color:var(--bougie-claire)}
+.plat-ligne .p-detail{font-family:var(--serif);font-style:italic;font-size:.98rem;color:var(--muted);display:block;margin-top:.3rem}
+.plat-ligne .p-saison{font-size:.64rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--bougie);white-space:nowrap}
+#apercu{position:fixed;top:0;left:0;z-index:250;width:210px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;pointer-events:none;opacity:0;transform:scale(.7);border:1px solid rgba(240,206,133,.4);box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+#apercu .a-fond{position:absolute;inset:0}
+#apercu svg{position:relative;width:60px;height:60px}
+#apercu .a-nom{position:absolute;bottom:1.1rem;left:.9rem;right:.9rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--bougie-claire)}
+.carte-menus{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:4rem}
+.menu-carte{border:1px solid rgba(217,164,65,.25);border-radius:16px;padding:2.2rem 1.8rem;text-align:center;background:rgba(244,244,240,.03);transform-style:preserve-3d;transition:border-color .4s}
+.menu-carte:hover{border-color:var(--bougie)}
+.menu-carte .mc-nom{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--ink)}
+.menu-carte .mc-prix{font-family:var(--display);font-size:2.2rem;color:var(--bougie-claire);margin:.8rem 0 .4rem}
+.menu-carte .mc-prix small{font-family:var(--sans);font-size:.85rem;color:var(--muted)}
+.menu-carte p{font-size:.85rem;color:var(--muted);font-weight:300}
+@media(max-width:900px){.carte-menus{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}}
+
+/* ============ HÔTES ============ */
+.chef{padding:20vh 6vw}
+.chef-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:6rem;align-items:center}
+.chef-visuel{position:relative;border-radius:200px 200px 14px 14px;overflow:hidden;aspect-ratio:3/4.1;will-change:transform;background:radial-gradient(circle at 40% 35%,#5A3A22,#150D08 80%)}
+.chef-visuel::after{content:"";position:absolute;inset:1.2rem;border:1px solid rgba(240,206,133,.35);border-radius:190px 190px 8px 8px}
+.chef-visuel .cv-nom{position:absolute;bottom:2.2rem;left:0;right:0;text-align:center;z-index:2;font-size:.64rem;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:var(--bougie-claire)}
+.chef blockquote{font-family:var(--serif);font-weight:500;font-style:italic;line-height:1.25;font-size:clamp(1.6rem,3.4vw,2.8rem);color:var(--ink)}
+.chef blockquote .mot{display:inline-block;will-change:transform,opacity}
+.chef .ch-role{margin-top:2.4rem;font-size:.68rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--bougie)}
+.chef .ch-bio{margin-top:1.2rem;color:var(--muted);max-width:54ch;line-height:1.85;font-weight:300}
+@media(max-width:900px){.chef-grid{grid-template-columns:1fr;gap:3.5rem}.chef-visuel{max-width:400px;margin:0 auto}}
+
+/* ============ DISTINCTIONS ============ */
+.distinctions{padding:10vh 6vw 16vh;text-align:center}
+.distinctions h2{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);letter-spacing:.03em;color:var(--ink)}
+.distinctions h2 em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--bougie-claire)}
+.dist-sous{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:.8rem}
+.ch-grid{max-width:1100px;margin:22vh auto 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(217,164,65,.25)}
+.ch-item{padding:3rem 1rem 0;text-align:center}
+.ch-item b{font-family:var(--display);font-size:clamp(2.2rem,4.6vw,3.8rem);line-height:1;display:block;color:var(--ink)}
+.ch-item b sup{font-size:.4em;color:var(--bougie-claire)}
+.ch-item span{display:block;margin-top:.8rem;font-size:.62rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:700px){.ch-grid{grid-template-columns:1fr;gap:2.4rem}}
+
+/* ============ MARQUEE ============ */
+.marquee{overflow:hidden;padding:3rem 0;border-top:1px solid rgba(217,164,65,.16);border-bottom:1px solid rgba(217,164,65,.16);white-space:nowrap}
+.marquee .m-inner{display:inline-block;animation:defile 30s linear infinite;will-change:transform}
+.marquee.js .m-inner{animation:none}
+.marquee span{font-family:var(--display);font-size:clamp(1.3rem,3vw,2.3rem);letter-spacing:.05em;text-transform:uppercase;padding:0 1.6rem;color:var(--ink)}
+.marquee i{font-family:var(--serif);font-style:normal;color:var(--braise);text-transform:none}
+.marquee span:nth-child(even){font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--muted)}
+@keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ FINAL ============ */
+.final{min-height:80svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14vh 6vw 6vh;overflow:hidden}
+.final h2{font-family:var(--display);line-height:1.05;letter-spacing:.03em;font-size:clamp(2.2rem,7.5vw,6.5rem);color:var(--ink)}
+.final h2 .ligne:nth-child(2){font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--bougie-claire)}
+.final .f-sub{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:1.6rem}
+.cta-cercle{position:relative;margin-top:4.2rem;width:185px;height:185px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--braise),var(--bougie-claire));color:var(--nuit);font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;box-shadow:0 20px 70px rgba(217,164,65,.35);will-change:transform}
+.cta-cercle svg{position:absolute;inset:-26px;width:calc(100% + 52px);height:calc(100% + 52px);animation:rot 16s linear infinite}
+.cta-cercle svg text{fill:var(--bougie-claire);font-size:9px;font-family:var(--sans);font-weight:700;letter-spacing:.3em;text-transform:uppercase}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ============ RÉSERVATION ============ */
+.resa{padding:6vh 6vw 16vh}
+.resa-card{max-width:680px;margin:0 auto;border-radius:20px;padding:3rem clamp(1.6rem,4vw,3rem);background:rgba(244,244,240,.04);border:1px solid rgba(217,164,65,.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.resa-titre{font-family:var(--display);font-size:clamp(1.6rem,3.2vw,2.4rem);letter-spacing:.03em;text-align:center;color:var(--ink)}
+.resa-titre em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--bougie-claire)}
+.resa-sous{font-family:var(--serif);font-style:italic;color:var(--muted);text-align:center;margin:.6rem 0 2.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.form-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.1rem}
+.form-row .form-group{margin-bottom:0}
+label{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bougie-claire)}
+input,select,textarea{font-family:var(--serif);font-size:1.05rem;color:var(--ink);background:rgba(244,244,240,.06);border:1px solid rgba(244,244,240,.2);border-radius:12px;padding:.9rem 1rem;width:100%;transition:border-color .3s,box-shadow .3s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--bougie);box-shadow:0 0 0 3px rgba(217,164,65,.22)}
+select option{color:var(--nuit)}
+input::placeholder,textarea::placeholder{color:rgba(244,244,240,.35)}
+.btn-envoi{width:100%;margin-top:.6rem;padding:1.1rem;border:none;border-radius:999px;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;background:linear-gradient(120deg,var(--braise),var(--bougie-claire));color:var(--nuit);box-shadow:0 10px 40px rgba(217,164,65,.35);transition:transform .35s var(--ease),box-shadow .35s}
+.btn-envoi:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(217,164,65,.5)}
+.resa-ok{display:none;text-align:center;padding:2.5rem 1rem}
+.resa-ok.show{display:block;animation:fadein .5s}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.resa-ok .check{width:70px;height:70px;margin:0 auto 1.4rem;border-radius:50%;border:2px solid var(--bougie);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--bougie-claire);box-shadow:0 0 40px rgba(217,164,65,.35)}
+.resa-ok h3{font-family:var(--display);font-size:1.5rem;letter-spacing:.02em;margin-bottom:.7rem;color:var(--ink)}
+.resa-ok p{color:var(--muted);font-family:var(--serif);font-style:italic}
+@media(max-width:820px){.form-row{grid-template-columns:1fr}}
+
+/* ============ FOOTER ============ */
+footer{padding:3rem 4vw 2.6rem;border-top:1px solid rgba(217,164,65,.14)}
+.f-haut{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}
+footer,footer a{font-size:.78rem;color:var(--muted);letter-spacing:.06em}
+footer a:hover{color:var(--bougie-claire)}
+footer .f-links{display:flex;gap:2rem}
+.f-mention{margin-top:1.6rem;font-size:.68rem;color:rgba(150,160,180,.6);font-style:italic;letter-spacing:.03em}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ FOND WEBGL GLOBAL ============ -->
+<div id="webgl" aria-hidden="true"></div>
+
+<!-- ============ BARRE DE PROGRESSION ============ -->
+<div id="progress" aria-hidden="true"></div>
+
+<!-- ============ PRELOADER ============ -->
+<div id="loader" role="status" aria-label="Chargement">
+  <svg class="l-flocon" viewBox="0 0 100 100" aria-hidden="true">
+    <path pathLength="1" d="M50 8 V92 M14 29 L86 71 M86 29 L14 71 M50 24 L38 12 M50 24 L62 12 M50 76 L38 88 M50 76 L62 88 M22 34 L22 20 M22 34 L10 40 M78 66 L78 80 M78 66 L90 60 M78 34 L78 20 M78 34 L90 40 M22 66 L22 80 M22 66 L10 60"/>
+  </svg>
+  <svg class="l-svg" viewBox="0 0 520 96" aria-hidden="true"><text x="260" y="70" text-anchor="middle">LA BERGERIE</text></svg>
+  <div class="l-lieu">Les Prioux · Pralognan-la-Vanoise · 1 700 m</div>
+  <div class="l-bar"><i id="loaderBar"></i></div>
+  <div class="l-count"><span id="loaderCount">0</span> %</div>
+</div>
+
+<!-- ============ CURSEUR ============ -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursorRing" aria-hidden="true"><span class="c-label" id="cursorLabel">Voir</span></div>
+
+<!-- ============ APERÇU FLOTTANT ============ -->
+<div id="apercu" aria-hidden="true">
+  <div class="a-fond"></div>
+  <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="26" fill="none" stroke="#F0CE85" stroke-width="1.6"/><circle cx="40" cy="40" r="5" fill="#F0CE85"/></svg>
+  <span class="a-nom" id="apercuNom"></span>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="#haut" class="n-logo">La Bergerie</a>
+  <div class="n-droite">
+    <a href="#reservation" class="btn-resa" data-magnetic>Réserver</a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ============ MENU PLEIN ÉCRAN ============ -->
+<div id="voile" aria-hidden="true">
+  <div class="v-inner">
+    <div class="v-lien"><a href="#manifeste"><i>01</i>La Bergerie</a></div>
+    <div class="v-lien"><a href="#carte"><i>02</i>La Carte</a></div>
+    <div class="v-lien"><a href="#hotes"><i>03</i>Vos Hôtes</a></div>
+    <div class="v-lien"><a href="#distinctions"><i>04</i>L'Alpage</a></div>
+    <div class="v-lien"><a href="#reservation"><i>05</i>Réserver</a></div>
+    <p class="v-pied">135 traverse des Prioux · Pralognan-la-Vanoise — Réservation conseillée</p>
+  </div>
+</div>
+
+<!-- ============ POINTS ============ -->
+<div id="dots" aria-hidden="true">
+  <a href="#haut" data-dot="#haut"></a>
+  <a href="#manifeste" data-dot="#manifeste"></a>
+  <a href="#carte" data-dot="#carte"></a>
+  <a href="#hotes" data-dot="#hotes"></a>
+  <a href="#distinctions" data-dot="#distinctions"></a>
+  <a href="#reservation" data-dot="#reservation"></a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="haut">
+  <div class="hero-inner">
+    <span class="h-eyebrow" data-fade><span id="salut">Bonjour</span> — bienvenue à 1 700 mètres</span>
+    <h1 aria-label="La Bergerie">
+      <span class="ligne" data-split>La Bergerie</span>
+      <span class="sub" data-fade>le soir, tout à la bougie</span>
+    </h1>
+    <p class="h-tagline" data-fade>Une table d'alpage au cœur de la Vanoise — raclette au feu de bois, ciel étoilé au-dessus.</p>
+    <div class="h-badges" data-fade>
+      <span class="h-badge">✦ 4,5 ★ · 230+ avis</span>
+      <span class="h-badge">Dîner aux bougies</span>
+      <span class="h-badge">Raclette au feu de bois</span>
+    </div>
+  </div>
+  <div class="h-scroll" aria-hidden="true">Défiler</div>
+</header>
+
+<!-- ============ ZONE CLAIRE (thème neige) ============ -->
+<div id="zoneCreme">
+<!-- ============ MANIFESTE ============ -->
+<section class="manifeste" id="manifeste">
+  <p>
+    <span class="m-ligne" data-ligne>Ici, le soir venu,</span>
+    <span class="m-ligne" data-ligne>on souffle sur les ampoules</span>
+    <span class="m-ligne" data-ligne>et on allume <em>les bougies.</em></span>
+    <span class="m-ligne" data-ligne>La montagne fait <em>le reste.</em></span>
+  </p>
+  <p class="m-note" data-fade>Au hameau des <b>Prioux</b>, à <b>1 700 mètres</b> d'altitude dans le parc national de la <b>Vanoise</b>, une ancienne bergerie sert la Savoie comme on la servait autrefois : <b>raclette fondue au feu de bois</b> sur la lauze, fondue, péla, diots — à la lumière des flammes.</p>
+  <div class="frise" aria-hidden="true">
+    <svg viewBox="0 0 360 70">
+      <path pathLength="1" id="frisePath" d="M4 62 L60 24 L92 46 L140 10 L188 50 L232 20 L268 44 L312 14 L356 62"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ CHAPITRES ============ -->
+<section class="chapitres" id="chapitres">
+  <div class="chap-scene">
+    <div class="chap-cadre">
+      <div class="chap-visuel">
+        <div class="chap-img c1">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M16 78 L16 52 L50 26 L84 52 L84 78 Z M16 52 L8 58 M84 52 L92 58 M38 78 V58 H62 V78 M30 44 H70" fill="none" stroke="#F0CE85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">La bergerie d'alpage</span>
+        </div>
+        <div class="chap-img c2">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 80 H70 M34 80 C30 64 38 58 40 48 C48 56 44 62 46 68 C52 60 50 50 56 40 C64 52 62 64 66 80 M50 30 C48 24 52 20 50 12" fill="none" stroke="#F0CE85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">Le feu de bois</span>
+        </div>
+        <div class="chap-img c3">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M42 82 H58 M46 82 V64 H54 V82 M50 64 C42 58 44 46 50 40 C56 46 58 58 50 64 M50 40 C49 34 51 30 50 24" fill="none" stroke="#F0CE85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">La table aux bougies</span>
+        </div>
+      </div>
+      <div class="chap-txt">
+        <div class="chap-bloc b1">
+          <span class="cb-num">Chapitre I</span>
+          <h3>Une vraie bergerie,<br>pas un décor</h3>
+          <p>Pierres, bois patiné, toit de lauzes : la bergerie des Prioux a abrité des troupeaux avant d'accueillir des gourmands. On y monte par la route des alpages — et l'on comprend, en poussant la porte, qu'ici rien n'est factice.</p>
+        </div>
+        <div class="chap-bloc b2">
+          <span class="cb-num">Chapitre II</span>
+          <h3>La raclette<br>comme nulle part</h3>
+          <p>Une demi-meule posée sur la lauze, devant la porte ouverte du poêle à bois. Le fromage fond, gratine, embaume — puis vient napper l'assiette de charcuteries et de pommes de terre. Un geste, un spectacle, un régal.</p>
+        </div>
+        <div class="chap-bloc b3">
+          <span class="cb-num">Chapitre III</span>
+          <h3>Le soir,<br>que des flammes</h3>
+          <p>À la nuit tombée, la salle entière s'éclaire à la bougie. Les visages se réchauffent, les voix baissent d'un ton, le temps ralentit. On dîne comme il y a cent ans — et on n'a plus envie de redescendre.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /zoneCreme -->
+
+<!-- ============ TITRE VANOISE ============ -->
+<div class="vanoise-titre">
+  <div class="fill-wrap">
+    <span class="txt-outline" aria-hidden="true">Vanoise</span>
+    <span class="txt-fill" id="txtFill">Vanoise</span>
+  </div>
+  <p class="vanoise-sous">Le premier parc national de France — votre salle à manger donne dessus.</p>
+</div>
+
+<!-- ============ CARTE ============ -->
+<section class="carte" id="carte">
+  <div class="carte-head">
+    <h2>La <em>Carte</em></h2>
+    <span class="c-hint">— Survolez les plats</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-b" data-nom="Raclette au feu de bois">
+    <div><span class="p-nom">Raclette au feu de bois</span><span class="p-detail">Demi-meule fondue sur la lauze devant le poêle — charcuteries & pommes de terre</span></div>
+    <span class="p-saison">La signature</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-a" data-nom="Fondue des alpages">
+    <div><span class="p-nom">Fondue aux trois fromages de Savoie</span><span class="p-detail">Beaufort d'alpage, comté fruité, emmental de Savoie</span></div>
+    <span class="p-saison">Incontournable</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-c" data-nom="Péla au reblochon">
+    <div><span class="p-nom">Péla au reblochon fermier</span><span class="p-detail">Pommes de terre, oignons, lardons — servie dans sa poêle</span></div>
+    <span class="p-saison">Généreuse</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-d" data-nom="Diots & polenta">
+    <div><span class="p-nom">Diots de Savoie, polenta crémeuse</span><span class="p-detail">Saucisses mijotées au vin blanc, oignons fondants</span></div>
+    <span class="p-saison">Recette d'ici</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-a" data-nom="Myrtilles des alpages">
+    <div><span class="p-nom">Tarte tiède aux myrtilles sauvages</span><span class="p-detail">Cueillette des pentes voisines, crème épaisse de la vallée</span></div>
+    <span class="p-saison">Dessert signature</span>
+  </div>
+  <div class="carte-menus">
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">Formule Bergère</span>
+      <div class="mc-prix">28 €<small> / pers.</small></div>
+      <p>Soupe au lard ou salade des alpages, plat du jour, dessert.</p>
+    </div>
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">La Raclette au feu</span>
+      <div class="mc-prix">34 €<small> / pers.</small></div>
+      <p>Le rituel complet : demi-meule sur la lauze, charcuteries, pommes de terre, salade.</p>
+    </div>
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">La Grande Tablée</span>
+      <div class="mc-prix">45 €<small> / pers.</small></div>
+      <p>L'expérience entière : apéritif de génépi, fromages d'alpage, plat, dessert, café.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOS HÔTES ============ -->
+<section class="chef" id="hotes">
+  <div class="chef-grid">
+    <div class="chef-visuel" data-parallax>
+      <span class="cv-nom">Vos hôtes des Prioux</span>
+    </div>
+    <div>
+      <blockquote data-mots>« On n'a rien inventé. On a juste gardé ce que la montagne nous a appris. »</blockquote>
+      <p class="ch-role" data-fade>— Vos hôtes · La Bergerie des Prioux</p>
+      <p class="ch-bio" data-fade>Une famille de la vallée, une maison tenue avec le cœur : produits des fermes voisines, fromages d'alpage affinés à deux pas, myrtilles cueillies sur les pentes. Ici on vous appelle par votre prénom dès la deuxième visite — et on vous garde la table près du poêle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DISTINCTIONS ============ -->
+<section class="distinctions" id="distinctions">
+  <h2 data-fade>L'alpage <em>récompensé</em></h2>
+  <p class="dist-sous" data-fade>Regardez les particules derrière ce titre — la neige y dessine un cristal.</p>
+  <div class="ch-grid">
+    <div class="ch-item" data-fade><b><span data-compte="1700">0</span><sup>m</sup></b><span>D'altitude · hameau des Prioux</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="45">0</span></b><span>Note voyageurs · sur 5 (230+ avis)</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="100">0</span><sup>%</sup></b><span>Feu de bois & bougies, le soir</span></div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="m-inner">
+    <span>Raclette au feu de bois <i>✦</i></span><span>Dîner aux bougies <i>✦</i></span><span>1 700 mètres <i>✦</i></span><span>Parc de la Vanoise <i>✦</i></span><span>Fromages d'alpage <i>✦</i></span>
+    <span>Raclette au feu de bois <i>✦</i></span><span>Dîner aux bougies <i>✦</i></span><span>1 700 mètres <i>✦</i></span><span>Parc de la Vanoise <i>✦</i></span><span>Fromages d'alpage <i>✦</i></span>
+  </div>
+</div>
+
+<!-- ============ FINAL ============ -->
+<section class="final" id="final">
+  <h2 aria-label="Montez. On s'occupe du reste.">
+    <span class="ligne" data-split>Montez.</span>
+    <span class="ligne" data-split>On s'occupe du reste.</span>
+  </h2>
+  <p class="f-sub" data-fade>Ouvert midi & soir en saison · Réservation vivement conseillée</p>
+  <a href="#reservation" class="cta-cercle" data-magnetic data-cursor="Allons-y">
+    Réserver
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs><path id="cercleTxt" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
+      <text><textPath href="#cercleTxt">· La Bergerie · Les Prioux · 1 700 m · Vanoise · Feu de bois </textPath></text>
+    </svg>
+  </a>
+</section>
+
+<!-- ============ RÉSERVATION ============ -->
+<section class="resa" id="reservation">
+  <div class="resa-card" data-fade>
+    <h2 class="resa-titre">Réserver <em>votre table</em></h2>
+    <p class="resa-sous">La salle est petite et le poêle n'attend pas : réservez, on vous garde une place près du feu.</p>
+    <form id="resaForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rDate">Date</label>
+          <input type="date" id="rDate" required>
+        </div>
+        <div class="form-group">
+          <label for="rHeure">Heure</label>
+          <select id="rHeure" required>
+            <option value="">Choisir…</option>
+            <option>12h00</option><option>12h30</option><option>13h00</option>
+            <option>19h00</option><option>19h30</option><option>20h00</option><option>20h30</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rCouverts">Convives</label>
+          <select id="rCouverts" required>
+            <option value="">Choisir…</option>
+            <option>2 personnes</option><option>3 personnes</option><option>4 personnes</option>
+            <option>5 personnes</option><option>6 personnes</option><option>7+ (nous contacter)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rTel">Téléphone</label>
+          <input type="tel" id="rTel" placeholder="+33 …" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rNom">Nom complet</label>
+        <input type="text" id="rNom" placeholder="Votre nom" required>
+      </div>
+      <div class="form-group">
+        <label for="rEmail">E-mail</label>
+        <input type="email" id="rEmail" placeholder="vous@exemple.com" required>
+      </div>
+      <div class="form-group">
+        <label for="rNote">Occasions & demandes particulières <span style="opacity:.6;text-transform:none;letter-spacing:0">(facultatif)</span></label>
+        <textarea id="rNote" rows="3" placeholder="Raclette au feu de bois, table près du poêle, anniversaire…"></textarea>
+      </div>
+      <button type="submit" class="btn-envoi">Confirmer ma demande</button>
+    </form>
+    <div class="resa-ok" id="resaOk">
+      <div class="check">✓</div>
+      <h3>Demande envoyée</h3>
+      <p>Merci ! La maison vous recontactera très vite pour confirmer votre table. À bientôt là-haut.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="f-haut">
+    <span>La Bergerie · 135 traverse des Prioux, Pralognan-la-Vanoise — Savoie</span>
+    <div class="f-links">
+      <a href="#haut">Haut de page</a>
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="Facebook">Facebook</a>
+    </div>
+  </div>
+  <p class="f-mention">Maquette de démonstration non officielle — proposition de refonte de site web. Contenus et montants indicatifs, sans valeur contractuelle. Aucune réservation réelle n'est transmise via cette page.</p>
+</footer>
+
+<!-- ============ LIBRAIRIES CDN ============ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasGsap=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
+const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* forme : [neige qui tombe, congère, spirale, cristal de neige, neige] ;
+   halo : intensité du ciel/feu ; alpha : opacité du canvas (baisse sur la zone claire). */
+const visu={forme:0,halo:1,alpha:1};
+
+const salut=document.getElementById('salut');
+if(salut){const h=new Date().getHours();salut.textContent=(h>=18||h<5)?'Bonsoir':'Bonjour';}
+
+function splitChars(el){
+  const txt=el.textContent;el.textContent='';el.setAttribute('aria-hidden','true');
+  const frag=document.createDocumentFragment();
+  [...txt].forEach(ch=>{const s=document.createElement('span');s.className='char';s.textContent=ch===' '?' ':ch;frag.appendChild(s);});
+  el.appendChild(frag);return el.querySelectorAll('.char');
+}
+function splitMots(el){
+  const txt=el.textContent.trim();el.textContent='';el.setAttribute('aria-label',txt);
+  txt.split(/\s+/).forEach(m=>{const s=document.createElement('span');s.className='mot';s.setAttribute('aria-hidden','true');s.textContent=m;el.appendChild(s);el.appendChild(document.createTextNode(' '));});
+  return el.querySelectorAll('.mot');
+}
+
+if(!hasGsap||reduced){
+  const l=document.getElementById('loader');
+  if(l){l.style.transition='opacity .4s';l.style.opacity='0';setTimeout(()=>l.remove(),450);}
+  document.querySelectorAll('.chap-img,.chap-bloc').forEach(el=>{el.style.position='relative';el.style.opacity='1';});
+  document.querySelectorAll('.chap-img').forEach((el,i)=>{if(i>0)el.style.display='none';});
+  document.querySelectorAll('.chap-bloc').forEach((el,i)=>{if(i>0)el.style.marginTop='2rem';});
+  const tf=document.getElementById('txtFill');if(tf)tf.style.clipPath='inset(0 0% 0 0)';
+}
+
+if(hasGsap&&!reduced){
+  gsap.registerPlugin(ScrollTrigger);
+
+  let lenis=null;
+  if(typeof Lenis!=='undefined'){
+    lenis=new Lenis({lerp:.09,wheelMultiplier:1,smoothWheel:true});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  gsap.to('#progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
+
+  const heroChars=[];
+  document.querySelectorAll('.hero [data-split]').forEach(el=>heroChars.push(...splitChars(el)));
+  gsap.set(heroChars,{yPercent:120,rotate:4});
+  gsap.set('.hero [data-fade], .h-scroll, nav, #dots',{opacity:0,y:24});
+
+  const compteur={v:0};
+  gsap.timeline()
+    .to('.l-flocon path',{strokeDashoffset:0,duration:1.6,ease:'power2.inOut'},0)
+    .to('.l-svg text',{strokeDashoffset:0,duration:1.5,ease:'power2.inOut'},.5)
+    .to('.l-svg text',{fillOpacity:1,duration:.7,ease:'power2.out'},1.5)
+    .to(compteur,{v:100,duration:2,ease:'power2.inOut',onUpdate(){
+      document.getElementById('loaderCount').textContent=Math.round(compteur.v);
+      document.getElementById('loaderBar').style.width=compteur.v+'%';
+    }},0)
+    .to('#loader',{yPercent:-100,duration:.9,ease:'power3.inOut'},'+=.15')
+    .set('#loader',{display:'none'})
+    .to(heroChars,{yPercent:0,rotate:0,duration:1.1,ease:'power4.out',stagger:.04},'-=.55')
+    .to('.hero [data-fade]',{opacity:1,y:0,duration:.8,ease:'power2.out',stagger:.12},'-=.6')
+    .to('nav, .h-scroll, #dots',{opacity:1,y:0,duration:.8,ease:'power2.out'},'-=.5');
+
+  gsap.to('.hero-inner',{yPercent:-18,opacity:.25,ease:'none',
+    scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  const voile=document.getElementById('voile'),burger=document.getElementById('burger');
+  const liens=voile.querySelectorAll('.v-lien a');
+  gsap.set(liens,{yPercent:120});
+  const tlVoile=gsap.timeline({paused:true})
+    .set(voile,{visibility:'visible'})
+    .to(voile,{clipPath:'circle(150% at calc(100% - 4vw - 20px) 2.4rem)',duration:.9,ease:'power3.inOut'})
+    .to(liens,{yPercent:0,duration:.7,ease:'power3.out',stagger:.07},'-=.35')
+    .from('#voile .v-pied',{opacity:0,y:16,duration:.5},'-=.3');
+  let voileOuvert=false;
+  function fermerVoile(){voileOuvert=false;burger.classList.remove('ouvert');burger.setAttribute('aria-expanded','false');tlVoile.reverse();}
+  burger.addEventListener('click',()=>{voileOuvert=!voileOuvert;burger.classList.toggle('ouvert',voileOuvert);burger.setAttribute('aria-expanded',voileOuvert);voileOuvert?tlVoile.play():tlVoile.reverse();});
+  liens.forEach(a=>a.addEventListener('click',fermerVoile));
+
+  /* Thème : nuit alpine ↔ blanc neige */
+  const THEMES={
+    nuit:{'--nuit':'#0B1226','--ink':'#F0F1EC','--muted':'#96A0B4'},
+    neige:{'--nuit':'#EFEFEA','--ink':'#1A2030','--muted':'#5E6878'}
+  };
+  function versTheme(nom){
+    gsap.to('html',Object.assign({duration:.8,ease:'power2.out',overwrite:'auto'},THEMES[nom]));
+    gsap.to(visu,{alpha:nom==='neige'?.18:1,duration:.8,overwrite:'auto'});
+  }
+  ScrollTrigger.create({trigger:'#zoneCreme',start:'top 62%',end:'bottom 38%',
+    onEnter(){versTheme('neige');},onEnterBack(){versTheme('neige');},
+    onLeave(){versTheme('nuit');},onLeaveBack(){versTheme('nuit');}});
+
+  document.querySelectorAll('[data-ligne]').forEach(l=>{
+    gsap.fromTo(l,{opacity:.12,y:40},{opacity:1,y:0,ease:'none',
+      scrollTrigger:{trigger:l,start:'top 88%',end:'top 45%',scrub:true}});
+  });
+  gsap.fromTo('#frisePath',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,ease:'none',
+    scrollTrigger:{trigger:'.frise',start:'top 95%',end:'top 45%',scrub:true}});
+  document.querySelectorAll('section [data-fade], .m-note').forEach(el=>{
+    gsap.from(el,{opacity:0,y:36,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  const blocs=['.b1','.b2','.b3'],imgs=['.c1','.c2','.c3'];
+  gsap.set('.chap-img.c1, .chap-bloc.b1',{opacity:1});
+  const tlChap=gsap.timeline({scrollTrigger:{trigger:'.chapitres',start:'top top',end:'+=220%',scrub:.6,pin:true,anticipatePin:1}});
+  for(let i=0;i<2;i++){
+    tlChap.to([imgs[i],blocs[i]],{opacity:0,y:-26,duration:.4},'+=.35')
+          .fromTo([imgs[i+1],blocs[i+1]],{opacity:0,y:26},{opacity:1,y:0,duration:.4},'<+=.15');
+  }
+
+  gsap.to('#txtFill',{clipPath:'inset(0 0% 0 0)',ease:'none',
+    scrollTrigger:{trigger:'.vanoise-titre',start:'top 85%',end:'top 25%',scrub:true}});
+
+  document.querySelectorAll('.plat-ligne').forEach((l,i)=>{
+    gsap.from(l,{opacity:0,x:-40,duration:.8,ease:'power3.out',delay:i*.04,scrollTrigger:{trigger:l,start:'top 90%'}});
+  });
+
+  gsap.to('[data-parallax]',{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.chef',start:'top bottom',end:'bottom top',scrub:true}});
+  const mots=splitMots(document.querySelector('[data-mots]'));
+  gsap.set(mots,{opacity:0,y:26,rotate:2});
+  gsap.to(mots,{opacity:1,y:0,rotate:0,duration:.7,ease:'power3.out',stagger:.045,scrollTrigger:{trigger:'.chef',start:'top 62%'}});
+
+  /* Compteurs — 45 s'affiche 4,5 */
+  document.querySelectorAll('[data-compte]').forEach(el=>{
+    const cible=parseInt(el.dataset.compte,10);const o={v:0};
+    const virgule=cible===45;
+    gsap.to(o,{v:cible,duration:1.6,ease:'power2.out',
+      onUpdate(){el.textContent=virgule?(o.v/10).toFixed(1).replace('.',','):Math.round(o.v);},
+      scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  const finChars=[];
+  document.querySelectorAll('.final [data-split]').forEach(el=>finChars.push(...splitChars(el)));
+  gsap.set(finChars,{yPercent:120});
+  gsap.to(finChars,{yPercent:0,duration:1,ease:'power4.out',stagger:.03,scrollTrigger:{trigger:'.final',start:'top 62%'}});
+  gsap.from('.cta-cercle',{scale:.6,opacity:0,duration:1.1,ease:'elastic.out(1,.55)',scrollTrigger:{trigger:'.final',start:'top 45%'}});
+
+  function etapeForme(sel,forme,halo){
+    gsap.to(visu,{forme,halo,ease:'none',immediateRender:false,
+      scrollTrigger:{trigger:sel,start:'top bottom',end:'top 25%',scrub:true}});
+  }
+  etapeForme('.manifeste',1,.55);
+  etapeForme('.vanoise-titre',2,.9);
+  etapeForme('.distinctions',3,1.2);
+  etapeForme('.final',4,.85);
+
+  document.querySelectorAll('#dots a').forEach(dot=>{
+    ScrollTrigger.create({trigger:dot.dataset.dot,start:'top 55%',end:'bottom 45%',
+      onToggle(self){dot.classList.toggle('actif',self.isActive);}});
+  });
+
+  document.querySelector('.marquee').classList.add('js');
+  const mq=gsap.to('.m-inner',{xPercent:-50,ease:'none',duration:24,repeat:-1});
+  const inclinaisons=gsap.utils.toArray('.manifeste p,.carte-head h2,.chef blockquote,.final h2,.fill-wrap')
+    .map(el=>gsap.quickTo(el,'skewY',{duration:.5,ease:'power3.out'}));
+  let vel=0,mqTs=1;
+  if(lenis)lenis.on('scroll',e=>{vel=e.velocity;});
+  gsap.ticker.add(()=>{
+    vel*=.92;
+    inclinaisons.forEach(f=>f(gsap.utils.clamp(-4,4,vel*.06)));
+    const cible=(vel>=0?1:-1)*(1+Math.min(Math.abs(vel)*.05,2.2));
+    mqTs+=(cible-mqTs)*.08;mq.timeScale(mqTs);
+  });
+
+  if(finePointer){
+    document.querySelectorAll('[data-tilt]').forEach(c=>{
+      gsap.set(c,{transformPerspective:900});
+      const rX=gsap.quickTo(c,'rotationX',{duration:.6,ease:'power3.out'});
+      const rY=gsap.quickTo(c,'rotationY',{duration:.6,ease:'power3.out'});
+      c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();rY(((e.clientX-r.left)/r.width-.5)*10);rX((.5-(e.clientY-r.top)/r.height)*8);});
+      c.addEventListener('mouseleave',()=>{rX(0);rY(0);});
+    });
+    const apercu=document.getElementById('apercu'),apercuFond=apercu.querySelector('.a-fond'),apercuNom=document.getElementById('apercuNom');
+    const FONDS={
+      'f-a':'radial-gradient(circle at 35% 30%,#2A3654,#0A0F1F 80%)',
+      'f-b':'radial-gradient(circle at 60% 40%,#5A3A22,#150D08 80%)',
+      'f-c':'radial-gradient(circle at 40% 65%,#3A2E14,#0F0B06 80%)',
+      'f-d':'radial-gradient(circle at 65% 55%,#1E3A2E,#08120E 80%)'
+    };
+    const ax=gsap.quickTo(apercu,'x',{duration:.45,ease:'power3.out'});
+    const ay=gsap.quickTo(apercu,'y',{duration:.45,ease:'power3.out'});
+    addEventListener('mousemove',e=>{ax(e.clientX+26);ay(e.clientY-120);});
+    document.querySelectorAll('.plat-ligne').forEach(l=>{
+      l.addEventListener('mouseenter',()=>{apercuFond.style.background=FONDS[l.dataset.apercu]||FONDS['f-a'];apercuNom.textContent=l.dataset.nom;gsap.to(apercu,{opacity:1,scale:1,duration:.4,ease:'power3.out'});});
+      l.addEventListener('mouseleave',()=>gsap.to(apercu,{opacity:0,scale:.7,duration:.35,ease:'power3.in'}));
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{const cible=document.querySelector(a.getAttribute('href'));if(cible&&lenis){e.preventDefault();lenis.scrollTo(cible,{offset:0,duration:1.6});}});
+  });
+  if(finePointer){
+    document.querySelectorAll('[data-magnetic]').forEach(btn=>{
+      btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.35,duration:.4,ease:'power2.out'});});
+      btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
+    });
+  }
+}
+
+/* ===== Formulaire (front-end uniquement — maquette) ===== */
+const resaForm=document.getElementById('resaForm');
+if(resaForm){
+  const champDate=document.getElementById('rDate');
+  if(champDate)champDate.min=new Date().toISOString().split('T')[0];
+  resaForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!resaForm.checkValidity()){resaForm.reportValidity();return}
+    resaForm.style.display='none';
+    document.getElementById('resaOk').classList.add('show');
+  });
+}
+
+/* ===== Curseur personnalisé ===== */
+if(finePointer&&!reduced){
+  const dot=document.getElementById('cursor'),ring=document.getElementById('cursorRing'),label=document.getElementById('cursorLabel');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function boucle(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(boucle);})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('is-hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('is-hover'));});
+  document.querySelectorAll('[data-cursor]').forEach(el=>{el.addEventListener('mouseenter',()=>{label.textContent=el.dataset.cursor;ring.classList.add('is-label');});el.addEventListener('mouseleave',()=>ring.classList.remove('is-label'));});
+}
+
+/* ===== WebGL — nuit alpine (crêtes + étoiles + feu) + neige qui tombe ===== */
+if(typeof THREE!=='undefined'&&!reduced){
+  const conteneur=document.getElementById('webgl');
+  const renderer=new THREE.WebGLRenderer({antialias:false,alpha:true});
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  renderer.autoClear=false;
+  conteneur.appendChild(renderer.domElement);
+
+  let sx=0,sy=0;
+  addEventListener('mousemove',e=>{sx=(e.clientX/innerWidth-.5);sy=(e.clientY/innerHeight-.5);});
+
+  /* --- Paysage : ciel étoilé, crêtes en couches, lueur du feu --- */
+  const sceneMont=new THREE.Scene();
+  const camOrtho=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+  const montMat=new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,
+    uniforms:{uTime:{value:0},uRes:{value:new THREE.Vector2(innerWidth,innerHeight)},uHalo:{value:1},uMouse:{value:new THREE.Vector2(0,0)}},
+    vertexShader:`void main(){gl_Position=vec4(position.xy,0.,1.);}`,
+    fragmentShader:`
+      precision highp float;
+      uniform float uTime;uniform vec2 uRes;uniform float uHalo;uniform vec2 uMouse;
+      float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+      float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
+        return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(1.7,4.3);a*=.5;}return v;}
+      float crete(float x,float base,float amp,float freq,float seed){
+        return base+amp*fbm(vec2(x*freq+seed,seed));
+      }
+      void main(){
+        vec2 uv=gl_FragCoord.xy/uRes;
+        float aspect=uRes.x/uRes.y;
+        float px=uv.x*aspect;
+        vec3 col=mix(vec3(.055,.08,.17),vec3(.015,.025,.07),uv.y); /* ciel */
+        /* étoiles scintillantes */
+        vec2 sg=floor(gl_FragCoord.xy/3.);
+        float st=hash(sg);
+        if(st>.996&&uv.y>.35){
+          float tw=.5+.5*sin(uTime*2.+st*60.);
+          col+=vec3(.9,.93,1.)*tw*.8;
+        }
+        /* voie lactée diagonale */
+        float vl=fbm(vec2(px*1.6-uv.y*1.2,uv.y*2.6));
+        col+=vec3(.35,.42,.62)*smoothstep(.55,.9,vl)*smoothstep(.3,.75,uv.y)*.16;
+        /* lune */
+        vec2 lp=vec2(.78+uMouse.x*.03,.82+uMouse.y*.02);
+        float ld=length((uv-lp)*vec2(aspect,1.));
+        col+=vec3(.92,.94,.9)*smoothstep(.045,.028,ld)*.9;
+        col+=vec3(.6,.68,.8)*smoothstep(.22,0.,ld)*.10;
+        /* trois plans de crêtes, parallaxe souris */
+        float m=uMouse.x;
+        float c1=crete(px+m*.02,.46,.16,.9,7.);
+        float c2=crete(px+m*.05,.34,.13,1.3,23.);
+        float c3=crete(px+m*.09,.22,.10,1.8,51.);
+        /* lointain : bleu-neige éclairé par la lune */
+        if(uv.y<c1){
+          vec3 mont=mix(vec3(.10,.14,.26),vec3(.16,.21,.34),smoothstep(c1-.2,c1,uv.y));
+          float lisiere=smoothstep(c1-.012,c1,uv.y);
+          mont+=vec3(.55,.6,.72)*lisiere*.35; /* neige des crêtes au clair de lune */
+          col=mont;
+        }
+        if(uv.y<c2){
+          vec3 mont=mix(vec3(.06,.085,.17),vec3(.10,.13,.23),smoothstep(c2-.2,c2,uv.y));
+          float lisiere=smoothstep(c2-.010,c2,uv.y);
+          mont+=vec3(.5,.55,.68)*lisiere*.28;
+          col=mont;
+        }
+        if(uv.y<c3){
+          vec3 mont=vec3(.03,.045,.10);
+          float lisiere=smoothstep(c3-.008,c3,uv.y);
+          mont+=vec3(.45,.5,.62)*lisiere*.22;
+          col=mont;
+        }
+        /* la lueur du feu de la bergerie, en bas */
+        vec2 feu=vec2(.5+uMouse.x*.04,-.06);
+        float fd=length((uv-feu)*vec2(aspect*.85,1.));
+        float flicker=.9+.1*sin(uTime*9.+sin(uTime*13.));
+        col+=vec3(.85,.45,.16)*smoothstep(.55,0.,fd)*.24*flicker*uHalo;
+        col+=vec3(.95,.6,.25)*smoothstep(.22,0.,fd)*.30*flicker*uHalo;
+        /* vignette + plafonnement doux */
+        float vig=smoothstep(1.4,.3,length((uv-.5)*vec2(aspect*.7,1.)));
+        col*=.6+.4*vig;
+        col-=max(col-.85,0.)*.5;
+        gl_FragColor=vec4(col,1.);
+      }`
+  });
+  sceneMont.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),montMat));
+
+  /* --- Neige : chute continue + formations --- */
+  const scenePart=new THREE.Scene();
+  const camPersp=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,60);
+  camPersp.position.set(0,0,9);
+  const N=1700;
+  const base=new Float32Array(N*3),vit=new Float32Array(N);
+  for(let i=0;i<N;i++){
+    base[i*3]=(Math.random()-.5)*20;
+    base[i*3+1]=(Math.random()-.5)*14;
+    base[i*3+2]=(Math.random()-.5)*10;
+    vit[i]=.4+Math.random()*.9;
+  }
+  function congere(){
+    /* dune de neige : bande horizontale douce en bas */
+    const a=new Float32Array(N*3);
+    for(let i=0;i<N;i++){
+      const x=(Math.random()-.5)*16;
+      const y=-3.2+Math.sin(x*.55)*1.1+Math.random()*1.4;
+      a[i*3]=x;a[i*3+1]=y;a[i*3+2]=(Math.random()-.5)*2.4;
+    }
+    return a;
+  }
+  function spirale(){const a=new Float32Array(N*3);for(let i=0;i<N;i++){const th=(i/N)*Math.PI*8,r=.3+th*.4;a[i*3]=Math.cos(th)*r+(Math.random()-.5)*.5;a[i*3+1]=Math.sin(th)*r*.7+(Math.random()-.5)*.5;a[i*3+2]=(Math.random()-.5)*1.6;}return a;}
+  function cristal(){
+    /* cristal de neige : 6 branches + ramifications à 60° + hexagone central */
+    const SEG=[];
+    function seg(ax,ay,bx,by){SEG.push([ax,ay,bx,by,Math.hypot(bx-ax,by-ay)]);}
+    for(let k=0;k<6;k++){
+      const ang=k*Math.PI/3;
+      const dx=Math.cos(ang),dy=Math.sin(ang);
+      seg(0,0,dx*4,dy*4);
+      for(const t0 of [.42,.68]){
+        const px=dx*4*t0,py=dy*4*t0,L=(1-t0)*2.1;
+        const a1=ang+Math.PI/3,a2=ang-Math.PI/3;
+        seg(px,py,px+Math.cos(a1)*L,py+Math.sin(a1)*L);
+        seg(px,py,px+Math.cos(a2)*L,py+Math.sin(a2)*L);
+      }
+    }
+    for(let k=0;k<6;k++){
+      const a1=k*Math.PI/3+Math.PI/6,a2=(k+1)*Math.PI/3+Math.PI/6;
+      seg(Math.cos(a1)*.9,Math.sin(a1)*.9,Math.cos(a2)*.9,Math.sin(a2)*.9);
+    }
+    const total=SEG.reduce((s,x)=>s+x[4],0);
+    const a=new Float32Array(N*3);
+    let i=0;
+    for(const [ax,ay,bx,by,L] of SEG){
+      const n=Math.max(2,Math.round(N*L/total));
+      for(let j=0;j<n&&i<N;j++,i++){
+        const t=Math.random();
+        a[i*3]=ax+(bx-ax)*t+(Math.random()-.5)*.1;
+        a[i*3+1]=ay+(by-ay)*t+(Math.random()-.5)*.1;
+        a[i*3+2]=(Math.random()-.5)*.6;
+      }
+    }
+    for(;i<N;i++){const th=Math.random()*Math.PI*2;a[i*3]=Math.cos(th)*.4;a[i*3+1]=Math.sin(th)*.4;a[i*3+2]=(Math.random()-.5)*.5;}
+    return a;
+  }
+  /* FORMES[0] et [4] référencent base, qui tombe en continu */
+  const FORMES=[base,congere(),spirale(),cristal(),base];
+  const pos=base.slice();
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const partMat=new THREE.PointsMaterial({color:0xf4f4f0,size:.05,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+  scenePart.add(new THREE.Points(geo,partMat));
+
+  const horloge=new THREE.Clock();
+  (function rendu(){
+    requestAnimationFrame(rendu);
+    const t=horloge.getElapsedTime();
+    montMat.uniforms.uTime.value=t;
+    montMat.uniforms.uHalo.value=visu.halo;
+    montMat.uniforms.uMouse.value.set(sx,-sy);
+    conteneur.style.opacity=visu.alpha;
+    /* la neige tombe en continu (les formations 0 et 4 suivent base) */
+    for(let i=0;i<N;i++){
+      base[i*3+1]-=.010*vit[i];
+      if(base[i*3+1]<-7.5)base[i*3+1]=7.5;
+    }
+    const f=Math.max(0,Math.min(visu.forme,FORMES.length-1.001));
+    const idx=Math.floor(f),frac=f-idx;
+    const A=FORMES[idx],B=FORMES[Math.min(idx+1,FORMES.length-1)];
+    const p=geo.attributes.position;
+    const mwx=sx*13,mwy=-sy*8;
+    for(let i=0;i<N;i++){
+      const ix=i*3;
+      const txp=A[ix]+(B[ix]-A[ix])*frac+Math.cos(t*.5+i)*.14;
+      const typ=A[ix+1]+(B[ix+1]-A[ix+1])*frac+Math.sin(t*.4+i)*.08;
+      const tzp=A[ix+2]+(B[ix+2]-A[ix+2])*frac;
+      const px=p.array[ix],py=p.array[ix+1];
+      let fx=0,fy=0;const dx=px-mwx,dy=py-mwy,d2=dx*dx+dy*dy;
+      if(d2<9&&d2>.0001){const d=Math.sqrt(d2),fo=(1-d2/9)*.09;fx=dx/d*fo;fy=dy/d*fo;}
+      p.array[ix]=px+(txp-px)*.06+fx;
+      p.array[ix+1]=py+(typ-py)*.06+fy;
+      p.array[ix+2]+=(tzp-p.array[ix+2])*.06;
+    }
+    p.needsUpdate=true;
+    camPersp.position.x+=(sx*1.1-camPersp.position.x)*.04;
+    camPersp.position.y+=(-sy*.7-camPersp.position.y)*.04;
+    camPersp.lookAt(0,0,0);
+    renderer.clear();
+    renderer.render(sceneMont,camOrtho);
+    renderer.clearDepth();
+    renderer.render(scenePart,camPersp);
+  })();
+
+  addEventListener('resize',()=>{
+    camPersp.aspect=innerWidth/innerHeight;camPersp.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+    montMat.uniforms.uRes.value.set(innerWidth,innerHeight);
+  });
+}
+})();
+</script>
+</body>
+</html>
