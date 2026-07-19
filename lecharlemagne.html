@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Le Charlemagne — Table étoilée au cœur des vignes · Pernand-Vergelesses, Bourgogne</title>
+<meta name="description" content="Maquette de démonstration — Le Charlemagne, restaurant gastronomique de Pernand-Vergelesses. Cuisine France-Japon, terroir bourguignon, vue sur les vignes du Corton-Charlemagne.">
+<meta name="theme-color" content="#1C0E15">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23D9A441' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M50 20 V40'/%3E%3Cpath d='M50 24 Q66 20 72 32'/%3E%3C/g%3E%3Cg fill='%237B2233'%3E%3Ccircle cx='42' cy='48' r='9'/%3E%3Ccircle cx='58' cy='48' r='9'/%3E%3Ccircle cx='50' cy='62' r='9'/%3E%3Ccircle cx='38' cy='64' r='8'/%3E%3Ccircle cx='62' cy='64' r='8'/%3E%3Ccircle cx='50' cy='78' r='8'/%3E%3C/g%3E%3C/svg%3E">
+<!-- Open Graph : aperçu lors d'un partage WhatsApp / Instagram / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Le Charlemagne — La table étoilée dans les vignes · Pernand-Vergelesses">
+<meta property="og:description" content="Cuisine France-Japon au cœur du vignoble de Corton-Charlemagne. Menus dégustation, grands crus de Bourgogne, table étoilée face aux coteaux. Maquette de démonstration.">
+<meta property="og:url" content="https://ralph270.github.io/lavillafleurie1/lecharlemagne.html">
+<meta property="og:image" content="https://ralph270.github.io/lavillafleurie1/lecharlemagne-og.jpg">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Données structurées (modèle pour le site final — sans effet tant que noindex) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Le Charlemagne",
+  "servesCuisine": "Gastronomique — France & Japon, terroir bourguignon",
+  "priceRange": "€€€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1 route des Vergelesses",
+    "addressLocality": "Pernand-Vergelesses",
+    "addressRegion": "Bourgogne-Franche-Comté",
+    "postalCode": "21420",
+    "addressCountry": "FR"
+  },
+  "acceptsReservations": "True"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS — heure dorée sur les vignes, lie de vin, or du Corton ============ */
+:root{
+  --nuit:#1C0E15;
+  --cave:#2A1620;
+  --brume:#F1E9D6;
+  --ink:#F3ECDD;
+  --or:#D9A441;
+  --or-clair:#F0CE86;
+  --lie:#8A2B3B;
+  --muted:#A88B92;
+  --display:'Prata',serif;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Jost',sans-serif;
+  --ease:cubic-bezier(.22,.61,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--sans);background:var(--nuit);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--or);color:var(--nuit)}
+a{color:inherit;text-decoration:none}
+
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+#webgl{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:1}
+.hero,section,footer,.marquee{position:relative;z-index:2}
+
+#progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:600;background:linear-gradient(90deg,var(--or),var(--or-clair));transform-origin:left center;transform:scaleX(0)}
+
+/* ============ PRELOADER ============ */
+#loader{position:fixed;inset:0;z-index:1000;background:var(--nuit);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem}
+#loader .l-flocon{width:min(120px,26vw);height:auto}
+#loader .l-flocon path{fill:none;stroke:var(--or-clair);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+#loader .l-svg{width:min(520px,86vw);height:auto;overflow:visible}
+#loader .l-svg text{font-family:var(--display);font-size:58px;letter-spacing:.06em;fill:var(--ink);fill-opacity:0;stroke:var(--or-clair);stroke-width:1;stroke-dasharray:280;stroke-dashoffset:280}
+#loader .l-lieu{font-size:.66rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
+#loader .l-bar{width:min(240px,58vw);height:1px;background:rgba(242,239,230,.14);overflow:hidden}
+#loader .l-bar i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--lie),var(--or-clair))}
+#loader .l-count{font-size:.72rem;font-weight:600;letter-spacing:.4em;color:var(--or);text-transform:uppercase}
+
+/* ============ CURSEUR ============ */
+#cursor,#cursorRing{position:fixed;top:0;left:0;pointer-events:none;z-index:900;transform:translate(-50%,-50%);border-radius:50%}
+#cursor{width:6px;height:6px;background:var(--or-clair)}
+#cursorRing{width:42px;height:42px;border:1px solid rgba(240,206,134,.55);display:flex;align-items:center;justify-content:center;transition:width .35s var(--ease),height .35s var(--ease),background .35s,border-color .35s}
+#cursorRing .c-label{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--nuit);opacity:0;transition:opacity .25s;white-space:nowrap}
+#cursorRing.is-hover{width:64px;height:64px;background:rgba(240,206,134,.2);border-color:var(--or-clair)}
+#cursorRing.is-label{width:96px;height:96px;background:var(--or-clair);border-color:var(--or-clair)}
+#cursorRing.is-label .c-label{opacity:1}
+@media(hover:none),(pointer:coarse){#cursor,#cursorRing{display:none}}
+@media(hover:hover) and (pointer:fine){body{cursor:none} a,button{cursor:none}}
+
+/* ============ NAV ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4vw;mix-blend-mode:difference;color:#fff}
+nav .n-logo{font-family:var(--display);font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.n-droite{display:flex;align-items:center;gap:1.6rem}
+.btn-resa{font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;padding:.85rem 1.7rem;border:1px solid rgba(255,255,255,.5);border-radius:999px;display:inline-block;background:none;color:#fff;transition:background .35s,color .35s}
+.btn-resa:hover{background:#fff;color:#000}
+.burger{width:40px;height:30px;background:none;border:none;cursor:pointer;position:relative}
+.burger span{position:absolute;left:6px;right:6px;height:2px;background:#fff;transition:transform .4s var(--ease),opacity .3s,top .4s var(--ease)}
+.burger span:nth-child(1){top:9px}.burger span:nth-child(2){top:19px}
+.burger.ouvert span:nth-child(1){top:14px;transform:rotate(45deg)}
+.burger.ouvert span:nth-child(2){top:14px;transform:rotate(-45deg)}
+
+/* ============ MENU PLEIN ÉCRAN ============ */
+#voile{position:fixed;inset:0;z-index:400;background:#150A11;display:flex;align-items:center;justify-content:center;clip-path:circle(0% at calc(100% - 4vw - 20px) 2.4rem);visibility:hidden}
+#voile .v-inner{text-align:center}
+#voile .v-lien{display:block;overflow:hidden;margin:.35em 0}
+#voile .v-lien a{display:inline-block;font-family:var(--display);font-size:clamp(1.7rem,5vw,3.4rem);letter-spacing:.06em;text-transform:uppercase;color:var(--brume);line-height:1.25;transition:color .3s,letter-spacing .4s var(--ease)}
+#voile .v-lien a:hover{color:var(--or-clair);letter-spacing:.12em}
+#voile .v-lien i{font-family:var(--serif);font-style:italic;font-size:.5em;color:var(--or);text-transform:none;margin-right:.6em;letter-spacing:0}
+#voile .v-pied{margin-top:3rem;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+
+/* ============ POINTS ============ */
+#dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:1.1rem}
+#dots a{width:8px;height:8px;border-radius:50%;display:block;background:rgba(217,164,65,.3);transition:background .3s,transform .3s}
+#dots a.actif{background:var(--or);transform:scale(1.5)}
+@media(max-width:820px){#dots{display:none}}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:0 5vw;width:100%}
+.hero .h-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.44em;text-transform:uppercase;color:var(--or-clair);display:block;margin-bottom:2.4rem}
+.hero h1{font-family:var(--display);line-height:1;letter-spacing:.04em;font-size:clamp(3rem,13vw,11rem);color:var(--ink)}
+.hero h1 .ligne,.final h2 .ligne{display:block;overflow:hidden;padding:.06em 0}
+.hero h1 .ligne{white-space:nowrap}
+.hero h1 .sub{display:block;font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;font-size:clamp(1.2rem,3.4vw,2.4rem);color:var(--or-clair);margin-top:.15em}
+.hero h1 .char{display:inline-block;will-change:transform}
+.hero .h-tagline{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.5rem);color:var(--muted);margin-top:2.2rem}
+.h-badges{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:2.6rem}
+.h-badge{padding:.65rem 1.4rem;border:1px solid rgba(240,206,134,.35);border-radius:999px;font-size:.63rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--or-clair);background:rgba(217,164,65,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.h-scroll{position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.64rem;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.9rem}
+.h-scroll::after{content:"";width:1px;height:52px;background:linear-gradient(180deg,var(--or-clair),transparent);animation:sline 2.4s var(--ease) infinite}
+@keyframes sline{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ MANIFESTE ============ */
+.manifeste{padding:26vh 6vw 14vh;max-width:1300px;margin:0 auto}
+.manifeste p{font-family:var(--serif);font-weight:500;line-height:1.14;letter-spacing:-.01em;font-size:clamp(1.9rem,6vw,5.1rem);color:var(--ink)}
+.manifeste .m-ligne{display:block}
+.manifeste em{font-style:italic;color:var(--or)}
+.manifeste .m-note{font-family:var(--sans);font-weight:300;font-size:1.05rem;line-height:1.85;color:var(--muted);max-width:46ch;margin-top:4rem}
+.manifeste .m-note b{color:var(--ink);font-weight:500}
+
+.frise{display:flex;justify-content:center;padding:2.5rem 0 0}
+.frise svg{width:min(360px,64vw);height:auto}
+.frise path{fill:none;stroke:var(--or);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ CHAPITRES ============ */
+.chapitres{position:relative}
+.chap-scene{min-height:100svh;display:flex;align-items:center;padding:0 6vw}
+.chap-cadre{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.9fr 1.1fr;gap:6rem;align-items:center;width:100%}
+.chap-visuel{position:relative;aspect-ratio:3/4;max-height:70vh}
+.chap-img{position:absolute;inset:0;border-radius:14px;overflow:hidden;opacity:0;display:flex;align-items:center;justify-content:center}
+.chap-img.c1{background:radial-gradient(circle at 40% 30%,#5A2836,#1C0E15 80%)}
+.chap-img.c2{background:radial-gradient(circle at 60% 45%,#6E4A1E,#1A0F09 80%)}
+.chap-img.c3{background:radial-gradient(circle at 45% 60%,#3A481F,#0E1108 80%)}
+.chap-img svg{width:96px;height:96px;opacity:.92;position:relative}
+.chap-img .ci-nom{position:absolute;bottom:1.8rem;left:0;right:0;text-align:center;font-size:.62rem;font-weight:700;letter-spacing:.36em;text-transform:uppercase;color:var(--or-clair)}
+.chap-txt{position:relative;min-height:16rem}
+.chap-bloc{position:absolute;inset:0;opacity:0}
+.chap-bloc .cb-num{font-family:var(--serif);font-style:italic;color:var(--or);font-size:1.1rem}
+.chap-bloc h3{font-family:var(--display);font-size:clamp(1.6rem,3.4vw,2.7rem);letter-spacing:.02em;margin:.6rem 0 1.2rem;color:var(--ink);line-height:1.15}
+.chap-bloc p{color:var(--muted);font-weight:300;line-height:1.85;max-width:46ch}
+@media(max-width:900px){.chap-cadre{grid-template-columns:1fr;gap:2.5rem}.chap-visuel{max-height:42vh;width:100%}}
+
+/* ============ TITRE VANOISE ============ */
+.vanoise-titre{padding:16vh 6vw 8vh;text-align:center;overflow:hidden}
+.fill-wrap{position:relative;display:inline-block;line-height:1}
+.fill-wrap span{font-family:var(--display);font-size:clamp(2.8rem,12.5vw,11.5rem);letter-spacing:.05em;display:block;white-space:nowrap}
+.txt-outline{color:transparent;-webkit-text-stroke:1px rgba(217,164,65,.6)}
+.txt-fill{position:absolute;inset:0;color:var(--ink);clip-path:inset(0 100% 0 0);will-change:clip-path}
+.vanoise-sous{margin-top:1.6rem;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:1.15rem}
+
+/* ============ CARTE ============ */
+.carte{padding:8vh 6vw 16vh;max-width:1240px;margin:0 auto}
+.carte-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+.carte-head h2{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);line-height:1;letter-spacing:.03em;color:var(--ink)}
+.carte-head h2 em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--or-clair)}
+.carte-head .c-hint{font-size:.66rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.plat-ligne{display:flex;justify-content:space-between;align-items:baseline;gap:2rem;padding:1.6rem 0;border-top:1px solid rgba(217,164,65,.18);transition:padding-left .4s var(--ease);position:relative}
+.plat-ligne:last-of-type{border-bottom:1px solid rgba(217,164,65,.18)}
+.plat-ligne:hover{padding-left:1.2rem}
+.plat-ligne .p-nom{font-family:var(--serif);font-weight:500;font-size:clamp(1.25rem,2.8vw,2rem);color:var(--ink)}
+.plat-ligne:hover .p-nom{color:var(--or-clair)}
+.plat-ligne .p-detail{font-family:var(--serif);font-style:italic;font-size:.98rem;color:var(--muted);display:block;margin-top:.3rem}
+.plat-ligne .p-saison{font-size:.64rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--or);white-space:nowrap}
+#apercu{position:fixed;top:0;left:0;z-index:250;width:210px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;pointer-events:none;opacity:0;transform:scale(.7);border:1px solid rgba(240,206,134,.4);box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+#apercu .a-fond{position:absolute;inset:0}
+#apercu svg{position:relative;width:60px;height:60px}
+#apercu .a-nom{position:absolute;bottom:1.1rem;left:.9rem;right:.9rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--or-clair)}
+.carte-menus{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:4rem}
+.menu-carte{border:1px solid rgba(217,164,65,.25);border-radius:16px;padding:2.2rem 1.8rem;text-align:center;background:rgba(242,239,230,.03);transform-style:preserve-3d;transition:border-color .4s}
+.menu-carte:hover{border-color:var(--or)}
+.menu-carte .mc-nom{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--ink)}
+.menu-carte .mc-prix{font-family:var(--display);font-size:2.2rem;color:var(--or-clair);margin:.8rem 0 .4rem}
+.menu-carte .mc-prix small{font-family:var(--sans);font-size:.85rem;color:var(--muted)}
+.menu-carte p{font-size:.85rem;color:var(--muted);font-weight:300}
+@media(max-width:900px){.carte-menus{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}}
+
+/* ============ HÔTES ============ */
+.chef{padding:20vh 6vw}
+.chef-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:6rem;align-items:center}
+.chef-visuel{position:relative;border-radius:200px 200px 14px 14px;overflow:hidden;aspect-ratio:3/4.1;will-change:transform;background:radial-gradient(circle at 40% 35%,#5A2836,#1A0D12 80%)}
+.chef-visuel::after{content:"";position:absolute;inset:1.2rem;border:1px solid rgba(240,206,134,.35);border-radius:190px 190px 8px 8px}
+.chef-visuel .cv-nom{position:absolute;bottom:2.2rem;left:0;right:0;text-align:center;z-index:2;font-size:.64rem;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:var(--or-clair)}
+.chef blockquote{font-family:var(--serif);font-weight:500;font-style:italic;line-height:1.25;font-size:clamp(1.6rem,3.4vw,2.8rem);color:var(--ink)}
+.chef blockquote .mot{display:inline-block;will-change:transform,opacity}
+.chef .ch-role{margin-top:2.4rem;font-size:.68rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--or)}
+.chef .ch-bio{margin-top:1.2rem;color:var(--muted);max-width:54ch;line-height:1.85;font-weight:300}
+@media(max-width:900px){.chef-grid{grid-template-columns:1fr;gap:3.5rem}.chef-visuel{max-width:400px;margin:0 auto}}
+
+/* ============ DISTINCTIONS ============ */
+.distinctions{padding:10vh 6vw 16vh;text-align:center}
+.distinctions h2{font-family:var(--display);font-size:clamp(2rem,5vw,4rem);letter-spacing:.03em;color:var(--ink)}
+.distinctions h2 em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--or-clair)}
+.dist-sous{font-family:var(--serif);font-style:italic;color:var(--muted);margin-top:.8rem}
+.ch-grid{max-width:1100px;margin:22vh auto 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(217,164,65,.25)}
+.ch-item{padding:3rem 1rem 0;text-align:center}
+.ch-item b{font-family:var(--display);font-size:clamp(2.2rem,4.6vw,3.8rem);line-height:1;display:block;color:var(--ink)}
+.ch-item b sup{font-size:.4em;color:var(--or-clair)}
+.ch-item span{display:block;margin-top:.8rem;font-size:.62rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:700px){.ch-grid{grid-template-columns:1fr;gap:2.4rem}}
+
+/* ============ MARQUEE ============ */
+.marquee{overflow:hidden;padding:3rem 0;border-top:1px solid rgba(217,164,65,.16);border-bottom:1px solid rgba(217,164,65,.16);white-space:nowrap}
+.marquee .m-inner{display:inline-block;animation:defile 30s linear infinite;will-change:transform}
+.marquee.js .m-inner{animation:none}
+.marquee span{font-family:var(--display);font-size:clamp(1.3rem,3vw,2.3rem);letter-spacing:.05em;text-transform:uppercase;padding:0 1.6rem;color:var(--ink)}
+.marquee i{font-family:var(--serif);font-style:normal;color:var(--lie);text-transform:none}
+.marquee span:nth-child(even){font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--muted)}
+@keyframes defile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ FINAL ============ */
+.final{min-height:80svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14vh 6vw 6vh;overflow:hidden}
+.final h2{font-family:var(--display);line-height:1.05;letter-spacing:.03em;font-size:clamp(2.2rem,7.5vw,6.5rem);color:var(--ink)}
+.final h2 .ligne:nth-child(2){font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--or-clair)}
+.final .f-sub{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--muted);margin-top:1.6rem}
+.cta-cercle{position:relative;margin-top:4.2rem;width:185px;height:185px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--lie),var(--or-clair));color:var(--nuit);font-size:.72rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;box-shadow:0 20px 70px rgba(217,164,65,.35);will-change:transform}
+.cta-cercle svg{position:absolute;inset:-26px;width:calc(100% + 52px);height:calc(100% + 52px);animation:rot 16s linear infinite}
+.cta-cercle svg text{fill:var(--or-clair);font-size:9px;font-family:var(--sans);font-weight:700;letter-spacing:.3em;text-transform:uppercase}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ============ RÉSERVATION ============ */
+.resa{padding:6vh 6vw 16vh}
+.resa-card{max-width:680px;margin:0 auto;border-radius:20px;padding:3rem clamp(1.6rem,4vw,3rem);background:rgba(242,239,230,.04);border:1px solid rgba(217,164,65,.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.resa-titre{font-family:var(--display);font-size:clamp(1.6rem,3.2vw,2.4rem);letter-spacing:.03em;text-align:center;color:var(--ink)}
+.resa-titre em{font-family:var(--serif);font-style:italic;letter-spacing:0;color:var(--or-clair)}
+.resa-sous{font-family:var(--serif);font-style:italic;color:var(--muted);text-align:center;margin:.6rem 0 2.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.form-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.1rem}
+.form-row .form-group{margin-bottom:0}
+label{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--or-clair)}
+input,select,textarea{font-family:var(--serif);font-size:1.05rem;color:var(--ink);background:rgba(242,239,230,.06);border:1px solid rgba(242,239,230,.2);border-radius:12px;padding:.9rem 1rem;width:100%;transition:border-color .3s,box-shadow .3s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(217,164,65,.22)}
+select option{color:var(--nuit)}
+input::placeholder,textarea::placeholder{color:rgba(242,239,230,.35)}
+.btn-envoi{width:100%;margin-top:.6rem;padding:1.1rem;border:none;border-radius:999px;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;background:linear-gradient(120deg,var(--lie),var(--or-clair));color:var(--nuit);box-shadow:0 10px 40px rgba(217,164,65,.35);transition:transform .35s var(--ease),box-shadow .35s}
+.btn-envoi:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(217,164,65,.5)}
+.resa-ok{display:none;text-align:center;padding:2.5rem 1rem}
+.resa-ok.show{display:block;animation:fadein .5s}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.resa-ok .check{width:70px;height:70px;margin:0 auto 1.4rem;border-radius:50%;border:2px solid var(--or);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--or-clair);box-shadow:0 0 40px rgba(217,164,65,.35)}
+.resa-ok h3{font-family:var(--display);font-size:1.5rem;letter-spacing:.02em;margin-bottom:.7rem;color:var(--ink)}
+.resa-ok p{color:var(--muted);font-family:var(--serif);font-style:italic}
+@media(max-width:820px){.form-row{grid-template-columns:1fr}}
+
+/* ============ FOOTER ============ */
+footer{padding:3rem 4vw 2.6rem;border-top:1px solid rgba(217,164,65,.14)}
+.f-haut{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}
+footer,footer a{font-size:.78rem;color:var(--muted);letter-spacing:.06em}
+footer a:hover{color:var(--or-clair)}
+footer .f-links{display:flex;gap:2rem}
+.f-mention{margin-top:1.6rem;font-size:.68rem;color:rgba(143,160,168,.6);font-style:italic;letter-spacing:.03em}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ FOND WEBGL GLOBAL ============ -->
+<div id="webgl" aria-hidden="true"></div>
+
+<!-- ============ BARRE DE PROGRESSION ============ -->
+<div id="progress" aria-hidden="true"></div>
+
+<!-- ============ PRELOADER ============ -->
+<div id="loader" role="status" aria-label="Chargement">
+  <svg class="l-flocon" viewBox="0 0 100 100" aria-hidden="true">
+    <path pathLength="1" d="M50 14 V34 M50 20 Q66 16 72 30 M42 44 A9 9 0 1 1 42 45 M58 44 A9 9 0 1 1 58 45 M50 58 A9 9 0 1 1 50 59 M38 60 A8 8 0 1 1 38 61 M62 60 A8 8 0 1 1 62 61 M50 74 A8 8 0 1 1 50 75"/>
+  </svg>
+  <svg class="l-svg" viewBox="0 0 520 96" aria-hidden="true"><text x="260" y="70" text-anchor="middle">LE CHARLEMAGNE</text></svg>
+  <div class="l-lieu">Pernand-Vergelesses · Côte de Beaune · Bourgogne</div>
+  <div class="l-bar"><i id="loaderBar"></i></div>
+  <div class="l-count"><span id="loaderCount">0</span> %</div>
+</div>
+
+<!-- ============ CURSEUR ============ -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursorRing" aria-hidden="true"><span class="c-label" id="cursorLabel">Voir</span></div>
+
+<!-- ============ APERÇU FLOTTANT ============ -->
+<div id="apercu" aria-hidden="true">
+  <div class="a-fond"></div>
+  <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="26" fill="none" stroke="#F0CE86" stroke-width="1.6"/><circle cx="40" cy="40" r="5" fill="#F0CE86"/></svg>
+  <span class="a-nom" id="apercuNom"></span>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="#haut" class="n-logo">Le Charlemagne</a>
+  <div class="n-droite">
+    <a href="#reservation" class="btn-resa" data-magnetic>Réserver</a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ============ MENU PLEIN ÉCRAN ============ -->
+<div id="voile" aria-hidden="true">
+  <div class="v-inner">
+    <div class="v-lien"><a href="#manifeste"><i>01</i>La Maison</a></div>
+    <div class="v-lien"><a href="#carte"><i>02</i>La Carte</a></div>
+    <div class="v-lien"><a href="#hotes"><i>03</i>La Table</a></div>
+    <div class="v-lien"><a href="#distinctions"><i>04</i>Le Terroir</a></div>
+    <div class="v-lien"><a href="#reservation"><i>05</i>Réserver</a></div>
+    <p class="v-pied">Pernand-Vergelesses · Bourgogne — Au cœur des vignes du Corton</p>
+  </div>
+</div>
+
+<!-- ============ POINTS ============ -->
+<div id="dots" aria-hidden="true">
+  <a href="#haut" data-dot="#haut"></a>
+  <a href="#manifeste" data-dot="#manifeste"></a>
+  <a href="#carte" data-dot="#carte"></a>
+  <a href="#hotes" data-dot="#hotes"></a>
+  <a href="#distinctions" data-dot="#distinctions"></a>
+  <a href="#reservation" data-dot="#reservation"></a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="haut">
+  <div class="hero-inner">
+    <span class="h-eyebrow" data-fade><span id="salut">Bonjour</span> — bienvenue au cœur des vignes</span>
+    <h1 aria-label="Le Charlemagne">
+      <span class="ligne" data-split>Le</span>
+      <span class="ligne" data-split>Charlemagne</span>
+      <span class="sub" data-fade>la Bourgogne rencontre le Japon</span>
+    </h1>
+    <p class="h-tagline" data-fade>À Pernand-Vergelesses, une table étoilée posée sur les coteaux du Corton-Charlemagne.</p>
+    <div class="h-badges" data-fade>
+      <span class="h-badge">✦ Table étoilée</span>
+      <span class="h-badge">Cuisine France ⟷ Japon</span>
+      <span class="h-badge">Grands crus de Bourgogne</span>
+    </div>
+  </div>
+  <div class="h-scroll" aria-hidden="true">Défiler</div>
+</header>
+
+<!-- ============ ZONE CLAIRE (thème brume dorée) ============ -->
+<div id="zoneCreme">
+<!-- ============ MANIFESTE ============ -->
+<section class="manifeste" id="manifeste">
+  <p>
+    <span class="m-ligne" data-ligne>Autour de vous, <em>les vignes.</em></span>
+    <span class="m-ligne" data-ligne>Dans l'assiette, deux mondes.</span>
+    <span class="m-ligne" data-ligne>Entre les deux,</span>
+    <span class="m-ligne" data-ligne>un <em>grand cru</em> pour voisin.</span>
+  </p>
+  <p class="m-note" data-fade>À <b>Pernand-Vergelesses</b>, sur les coteaux qui donnent le <b>Corton-Charlemagne</b>, la maison marie le <b>terroir bourguignon</b> et la précision japonaise. Escargots et dashi, foie gras et prune, sandre de Saône et beurre au saké — une cuisine de saison, cultivée au potager et au rucher, à quelques rangs de vigne de la table.</p>
+  <div class="frise" aria-hidden="true">
+    <svg viewBox="0 0 360 70">
+      <path pathLength="1" id="frisePath" d="M4 40 H120 M120 40 Q140 40 150 24 Q158 12 168 22 Q174 30 164 36 M150 24 Q150 44 168 48 M168 48 Q188 52 200 40 H356 M60 40 Q56 24 44 26 M92 40 Q96 56 108 54"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ CHAPITRES ============ -->
+<section class="chapitres" id="chapitres">
+  <div class="chap-scene">
+    <div class="chap-cadre">
+      <div class="chap-visuel">
+        <div class="chap-img c1">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 16 V34 M50 22 Q64 18 70 30 M40 42 A8 8 0 1 1 40 43 M60 42 A8 8 0 1 1 60 43 M50 56 A8 8 0 1 1 50 57 M38 58 A7 7 0 1 1 38 59 M62 58 A7 7 0 1 1 62 59 M50 72 A7 7 0 1 1 50 73" fill="none" stroke="#F0CE86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">Les vignes du Corton</span>
+        </div>
+        <div class="chap-img c2">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 22 Q30 40 42 52 L42 78 Q42 84 50 84 Q58 84 58 78 L58 52 Q70 40 70 22 M30 22 H70 M50 30 V44 M42 34 Q50 40 58 34 M40 20 Q50 12 60 20" fill="none" stroke="#F0CE86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">France ⟷ Japon</span>
+        </div>
+        <div class="chap-img c3">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 40 Q26 26 40 24 Q52 22 58 30 Q74 30 76 44 Q84 50 78 60 Q80 72 66 74 L34 74 Q20 72 22 60 Q16 50 22 40 M30 82 H70 M50 74 V82" fill="none" stroke="#F0CE86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="ci-nom">Le potager & le rucher</span>
+        </div>
+      </div>
+      <div class="chap-txt">
+        <div class="chap-bloc b1">
+          <span class="cb-num">Chapitre I</span>
+          <h3>Une table posée<br>dans les vignes</h3>
+          <p>Il y a des restaurants avec vue, et il y a Pernand-Vergelesses : les rangs du Corton-Charlemagne montent à quelques mètres des baies, la colline de Corton en toile de fond. On vient pour déjeuner — on reste pour la lumière du soir sur les coteaux.</p>
+        </div>
+        <div class="chap-bloc b2">
+          <span class="cb-num">Chapitre II</span>
+          <h3>Deux cuisines<br>dans une assiette</h3>
+          <p>La Bourgogne des escargots, du bœuf et du cassis rencontre le Japon du dashi, du miso et de l'umami. Rien de démonstratif : des accords justes, des cuissons précises, un fil rouge entre deux terroirs que tout semblait opposer.</p>
+        </div>
+        <div class="chap-bloc b3">
+          <span class="cb-num">Chapitre III</span>
+          <h3>Le potager écrit<br>la carte</h3>
+          <p>Les herbes, les fleurs et une partie des légumes viennent du jardin de la maison ; le miel, du rucher. La carte suit les saisons de très près — et la cave, longue de plusieurs centaines de références, fait la part belle aux crus de la Côte.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /zoneCreme -->
+
+<!-- ============ GRAND TITRE ============ -->
+<div class="vanoise-titre">
+  <div class="fill-wrap">
+    <span class="txt-outline" aria-hidden="true">Corton</span>
+    <span class="txt-fill" id="txtFill">Corton</span>
+  </div>
+  <p class="vanoise-sous">La colline des grands blancs — votre table est à son pied.</p>
+</div>
+
+<!-- ============ CARTE ============ -->
+<section class="carte" id="carte">
+  <div class="carte-head">
+    <h2>La <em>Carte</em></h2>
+    <span class="c-hint">— Survolez les plats</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-b" data-nom="Escargots & dashi">
+    <div><span class="p-nom">Escargots de Bourgogne, émulsion persillade & dashi</span><span class="p-detail">Œuf parfait, cresson du potager, huile d'ail des ours</span></div>
+    <span class="p-saison">La signature</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-a" data-nom="Foie gras & prune">
+    <div><span class="p-nom">Foie gras de canard, anguille laquée, umeboshi</span><span class="p-detail">Pain d'épices toasté, prune de Bourgogne, sansho</span></div>
+    <span class="p-saison">Entrée froide</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-c" data-nom="Sandre au saké">
+    <div><span class="p-nom">Sandre de Saône, beurre blanc au saké</span><span class="p-detail">Chou pointu grillé, dashi de champignons, yuzu</span></div>
+    <span class="p-saison">Selon la pêche</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-d" data-nom="Bœuf charolais & miso">
+    <div><span class="p-nom">Bœuf charolais, betterave & miso rouge</span><span class="p-detail">Jus corsé au Corton, condiment au sésame noir</span></div>
+    <span class="p-saison">Le plat de terroir</span>
+  </div>
+  <div class="plat-ligne" data-apercu="f-a" data-nom="Cassis & matcha">
+    <div><span class="p-nom">Cassis de Bourgogne, matcha, sablé</span><span class="p-detail">Sorbet cassis, crémeux au thé vert, meringue</span></div>
+    <span class="p-saison">Dessert signature</span>
+  </div>
+  <div class="carte-menus">
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">Déjeuner du Vigneron</span>
+      <div class="mc-prix">58 €<small> / pers.</small></div>
+      <p>Entrée, plat, dessert au gré du marché et du potager. En semaine, le midi.</p>
+    </div>
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">Menu Corton</span>
+      <div class="mc-prix">98 €<small> / pers.</small></div>
+      <p>Cinq services entre Bourgogne et Japon, au fil des saisons.</p>
+    </div>
+    <div class="menu-carte" data-tilt data-fade>
+      <span class="mc-nom">Menu Charlemagne</span>
+      <div class="mc-prix">148 €<small> / pers.</small></div>
+      <p>La grande dégustation en sept temps. Accord mets & grands crus en option.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LA TABLE ============ -->
+<section class="chef" id="hotes">
+  <div class="chef-grid">
+    <div class="chef-visuel" data-parallax>
+      <span class="cv-nom">La maison · Pernand-Vergelesses</span>
+    </div>
+    <div>
+      <blockquote data-mots>« Deux terroirs, une même exigence : que chaque produit soit à sa juste place, et que le vin ait le dernier mot. »</blockquote>
+      <p class="ch-role" data-fade>— La maison · Le Charlemagne, Bourgogne</p>
+      <p class="ch-bio" data-fade>Une équipe attachée à son coin de Côte : maraîchage et rucher maison, fournisseurs de la région, sommellerie amoureuse des climats bourguignons. Ici, on vous raconte volontiers la colline de Corton derrière la baie, et on ouvre le bon flacon pour accompagner chaque service — de l'aligoté du matin au grand cru du soir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DISTINCTIONS ============ -->
+<section class="distinctions" id="distinctions">
+  <h2 data-fade>Le terroir <em>en toile de fond</em></h2>
+  <p class="dist-sous" data-fade>Regardez derrière ce titre — les rangs de vigne montent vers la colline de Corton.</p>
+  <div class="ch-grid">
+    <div class="ch-item" data-fade><b><span data-compte="2006">0</span></b><span>Une étoile au guide, depuis</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="9500">0</span><sup>km</sup></b><span>Entre deux cuisines · France & Japon</span></div>
+    <div class="ch-item" data-fade><b><span data-compte="1">0</span></b><span>Grand cru pour voisin · Corton-Charlemagne</span></div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="m-inner">
+    <span>Table étoilée <i>✦</i></span><span>France ⟷ Japon <i>✦</i></span><span>Corton-Charlemagne <i>✦</i></span><span>Au cœur des vignes <i>✦</i></span><span>Grands crus de Bourgogne <i>✦</i></span>
+    <span>Table étoilée <i>✦</i></span><span>France ⟷ Japon <i>✦</i></span><span>Corton-Charlemagne <i>✦</i></span><span>Au cœur des vignes <i>✦</i></span><span>Grands crus de Bourgogne <i>✦</i></span>
+  </div>
+</div>
+
+<!-- ============ FINAL ============ -->
+<section class="final" id="final">
+  <h2 aria-label="La table, au pied des vignes.">
+    <span class="ligne" data-split>La table,</span>
+    <span class="ligne" data-split>au pied des vignes.</span>
+  </h2>
+  <p class="f-sub" data-fade>Déjeuner & dîner · Fermé dimanche soir et lundi</p>
+  <a href="#reservation" class="cta-cercle" data-magnetic data-cursor="Allons-y">
+    Réserver
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs><path id="cercleTxt" d="M50,50 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs>
+      <text><textPath href="#cercleTxt">· Le Charlemagne · Pernand-Vergelesses · Bourgogne · Table étoilée </textPath></text>
+    </svg>
+  </a>
+</section>
+
+<!-- ============ RÉSERVATION ============ -->
+<section class="resa" id="reservation">
+  <div class="resa-card" data-fade>
+    <h2 class="resa-titre">Réserver <em>votre table</em></h2>
+    <p class="resa-sous">Le service est limité et la maison affiche vite complet : réservez, on vous garde une table face aux vignes.</p>
+    <form id="resaForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rDate">Date</label>
+          <input type="date" id="rDate" required>
+        </div>
+        <div class="form-group">
+          <label for="rHeure">Heure</label>
+          <select id="rHeure" required>
+            <option value="">Choisir…</option>
+            <option>12h00</option><option>12h30</option><option>13h00</option><option>13h30</option>
+            <option>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rCouverts">Convives</label>
+          <select id="rCouverts" required>
+            <option value="">Choisir…</option>
+            <option>2 personnes</option><option>3 personnes</option><option>4 personnes</option>
+            <option>5 personnes</option><option>6 personnes</option><option>7+ (nous contacter)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rTel">Téléphone</label>
+          <input type="tel" id="rTel" placeholder="+33 …" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rNom">Nom complet</label>
+        <input type="text" id="rNom" placeholder="Votre nom" required>
+      </div>
+      <div class="form-group">
+        <label for="rEmail">E-mail</label>
+        <input type="email" id="rEmail" placeholder="vous@exemple.com" required>
+      </div>
+      <div class="form-group">
+        <label for="rNote">Occasions & demandes particulières <span style="opacity:.6;text-transform:none;letter-spacing:0">(facultatif)</span></label>
+        <textarea id="rNote" rows="3" placeholder="Menu dégustation, accord grands crus, allergies, table face aux vignes…"></textarea>
+      </div>
+      <button type="submit" class="btn-envoi">Confirmer ma demande</button>
+    </form>
+    <div class="resa-ok" id="resaOk">
+      <div class="check">✓</div>
+      <h3>Demande envoyée</h3>
+      <p>Merci ! La maison vous recontactera très vite pour confirmer votre table. À bientôt au cœur des vignes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="f-haut">
+    <span>Le Charlemagne · 1 route des Vergelesses, Pernand-Vergelesses — Bourgogne</span>
+    <div class="f-links">
+      <a href="#haut">Haut de page</a>
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="Facebook">Facebook</a>
+    </div>
+  </div>
+  <p class="f-mention">Maquette de démonstration non officielle — proposition de refonte de site web. Contenus et montants indicatifs, sans valeur contractuelle. Aucune réservation réelle n'est transmise via cette page.</p>
+</footer>
+
+<!-- ============ LIBRAIRIES CDN ============ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasGsap=typeof gsap!=='undefined'&&typeof ScrollTrigger!=='undefined';
+const finePointer=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* forme : [feuilles qui dérivent, grappe de raisin, verre de vin, colline de Corton, feuilles] ;
+   halo : intensité du soleil couchant sur les vignes ; alpha : opacité du canvas (baisse sur la zone claire). */
+const visu={forme:0,halo:1,alpha:1};
+
+const salut=document.getElementById('salut');
+if(salut){const h=new Date().getHours();salut.textContent=(h>=18||h<5)?'Bonsoir':'Bonjour';}
+
+function splitChars(el){
+  const txt=el.textContent;el.textContent='';el.setAttribute('aria-hidden','true');
+  const frag=document.createDocumentFragment();
+  [...txt].forEach(ch=>{const s=document.createElement('span');s.className='char';s.textContent=ch===' '?' ':ch;frag.appendChild(s);});
+  el.appendChild(frag);return el.querySelectorAll('.char');
+}
+function splitMots(el){
+  const txt=el.textContent.trim();el.textContent='';el.setAttribute('aria-label',txt);
+  txt.split(/\s+/).forEach(m=>{const s=document.createElement('span');s.className='mot';s.setAttribute('aria-hidden','true');s.textContent=m;el.appendChild(s);el.appendChild(document.createTextNode(' '));});
+  return el.querySelectorAll('.mot');
+}
+
+if(!hasGsap||reduced){
+  const l=document.getElementById('loader');
+  if(l){l.style.transition='opacity .4s';l.style.opacity='0';setTimeout(()=>l.remove(),450);}
+  document.querySelectorAll('.chap-img,.chap-bloc').forEach(el=>{el.style.position='relative';el.style.opacity='1';});
+  document.querySelectorAll('.chap-img').forEach((el,i)=>{if(i>0)el.style.display='none';});
+  document.querySelectorAll('.chap-bloc').forEach((el,i)=>{if(i>0)el.style.marginTop='2rem';});
+  const tf=document.getElementById('txtFill');if(tf)tf.style.clipPath='inset(0 0% 0 0)';
+}
+
+if(hasGsap&&!reduced){
+  gsap.registerPlugin(ScrollTrigger);
+
+  let lenis=null;
+  if(typeof Lenis!=='undefined'){
+    lenis=new Lenis({lerp:.09,wheelMultiplier:1,smoothWheel:true});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  gsap.to('#progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
+
+  const heroChars=[];
+  document.querySelectorAll('.hero [data-split]').forEach(el=>heroChars.push(...splitChars(el)));
+  gsap.set(heroChars,{yPercent:120,rotate:4});
+  gsap.set('.hero [data-fade], .h-scroll, nav, #dots',{opacity:0,y:24});
+
+  const compteur={v:0};
+  gsap.timeline()
+    .to('.l-flocon path',{strokeDashoffset:0,duration:1.6,ease:'power2.inOut'},0)
+    .to('.l-svg text',{strokeDashoffset:0,duration:1.5,ease:'power2.inOut'},.5)
+    .to('.l-svg text',{fillOpacity:1,duration:.7,ease:'power2.out'},1.5)
+    .to(compteur,{v:100,duration:2,ease:'power2.inOut',onUpdate(){
+      document.getElementById('loaderCount').textContent=Math.round(compteur.v);
+      document.getElementById('loaderBar').style.width=compteur.v+'%';
+    }},0)
+    .to('#loader',{yPercent:-100,duration:.9,ease:'power3.inOut'},'+=.15')
+    .set('#loader',{display:'none'})
+    .to(heroChars,{yPercent:0,rotate:0,duration:1.1,ease:'power4.out',stagger:.04},'-=.55')
+    .to('.hero [data-fade]',{opacity:1,y:0,duration:.8,ease:'power2.out',stagger:.12},'-=.6')
+    .to('nav, .h-scroll, #dots',{opacity:1,y:0,duration:.8,ease:'power2.out'},'-=.5');
+
+  gsap.to('.hero-inner',{yPercent:-18,opacity:.25,ease:'none',
+    scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  const voile=document.getElementById('voile'),burger=document.getElementById('burger');
+  const liens=voile.querySelectorAll('.v-lien a');
+  gsap.set(liens,{yPercent:120});
+  const tlVoile=gsap.timeline({paused:true})
+    .set(voile,{visibility:'visible'})
+    .to(voile,{clipPath:'circle(150% at calc(100% - 4vw - 20px) 2.4rem)',duration:.9,ease:'power3.inOut'})
+    .to(liens,{yPercent:0,duration:.7,ease:'power3.out',stagger:.07},'-=.35')
+    .from('#voile .v-pied',{opacity:0,y:16,duration:.5},'-=.3');
+  let voileOuvert=false;
+  function fermerVoile(){voileOuvert=false;burger.classList.remove('ouvert');burger.setAttribute('aria-expanded','false');tlVoile.reverse();}
+  burger.addEventListener('click',()=>{voileOuvert=!voileOuvert;burger.classList.toggle('ouvert',voileOuvert);burger.setAttribute('aria-expanded',voileOuvert);voileOuvert?tlVoile.play():tlVoile.reverse();});
+  liens.forEach(a=>a.addEventListener('click',fermerVoile));
+
+  /* Thème : soir pourpre sur les vignes ↔ brume dorée du matin */
+  const THEMES={
+    nuit:{'--nuit':'#1C0E15','--ink':'#F3ECDD','--muted':'#A88B92'},
+    neige:{'--nuit':'#EDE4CF','--ink':'#2A1A12','--muted':'#7A6A50'}
+  };
+  function versTheme(nom){
+    gsap.to('html',Object.assign({duration:.8,ease:'power2.out',overwrite:'auto'},THEMES[nom]));
+    gsap.to(visu,{alpha:nom==='neige'?.18:1,duration:.8,overwrite:'auto'});
+  }
+  ScrollTrigger.create({trigger:'#zoneCreme',start:'top 62%',end:'bottom 38%',
+    onEnter(){versTheme('neige');},onEnterBack(){versTheme('neige');},
+    onLeave(){versTheme('nuit');},onLeaveBack(){versTheme('nuit');}});
+
+  document.querySelectorAll('[data-ligne]').forEach(l=>{
+    gsap.fromTo(l,{opacity:.12,y:40},{opacity:1,y:0,ease:'none',
+      scrollTrigger:{trigger:l,start:'top 88%',end:'top 45%',scrub:true}});
+  });
+  gsap.fromTo('#frisePath',{strokeDasharray:1,strokeDashoffset:1},{strokeDashoffset:0,ease:'none',
+    scrollTrigger:{trigger:'.frise',start:'top 95%',end:'top 45%',scrub:true}});
+  document.querySelectorAll('section [data-fade], .m-note').forEach(el=>{
+    gsap.from(el,{opacity:0,y:36,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  const blocs=['.b1','.b2','.b3'],imgs=['.c1','.c2','.c3'];
+  gsap.set('.chap-img.c1, .chap-bloc.b1',{opacity:1});
+  const tlChap=gsap.timeline({scrollTrigger:{trigger:'.chapitres',start:'top top',end:'+=220%',scrub:.6,pin:true,anticipatePin:1}});
+  for(let i=0;i<2;i++){
+    tlChap.to([imgs[i],blocs[i]],{opacity:0,y:-26,duration:.4},'+=.35')
+          .fromTo([imgs[i+1],blocs[i+1]],{opacity:0,y:26},{opacity:1,y:0,duration:.4},'<+=.15');
+  }
+
+  gsap.to('#txtFill',{clipPath:'inset(0 0% 0 0)',ease:'none',
+    scrollTrigger:{trigger:'.vanoise-titre',start:'top 85%',end:'top 25%',scrub:true}});
+
+  document.querySelectorAll('.plat-ligne').forEach((l,i)=>{
+    gsap.from(l,{opacity:0,x:-40,duration:.8,ease:'power3.out',delay:i*.04,scrollTrigger:{trigger:l,start:'top 90%'}});
+  });
+
+  gsap.to('[data-parallax]',{yPercent:-10,ease:'none',scrollTrigger:{trigger:'.chef',start:'top bottom',end:'bottom top',scrub:true}});
+  const mots=splitMots(document.querySelector('[data-mots]'));
+  gsap.set(mots,{opacity:0,y:26,rotate:2});
+  gsap.to(mots,{opacity:1,y:0,rotate:0,duration:.7,ease:'power3.out',stagger:.045,scrollTrigger:{trigger:'.chef',start:'top 62%'}});
+
+  /* Compteurs — 45 s'affiche 4,5 */
+  document.querySelectorAll('[data-compte]').forEach(el=>{
+    const cible=parseInt(el.dataset.compte,10);const o={v:0};
+    const virgule=false;
+    gsap.to(o,{v:cible,duration:1.6,ease:'power2.out',
+      onUpdate(){el.textContent=virgule?(o.v/10).toFixed(1).replace('.',','):Math.round(o.v);},
+      scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+
+  const finChars=[];
+  document.querySelectorAll('.final [data-split]').forEach(el=>finChars.push(...splitChars(el)));
+  gsap.set(finChars,{yPercent:120});
+  gsap.to(finChars,{yPercent:0,duration:1,ease:'power4.out',stagger:.03,scrollTrigger:{trigger:'.final',start:'top 62%'}});
+  gsap.from('.cta-cercle',{scale:.6,opacity:0,duration:1.1,ease:'elastic.out(1,.55)',scrollTrigger:{trigger:'.final',start:'top 45%'}});
+
+  function etapeForme(sel,forme,halo){
+    gsap.to(visu,{forme,halo,ease:'none',immediateRender:false,
+      scrollTrigger:{trigger:sel,start:'top bottom',end:'top 25%',scrub:true}});
+  }
+  etapeForme('.manifeste',1,.55);
+  etapeForme('.vanoise-titre',2,.9);
+  etapeForme('.distinctions',3,1.2);
+  etapeForme('.final',4,.85);
+
+  document.querySelectorAll('#dots a').forEach(dot=>{
+    ScrollTrigger.create({trigger:dot.dataset.dot,start:'top 55%',end:'bottom 45%',
+      onToggle(self){dot.classList.toggle('actif',self.isActive);}});
+  });
+
+  document.querySelector('.marquee').classList.add('js');
+  const mq=gsap.to('.m-inner',{xPercent:-50,ease:'none',duration:24,repeat:-1});
+  const inclinaisons=gsap.utils.toArray('.manifeste p,.carte-head h2,.chef blockquote,.final h2,.fill-wrap')
+    .map(el=>gsap.quickTo(el,'skewY',{duration:.5,ease:'power3.out'}));
+  let vel=0,mqTs=1;
+  if(lenis)lenis.on('scroll',e=>{vel=e.velocity;});
+  gsap.ticker.add(()=>{
+    vel*=.92;
+    inclinaisons.forEach(f=>f(gsap.utils.clamp(-4,4,vel*.06)));
+    const cible=(vel>=0?1:-1)*(1+Math.min(Math.abs(vel)*.05,2.2));
+    mqTs+=(cible-mqTs)*.08;mq.timeScale(mqTs);
+  });
+
+  if(finePointer){
+    document.querySelectorAll('[data-tilt]').forEach(c=>{
+      gsap.set(c,{transformPerspective:900});
+      const rX=gsap.quickTo(c,'rotationX',{duration:.6,ease:'power3.out'});
+      const rY=gsap.quickTo(c,'rotationY',{duration:.6,ease:'power3.out'});
+      c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();rY(((e.clientX-r.left)/r.width-.5)*10);rX((.5-(e.clientY-r.top)/r.height)*8);});
+      c.addEventListener('mouseleave',()=>{rX(0);rY(0);});
+    });
+    const apercu=document.getElementById('apercu'),apercuFond=apercu.querySelector('.a-fond'),apercuNom=document.getElementById('apercuNom');
+    const FONDS={
+      'f-a':'radial-gradient(circle at 35% 30%,#5A2836,#1C0E15 80%)',
+      'f-b':'radial-gradient(circle at 60% 40%,#6E4A1E,#1A0F09 80%)',
+      'f-c':'radial-gradient(circle at 40% 65%,#3A481F,#0E1108 80%)',
+      'f-d':'radial-gradient(circle at 65% 55%,#7B2233,#160A0E 80%)'
+    };
+    const ax=gsap.quickTo(apercu,'x',{duration:.45,ease:'power3.out'});
+    const ay=gsap.quickTo(apercu,'y',{duration:.45,ease:'power3.out'});
+    addEventListener('mousemove',e=>{ax(e.clientX+26);ay(e.clientY-120);});
+    document.querySelectorAll('.plat-ligne').forEach(l=>{
+      l.addEventListener('mouseenter',()=>{apercuFond.style.background=FONDS[l.dataset.apercu]||FONDS['f-a'];apercuNom.textContent=l.dataset.nom;gsap.to(apercu,{opacity:1,scale:1,duration:.4,ease:'power3.out'});});
+      l.addEventListener('mouseleave',()=>gsap.to(apercu,{opacity:0,scale:.7,duration:.35,ease:'power3.in'}));
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{const cible=document.querySelector(a.getAttribute('href'));if(cible&&lenis){e.preventDefault();lenis.scrollTo(cible,{offset:0,duration:1.6});}});
+  });
+  if(finePointer){
+    document.querySelectorAll('[data-magnetic]').forEach(btn=>{
+      btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.35,duration:.4,ease:'power2.out'});});
+      btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
+    });
+  }
+}
+
+/* ===== Formulaire (front-end uniquement — maquette) ===== */
+const resaForm=document.getElementById('resaForm');
+if(resaForm){
+  const champDate=document.getElementById('rDate');
+  if(champDate)champDate.min=new Date().toISOString().split('T')[0];
+  resaForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!resaForm.checkValidity()){resaForm.reportValidity();return}
+    resaForm.style.display='none';
+    document.getElementById('resaOk').classList.add('show');
+  });
+}
+
+/* ===== Curseur personnalisé ===== */
+if(finePointer&&!reduced){
+  const dot=document.getElementById('cursor'),ring=document.getElementById('cursorRing'),label=document.getElementById('cursorLabel');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function boucle(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(boucle);})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('is-hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('is-hover'));});
+  document.querySelectorAll('[data-cursor]').forEach(el=>{el.addEventListener('mouseenter',()=>{label.textContent=el.dataset.cursor;ring.classList.add('is-label');});el.addEventListener('mouseleave',()=>ring.classList.remove('is-label'));});
+}
+
+/* ===== WebGL — vignoble à l'heure dorée (ciel, soleil bas, rangs de vigne, colline de Corton) + poussière d'or ===== */
+if(typeof THREE!=='undefined'&&!reduced){
+  const conteneur=document.getElementById('webgl');
+  const renderer=new THREE.WebGLRenderer({antialias:false,alpha:true});
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  renderer.autoClear=false;
+  conteneur.appendChild(renderer.domElement);
+
+  let sx=0,sy=0;
+  addEventListener('mousemove',e=>{sx=(e.clientX/innerWidth-.5);sy=(e.clientY/innerHeight-.5);});
+
+  /* --- Paysage : ciel étoilé, crêtes en couches, lueur du feu --- */
+  const sceneMont=new THREE.Scene();
+  const camOrtho=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+  const montMat=new THREE.ShaderMaterial({
+    transparent:true,depthWrite:false,depthTest:false,
+    uniforms:{uTime:{value:0},uRes:{value:new THREE.Vector2(innerWidth,innerHeight)},uHalo:{value:1},uMouse:{value:new THREE.Vector2(0,0)}},
+    vertexShader:`void main(){gl_Position=vec4(position.xy,0.,1.);}`,
+    fragmentShader:`
+      precision highp float;
+      uniform float uTime;uniform vec2 uRes;uniform float uHalo;uniform vec2 uMouse;
+      float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+      float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
+        return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(1.7,4.3);a*=.5;}return v;}
+      float sdSeg(vec2 p,vec2 a,vec2 b){vec2 pa=p-a,ba=b-a;float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.);return length(pa-ba*h);}
+      void main(){
+        vec2 uv=gl_FragCoord.xy/uRes;
+        float aspect=uRes.x/uRes.y;
+        float px=uv.x*aspect;
+        float horizon=.42+uMouse.y*.015;
+        vec2 sun=vec2(.30*aspect+uMouse.x*.06,horizon+.10);
+        /* ciel de l'heure dorée : ambre -> rose -> prune */
+        vec3 hautCiel=vec3(.16,.09,.14);
+        vec3 rose=vec3(.78,.40,.36);
+        vec3 ambre=vec3(.98,.70,.34);
+        float sc=smoothstep(horizon,1.,uv.y);
+        vec3 col=mix(mix(ambre,rose,smoothstep(0.,.35,sc)),hautCiel,smoothstep(.2,.9,sc));
+        /* soleil bas au-dessus des coteaux */
+        float sd=length(vec2(px,uv.y)-sun);
+        col+=vec3(1.,.80,.46)*smoothstep(.16,.0,sd)*.9*uHalo;
+        col+=vec3(.98,.58,.28)*smoothstep(.5,.0,sd)*.22*uHalo;
+
+        /* colline de Corton : coteau boisé qui monte au-dessus de l'horizon (à droite) */
+        float hillC=.62*aspect;
+        float hb=.17*exp(-pow((px-hillC)/.30,2.))+.03*fbm(vec2(px*2.4,1.7));
+        float hy=horizon+hb;
+        if(uv.y<hy){
+          float shade=clamp((uv.y-horizon)/max(hb,.001),0.,1.); /* 0 au pied, 1 au sommet */
+          vec3 coteau=mix(vec3(.34,.24,.12),vec3(.12,.13,.07),shade); /* vignes -> bois */
+          coteau=mix(coteau,vec3(.07,.09,.05),smoothstep(.55,1.,shade)); /* le bois de Corton */
+          float rim=smoothstep(.014,0.,abs(uv.y-hy));
+          coteau+=vec3(1.,.72,.36)*rim*uHalo*.55;               /* liseré du couchant sur la crête */
+          col=coteau;
+        }
+
+        /* vignes : rangs en perspective qui convergent vers le point de fuite (près du soleil) */
+        if(uv.y<horizon){
+          float depth=horizon-uv.y;
+          vec2 d=vec2(px-sun.x,depth+.015);
+          float ang=atan(d.x,d.y);
+          float rows=sin(ang*38.+noise(vec2(px*4.,uv.y*26.))*.5);
+          float crest=smoothstep(.15,.9,rows);
+          vec3 terreLoin=vec3(.52,.36,.18);
+          vec3 terrePres=vec3(.13,.12,.07);
+          vec3 sol=mix(terreLoin,terrePres,smoothstep(0.,.5,depth));
+          sol+=vec3(.16,.15,.05)*crest;                          /* feuillage éclairé sur le rang */
+          sol*=.78+.22*crest;                                    /* sillon plus sombre */
+          float band=smoothstep(.6,0.,abs(px-sun.x));
+          sol+=vec3(1.,.74,.34)*pow(max(rows,0.),4.)*band*uHalo*.4; /* lumière rasante sur les crêtes */
+          sol=mix(sol,ambre*.72,smoothstep(.06,0.,depth));       /* brume dorée sur les rangs lointains */
+          col=sol;
+        }
+        /* vignette + plafonnement doux */
+        float vig=smoothstep(1.4,.3,length((uv-.5)*vec2(aspect*.7,1.)));
+        col*=.62+.38*vig;
+        col-=max(col-.85,0.)*.5;
+        gl_FragColor=vec4(col,1.);
+      }`
+  });
+  sceneMont.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),montMat));
+
+  /* --- Poussière d'or : feuilles/pollen qui dérivent + formations --- */
+  const scenePart=new THREE.Scene();
+  const camPersp=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,60);
+  camPersp.position.set(0,0,9);
+  const N=1700;
+  const base=new Float32Array(N*3),vit=new Float32Array(N);
+  for(let i=0;i<N;i++){
+    base[i*3]=(Math.random()-.5)*20;
+    base[i*3+1]=(Math.random()-.5)*14;
+    base[i*3+2]=(Math.random()-.5)*10;
+    vit[i]=.4+Math.random()*.9;
+  }
+  /* remplit une liste de segments par des points (utilitaire commun) */
+  function semerSegments(SEG,jitter){
+    const total=SEG.reduce((s,x)=>s+x[4],0);
+    const a=new Float32Array(N*3);let i=0;
+    for(const [ax,ay,bx,by,L] of SEG){
+      const n=Math.max(2,Math.round(N*L/total));
+      for(let j=0;j<n&&i<N;j++,i++){
+        const t=Math.random();
+        a[i*3]=ax+(bx-ax)*t+(Math.random()-.5)*jitter;
+        a[i*3+1]=ay+(by-ay)*t+(Math.random()-.5)*jitter;
+        a[i*3+2]=(Math.random()-.5)*.6;
+      }
+    }
+    for(;i<N;i++){a[i*3]=(Math.random()-.5)*.4;a[i*3+1]=(Math.random()-.5)*.4;a[i*3+2]=(Math.random()-.5)*.5;}
+    return a;
+  }
+  function grappe(){
+    /* grappe de raisin : cône plein qui s'affine vers le bas, tige + feuille */
+    const a=new Float32Array(N*3);
+    const topY=2.0,botY=-2.9,stem=Math.round(N*.06),leaf=Math.round(N*.07);
+    for(let i=0;i<N;i++){
+      if(i<stem){ /* tige */
+        a[i*3]=(Math.random()-.5)*.12;a[i*3+1]=topY+.2+Math.random()*1.1;a[i*3+2]=(Math.random()-.5)*.2;continue;
+      }
+      if(i<stem+leaf){ /* feuille de vigne, en haut à droite */
+        const th=Math.random()*Math.PI*2,r=Math.random()*.85;
+        a[i*3]=1.1+Math.cos(th)*r;a[i*3+1]=2.5+Math.sin(th)*r*.8;a[i*3+2]=(Math.random()-.5)*.4;continue;
+      }
+      const t=Math.pow(Math.random(),.75);      /* 0 haut → 1 bas */
+      const w=(1-t)*1.55+.18;                    /* largeur qui s'affine */
+      const th=Math.random()*Math.PI*2,r=Math.sqrt(Math.random())*w;
+      a[i*3]=Math.cos(th)*r;
+      a[i*3+1]=topY-(topY-botY)*t;
+      a[i*3+2]=Math.sin(th)*Math.min(r,1.);
+    }
+    return a;
+  }
+  function verre(){
+    /* silhouette d'un verre de vin : coupe (parabole) + surface du vin + pied + base */
+    const SEG=[];
+    function seg(ax,ay,bx,by){SEG.push([ax,ay,bx,by,Math.hypot(bx-ax,by-ay)]);}
+    let prev=null;
+    for(let k=0;k<=18;k++){                       /* coupe */
+      const x=-1.15+(k/18)*2.3,y=-.2+Math.pow(x/1.15,2)*1.9;
+      if(prev)seg(prev[0],prev[1],x,y);prev=[x,y];
+    }
+    seg(-.98,.98,.98,.98);                        /* surface du vin */
+    seg(0,-.2,0,-2.15);                           /* jambe */
+    seg(-1.05,-2.5,1.05,-2.5);                    /* base */
+    seg(-1.05,-2.5,0,-2.15);seg(1.05,-2.5,0,-2.15);
+    return semerSegments(SEG,.09);
+  }
+  function collineCorton(){
+    /* colline de Corton : ligne d'horizon, crête boisée en cloche, rangs de vigne */
+    const SEG=[];
+    function seg(ax,ay,bx,by){SEG.push([ax,ay,bx,by,Math.hypot(bx-ax,by-ay)]);}
+    seg(-4,-1.7,4,-1.7);                          /* horizon */
+    let prev=null;
+    for(let k=0;k<=26;k++){                        /* profil de la colline */
+      const x=-4+(k/26)*8;
+      const y=-1.7+2.5*Math.exp(-Math.pow((x-.5)/1.9,2));
+      if(prev)seg(prev[0],prev[1],x,y);prev=[x,y];
+    }
+    for(let r=-3;r<=3;r++){                        /* rangs de vigne au premier plan */
+      const x=r*1.0+.3;seg(x,-1.7,x*1.35,-3.1);
+    }
+    return semerSegments(SEG,.1);
+  }
+  /* FORMES[0] et [4] référencent base, qui dérive en continu */
+  const FORMES=[base,grappe(),verre(),collineCorton(),base];
+  const pos=base.slice();
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const partMat=new THREE.PointsMaterial({color:0xf0ce86,size:.05,transparent:true,opacity:.82,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+  scenePart.add(new THREE.Points(geo,partMat));
+
+  const horloge=new THREE.Clock();
+  (function rendu(){
+    requestAnimationFrame(rendu);
+    const t=horloge.getElapsedTime();
+    montMat.uniforms.uTime.value=t;
+    montMat.uniforms.uHalo.value=visu.halo;
+    montMat.uniforms.uMouse.value.set(sx,-sy);
+    conteneur.style.opacity=visu.alpha;
+    /* la poussière d'or dérive vers le bas en continu (les formations 0 et 4 suivent base) */
+    for(let i=0;i<N;i++){
+      base[i*3+1]-=.010*vit[i];
+      if(base[i*3+1]<-7.5)base[i*3+1]=7.5;
+    }
+    const f=Math.max(0,Math.min(visu.forme,FORMES.length-1.001));
+    const idx=Math.floor(f),frac=f-idx;
+    const A=FORMES[idx],B=FORMES[Math.min(idx+1,FORMES.length-1)];
+    const p=geo.attributes.position;
+    const mwx=sx*13,mwy=-sy*8;
+    for(let i=0;i<N;i++){
+      const ix=i*3;
+      const txp=A[ix]+(B[ix]-A[ix])*frac+Math.cos(t*.5+i)*.14;
+      const typ=A[ix+1]+(B[ix+1]-A[ix+1])*frac+Math.sin(t*.4+i)*.08;
+      const tzp=A[ix+2]+(B[ix+2]-A[ix+2])*frac;
+      const px=p.array[ix],py=p.array[ix+1];
+      let fx=0,fy=0;const dx=px-mwx,dy=py-mwy,d2=dx*dx+dy*dy;
+      if(d2<9&&d2>.0001){const d=Math.sqrt(d2),fo=(1-d2/9)*.09;fx=dx/d*fo;fy=dy/d*fo;}
+      p.array[ix]=px+(txp-px)*.06+fx;
+      p.array[ix+1]=py+(typ-py)*.06+fy;
+      p.array[ix+2]+=(tzp-p.array[ix+2])*.06;
+    }
+    p.needsUpdate=true;
+    camPersp.position.x+=(sx*1.1-camPersp.position.x)*.04;
+    camPersp.position.y+=(-sy*.7-camPersp.position.y)*.04;
+    camPersp.lookAt(0,0,0);
+    renderer.clear();
+    renderer.render(sceneMont,camOrtho);
+    renderer.clearDepth();
+    renderer.render(scenePart,camPersp);
+  })();
+
+  addEventListener('resize',()=>{
+    camPersp.aspect=innerWidth/innerHeight;camPersp.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+    montMat.uniforms.uRes.value.set(innerWidth,innerHeight);
+  });
+}
+})();
+</script>
+</body>
+</html>
