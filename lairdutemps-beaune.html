@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>L'Air du Temps — Cuisine de saison · Beaune, Bourgogne</title>
+<meta name="description" content="Maquette de démonstration — L'Air du Temps, cuisine bourguignonne de saison, Beaune, Bourgogne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ivoire:#F7F2E9;
+  --papier:#FFFFFF;
+  --encre:#211C15;
+  --encre-doux:#5B5245;
+  --or:#B0894F;
+  --or-clair:#CBAE84;
+  --sable:#9A9083;
+  --ligne:rgba(33,28,21,.14);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--ivoire);color:var(--encre);
+  line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--or-clair);color:var(--encre)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 6vw}
+
+/* grain discret */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.vu{opacity:1;transform:none}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ============ TYPO UTIL ============ */
+.eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:var(--or)}
+.display{font-family:var(--serif);font-weight:300;line-height:.98;letter-spacing:-.01em}
+.filet{width:64px;height:1px;background:var(--or);border:0}
+.filet-c{margin-left:auto;margin-right:auto}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 6vw;transition:background .4s,box-shadow .4s,padding .4s;
+}
+nav.solid{background:rgba(247,242,233,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--ligne);padding:1rem 6vw}
+nav .logo{font-family:var(--serif);font-size:1.4rem;font-weight:400;letter-spacing:.01em}
+nav .liens{display:flex;gap:2.2rem;align-items:center}
+nav .liens a{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:var(--encre-doux);transition:color .3s}
+nav .liens a:hover{color:var(--encre)}
+.btn{
+  font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  padding:.8rem 1.6rem;border:1px solid var(--encre);border-radius:999px;color:var(--encre);
+  background:none;cursor:pointer;transition:background .35s,color .35s;display:inline-block;
+}
+.btn:hover{background:var(--encre);color:var(--ivoire)}
+.btn-or{border-color:var(--or);color:var(--encre);background:var(--or-clair)}
+.btn-or:hover{background:var(--or);color:#fff}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer}
+.burger span{width:26px;height:2px;background:var(--encre);transition:.3s}
+
+/* ============ HERO ============ */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 4rem;text-align:center}
+.hero .eyebrow{display:block;margin-bottom:1.8rem}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3.2rem,11vw,9rem);line-height:.94;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:var(--or)}
+.hero .sous{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.6rem);color:var(--encre-doux);margin:2rem 0 1.6rem}
+.hero .lieu{font-size:.78rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--sable)}
+.hero-visuel{
+  margin-top:4rem;height:min(46vh,420px);border-radius:6px;position:relative;overflow:hidden;
+  border:1px solid var(--ligne);
+  background:
+    radial-gradient(120% 140% at 20% 10%,rgba(203,174,132,.5),transparent 55%),
+    radial-gradient(120% 120% at 90% 90%,rgba(122,102,66,.35),transparent 55%),
+    linear-gradient(160deg,#EFE7D6,#E4D8C0);
+}
+.hero-visuel .cap{
+  position:absolute;bottom:1.2rem;left:1.4rem;font-size:.68rem;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--encre-doux);background:rgba(247,242,233,.7);padding:.4rem .8rem;border-radius:99px;
+}
+.sprig{position:absolute;top:50%;left:50%;width:120px;height:120px;transform:translate(-50%,-50%);opacity:.55}
+
+/* ============ SECTION GENERIC ============ */
+section{padding:clamp(5rem,12vh,9rem) 0}
+.sec-tete{max-width:640px}
+.sec-tete .eyebrow{display:block;margin-bottom:1.2rem}
+.sec-tete h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,5.2vw,3.8rem);line-height:1.02}
+.sec-tete h2 em{font-style:italic;color:var(--or)}
+
+/* ============ ESPRIT ============ */
+.esprit{border-top:1px solid var(--ligne)}
+.esprit-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:3rem}
+.esprit blockquote{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(1.6rem,3.2vw,2.5rem);line-height:1.25}
+.esprit p{color:var(--encre-doux);margin-top:1.5rem;max-width:52ch}
+.esprit p + p{margin-top:1rem}
+.cadre{
+  aspect-ratio:4/5;border-radius:6px;border:1px solid var(--ligne);position:relative;overflow:hidden;
+  background:radial-gradient(120% 120% at 70% 20%,rgba(203,174,132,.45),transparent 60%),linear-gradient(200deg,#EDE4D2,#E0D3B9);
+  display:flex;align-items:center;justify-content:center;
+}
+.cadre .mono{font-family:var(--serif);font-style:italic;font-size:clamp(3rem,7vw,5.5rem);color:rgba(33,28,21,.28)}
+.cadre::after{content:"";position:absolute;inset:1.1rem;border:1px solid rgba(33,28,21,.18);border-radius:3px}
+
+/* ============ CARTE ============ */
+.carte{background:var(--papier);border-top:1px solid var(--ligne);border-bottom:1px solid var(--ligne)}
+.carte-cols{display:grid;grid-template-columns:1fr 1fr;gap:4rem 5rem;margin-top:3.5rem}
+.groupe h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.5rem;color:var(--or);margin-bottom:1.4rem}
+.plat{display:flex;align-items:baseline;gap:.6rem;padding:.9rem 0;border-bottom:1px dashed var(--ligne)}
+.plat:last-child{border-bottom:0}
+.plat .nom{font-family:var(--serif);font-size:1.14rem;white-space:nowrap}
+.plat .pts{flex:1;border-bottom:1px dotted rgba(33,28,21,.25);transform:translateY(-4px)}
+.plat .prix{font-weight:500;color:var(--encre-doux)}
+.plat .desc{display:block;font-size:.88rem;color:var(--sable);margin-top:.2rem}
+.carte-note{margin-top:2.6rem;font-family:var(--serif);font-style:italic;color:var(--encre-doux);text-align:center}
+
+/* ============ CHIFFRES ============ */
+.chiffres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem;border-top:1px solid var(--ligne);padding-top:3rem}
+.chiffre{text-align:center}
+.chiffre b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,5vw,3.6rem);line-height:1}
+.chiffre span{display:block;margin-top:.6rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--sable)}
+
+/* ============ RESERVATION ============ */
+.resa{border-top:1px solid var(--ligne)}
+.resa-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:5rem;align-items:start;margin-top:3rem}
+.resa-infos p{color:var(--encre-doux);margin-bottom:1.4rem}
+.resa-infos .lab{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--or);display:block;margin-bottom:.2rem}
+.resa-infos .val{font-family:var(--serif);font-size:1.2rem;color:var(--encre)}
+form{background:var(--papier);border:1px solid var(--ligne);border-radius:8px;padding:2.4rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.champ{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.1rem}
+label{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-doux)}
+input,select,textarea{
+  font-family:var(--sans);font-size:1rem;color:var(--encre);background:var(--ivoire);
+  border:1px solid var(--ligne);border-radius:6px;padding:.85rem .9rem;width:100%;transition:border-color .3s,box-shadow .3s;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(176,137,79,.18)}
+.envoi{width:100%;margin-top:.4rem;padding:1rem;border:0;border-radius:999px;background:var(--encre);color:var(--ivoire);
+  font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .3s}
+.envoi:hover{background:var(--or)}
+.ok{display:none;text-align:center;padding:2rem 1rem}
+.ok.show{display:block;animation:fade .5s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.ok .rond{width:64px;height:64px;margin:0 auto 1.2rem;border-radius:50%;border:2px solid var(--or);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--or)}
+.ok h3{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin-bottom:.5rem}
+.ok p{color:var(--encre-doux);font-family:var(--serif);font-style:italic}
+
+/* ============ FOOTER ============ */
+footer{background:var(--encre);color:#E7DECF;padding:4rem 0 2.5rem}
+footer .wrap{display:flex;flex-direction:column;gap:1.6rem}
+.f-haut{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+footer .fnom{font-family:var(--serif);font-size:2rem;font-weight:300}
+footer .fcoord{font-size:.9rem;color:#B9AE9A;line-height:1.8}
+footer .flinks{display:flex;gap:1.6rem;font-size:.8rem;letter-spacing:.08em}
+footer .flinks a{color:#B9AE9A;transition:color .3s}
+footer .flinks a:hover{color:var(--or-clair)}
+.fmention{border-top:1px solid rgba(255,255,255,.12);padding-top:1.4rem;font-size:.72rem;color:#8B8170;font-style:italic}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:900px){
+  .esprit-grid,.resa-grid{grid-template-columns:1fr;gap:2.6rem}
+  .carte-cols{grid-template-columns:1fr;gap:2.6rem}
+  .chiffres-grid{grid-template-columns:1fr;gap:1.6rem}
+  .cadre{max-width:360px}
+}
+@media(max-width:760px){
+  nav .liens{position:fixed;inset:0 0 0 auto;width:min(78vw,320px);background:var(--ivoire);
+    flex-direction:column;justify-content:center;gap:2rem;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-10px 0 40px rgba(0,0,0,.1)}
+  nav .liens.ouvert{transform:none}
+  .burger{display:flex;z-index:2}
+  .row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <a href="#haut" class="logo">L'Air du Temps</a>
+  <div class="liens" id="menu">
+    <a href="#esprit">La maison</a>
+    <a href="#carte">La carte</a>
+    <a href="#reserver">Contact</a>
+    <a href="#reserver" class="btn btn-or">Réserver</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="haut">
+  <div class="wrap">
+    <span class="eyebrow">Restaurant · Beaune, Bourgogne</span>
+    <h1>L'Air<br><em>du Temps</em></h1>
+    <p class="sous">La Bourgogne, cuisinée au fil des saisons.</p>
+    <p class="lieu">Cœur historique de Beaune</p>
+    <div class="hero-visuel reveal">
+      <svg class="sprig" viewBox="0 0 120 120" aria-hidden="true">
+        <path d="M60 108 C60 78 60 48 60 22" fill="none" stroke="#B0894F" stroke-width="1.4"/>
+        <g fill="none" stroke="#B0894F" stroke-width="1.4">
+          <path d="M60 40 C48 34 40 24 42 14 C54 16 60 28 60 40Z"/>
+          <path d="M60 40 C72 34 80 24 78 14 C66 16 60 28 60 40Z"/>
+          <path d="M60 60 C50 55 43 47 45 38 C55 40 60 50 60 60Z"/>
+          <path d="M60 60 C70 55 77 47 75 38 C65 40 60 50 60 60Z"/>
+          <path d="M60 80 C52 76 46 69 48 61 C56 63 60 71 60 80Z"/>
+          <path d="M60 80 C68 76 74 69 72 61 C64 63 60 71 60 80Z"/>
+        </g>
+      </svg>
+      <span class="cap">Maison de saison · depuis Beaune</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ESPRIT ============ -->
+<section class="esprit" id="esprit">
+  <div class="wrap">
+    <div class="sec-tete reveal">
+      <span class="eyebrow">La maison</span>
+      <h2>Une cuisine <em>sincère,</em> au rythme des saisons.</h2>
+    </div>
+    <div class="esprit-grid">
+      <div class="reveal d1">
+        <blockquote>« Le beau produit d'abord, la saison pour boussole, et la Bourgogne dans chaque assiette. »</blockquote>
+        <p>Au cœur historique de Beaune, L'Air du Temps compose une carte courte qui change au fil du marché : produits locaux, cuissons justes, et les grands classiques bourguignons revisités avec délicatesse.</p>
+        <p>Une adresse discrète et chaleureuse, pensée pour prendre son temps — à deux, entre amis, ou pour une belle occasion.</p>
+      </div>
+      <div class="cadre reveal d2"><span class="mono">L'A·T</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARTE ============ -->
+<section class="carte" id="carte">
+  <div class="wrap">
+    <div class="sec-tete reveal">
+      <span class="eyebrow">La carte</span>
+      <h2>Au fil du <em>marché</em></h2>
+    </div>
+    <div class="carte-cols">
+      <div class="groupe reveal d1">
+        <h3>Pour commencer</h3>
+        <div class="plat"><span class="nom">Œufs en meurette</span><span class="pts"></span><span class="prix">14 €</span></div>
+        <div class="plat"><span class="nom">Jambon persillé maison</span><span class="pts"></span><span class="prix">13 €</span></div>
+        <div class="plat"><span class="nom">Escargots de Bourgogne</span><span class="pts"></span><span class="prix">15 €</span></div>
+      </div>
+      <div class="groupe reveal d2">
+        <h3>Les plats</h3>
+        <div class="plat"><span class="nom">Bœuf bourguignon</span><span class="pts"></span><span class="prix">24 €</span></div>
+        <div class="plat"><span class="nom">Coq au vin de Bourgogne</span><span class="pts"></span><span class="prix">23 €</span></div>
+        <div class="plat"><span class="nom">Poisson de saison, beurre blanc</span><span class="pts"></span><span class="prix">25 €</span></div>
+      </div>
+      <div class="groupe reveal d1">
+        <h3>Douceurs</h3>
+        <div class="plat"><span class="nom">Poire pochée au cassis</span><span class="pts"></span><span class="prix">11 €</span></div>
+        <div class="plat"><span class="nom">Crème brûlée à la vanille</span><span class="pts"></span><span class="prix">10 €</span></div>
+        <div class="plat"><span class="nom">Fromages affinés de la région</span><span class="pts"></span><span class="prix">12 €</span></div>
+      </div>
+      <div class="groupe reveal d2">
+        <h3>À partager</h3>
+        <div class="plat"><span class="nom">Menu du marché</span><span class="pts"></span><span class="prix">38 €</span><span class="desc">Entrée, plat & dessert — au gré du jour</span></div>
+        <div class="plat"><span class="nom">Accord vins de Bourgogne</span><span class="pts"></span><span class="prix">24 €</span><span class="desc">Trois verres choisis par la maison</span></div>
+      </div>
+    </div>
+    <p class="carte-note">Carte indicative — elle évolue chaque semaine selon le marché et les saisons.</p>
+  </div>
+</section>
+
+<!-- ============ CHIFFRES ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-tete reveal">
+      <span class="eyebrow">La maison en bref</span>
+      <h2>Le goût du <em>vrai</em></h2>
+    </div>
+    <div class="chiffres-grid">
+      <div class="chiffre reveal d1"><b>100 %</b><span>Fait maison</span></div>
+      <div class="chiffre reveal d2"><b>Marché</b><span>Produits locaux de saison</span></div>
+      <div class="chiffre reveal d3"><b>Beaune</b><span>Au cœur de la Bourgogne</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVATION ============ -->
+<section class="resa" id="reserver">
+  <div class="wrap">
+    <div class="sec-tete reveal">
+      <span class="eyebrow">Réserver</span>
+      <h2>Votre table <em>vous attend</em></h2>
+    </div>
+    <div class="resa-grid">
+      <div class="resa-infos reveal d1">
+        <p><span class="lab">Adresse</span><span class="val">3 avenue de la République<br>21200 Beaune</span></p>
+        <p><span class="lab">Horaires</span><span class="val">Déjeuner &amp; dîner<br>Fermé dimanche &amp; lundi</span></p>
+        <p><span class="lab">Réservation</span><span class="val">Par téléphone ou via ce formulaire</span></p>
+      </div>
+      <div class="reveal d2">
+        <form id="form" novalidate>
+          <div class="row">
+            <div class="champ"><label for="d">Date</label><input type="date" id="d" required></div>
+            <div class="champ"><label for="h">Heure</label>
+              <select id="h" required><option value="">Choisir…</option><option>12h00</option><option>12h30</option><option>19h30</option><option>20h00</option><option>20h30</option></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="champ"><label for="c">Convives</label>
+              <select id="c" required><option value="">Choisir…</option><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6+ (nous contacter)</option></select>
+            </div>
+            <div class="champ"><label for="n">Nom</label><input type="text" id="n" placeholder="Votre nom" required></div>
+          </div>
+          <div class="champ"><label for="e">E-mail</label><input type="email" id="e" placeholder="vous@exemple.com" required></div>
+          <div class="champ"><label for="m">Un mot (facultatif)</label><textarea id="m" rows="2" placeholder="Allergies, occasion…"></textarea></div>
+          <button type="submit" class="envoi">Demander une table</button>
+        </form>
+        <div class="ok" id="ok">
+          <div class="rond">✓</div>
+          <h3>Demande envoyée</h3>
+          <p>Merci — la maison vous recontacte très vite pour confirmer votre table.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="f-haut">
+      <div>
+        <div class="fnom">L'Air du Temps</div>
+        <p class="fcoord">3 avenue de la République · 21200 Beaune<br>Cuisine bourguignonne de saison</p>
+      </div>
+      <div class="flinks">
+        <a href="#haut">Haut de page</a>
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+    <p class="fmention">Maquette de démonstration non officielle — proposition de refonte de site web. Contenus, plats et prix indicatifs, sans valeur contractuelle. Aucune réservation réelle n'est transmise via cette page.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  // Nav : état au scroll
+  var nav=document.getElementById('nav');
+  var onScroll=function(){ nav.classList.toggle('solid', window.scrollY>40); };
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+  // Menu mobile
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  burger.addEventListener('click',function(){
+    var o=menu.classList.toggle('ouvert');
+    burger.setAttribute('aria-expanded',o);
+  });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ menu.classList.remove('ouvert');burger.setAttribute('aria-expanded',false); }); });
+
+  // Reveal au scroll
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('vu'); io.unobserve(en.target); } });
+    },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+  } else { els.forEach(function(el){ el.classList.add('vu'); }); }
+
+  // Formulaire (maquette front-end)
+  var form=document.getElementById('form');
+  var champD=document.getElementById('d'); if(champD) champD.min=new Date().toISOString().split('T')[0];
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    form.style.display='none';
+    document.getElementById('ok').classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>
