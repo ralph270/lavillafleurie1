@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Cosy Maison — Simulateur de Dropshipping</title>
+<style>
+/* ============ TOKENS DE DESIGN ============ */
+:root{
+  --creme:#faf6f0;
+  --creme-2:#f2ebe1;
+  --terre:#c66a4a;
+  --terre-fonce:#a4512f;
+  --vert:#3f5c4e;
+  --vert-clair:#5c7d6c;
+  --or:#c9a24b;
+  --encre:#2c2620;
+  --gris:#8a7f72;
+  --gris-clair:#d9d0c4;
+  --blanc:#ffffff;
+  --ok:#3f8a5e;
+  --ok-bg:#e6f2ea;
+  --attente:#c98a2b;
+  --attente-bg:#fbf1de;
+  --info:#3d6fa4;
+  --info-bg:#e7eff8;
+  --danger:#b8452f;
+  --ombre:0 6px 24px rgba(44,38,32,.10);
+  --ombre-forte:0 14px 40px rgba(44,38,32,.18);
+  --rayon:16px;
+  --rayon-s:10px;
+  --font-titre:'Georgia','Times New Roman',serif;
+  --font-corps:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-corps);
+  color:var(--encre);
+  background:var(--creme);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-titre);font-weight:600;line-height:1.15}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--terre);outline-offset:2px}
+
+/* ============ EN-TÊTE APP ============ */
+.appbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,246,240,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--gris-clair);
+  display:flex;align-items:center;gap:16px;
+  padding:12px 20px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-titre);font-size:1.25rem;font-weight:600}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--terre),var(--or));display:grid;place-items:center;font-size:1.1rem}
+.brand small{display:block;font-family:var(--font-corps);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.mode-switch{display:flex;background:var(--creme-2);border-radius:999px;padding:4px;gap:2px;margin-left:auto}
+.mode-switch button{padding:8px 18px;border-radius:999px;font-size:.85rem;font-weight:600;color:var(--gris);transition:.2s;white-space:nowrap}
+.mode-switch button.actif{background:var(--blanc);color:var(--encre);box-shadow:0 2px 8px rgba(44,38,32,.10)}
+.badge-demo{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:var(--attente-bg);color:var(--attente);padding:4px 9px;border-radius:999px;font-weight:700;border:1px solid rgba(201,138,43,.3)}
+
+/* ============ LAYOUT ============ */
+.vue{display:none;animation:fade .35s ease}
+.vue.actif{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.section-pad{padding:36px 0}
+
+/* ============ VITRINE (CÔTÉ CLIENT) ============ */
+.hero{
+  background:linear-gradient(120deg,var(--vert),var(--vert-clair));
+  color:var(--creme);text-align:center;padding:64px 20px 72px;position:relative;overflow:hidden;
+}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(201,162,75,.25),transparent 45%),radial-gradient(circle at 85% 70%,rgba(198,106,74,.25),transparent 45%)}
+.hero-inner{position:relative;max-width:720px;margin:0 auto}
+.hero .kicker{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;opacity:.85;margin-bottom:14px}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px}
+.hero p{font-size:1.08rem;opacity:.92;max-width:520px;margin:0 auto 26px}
+.hero .cta{display:inline-block;background:var(--terre);color:#fff;padding:14px 30px;border-radius:999px;font-weight:600;transition:.2s;box-shadow:var(--ombre)}
+.hero .cta:hover{background:var(--terre-fonce);transform:translateY(-2px)}
+.hero .promo{margin-top:18px;font-size:.85rem;opacity:.8}
+
+.rassure{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;background:var(--creme-2);padding:18px 20px;font-size:.85rem;color:var(--gris)}
+.rassure span{display:flex;align-items:center;gap:8px}
+
+.section-titre{text-align:center;margin-bottom:8px;font-size:1.9rem}
+.section-sous{text-align:center;color:var(--gris);margin-bottom:30px}
+
+.grille-produits{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
+.carte-produit{background:var(--blanc);border-radius:var(--rayon);overflow:hidden;box-shadow:var(--ombre);transition:.25s;display:flex;flex-direction:column;border:1px solid rgba(217,208,196,.6)}
+.carte-produit:hover{transform:translateY(-4px);box-shadow:var(--ombre-forte)}
+.pv-visuel{aspect-ratio:1/1;display:grid;place-items:center;font-size:4.2rem;position:relative}
+.pv-tag{position:absolute;top:12px;left:12px;background:var(--terre);color:#fff;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.03em}
+.pv-corps{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
+.pv-cat{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or);font-weight:700;margin-bottom:5px}
+.pv-nom{font-family:var(--font-titre);font-size:1.08rem;margin-bottom:6px}
+.pv-desc{font-size:.82rem;color:var(--gris);margin-bottom:14px;flex:1}
+.pv-bas{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pv-prix{font-size:1.2rem;font-weight:700;color:var(--vert)}
+.pv-prix s{font-size:.8rem;color:var(--gris);font-weight:400;margin-right:5px}
+.btn-panier{background:var(--vert);color:#fff;padding:9px 15px;border-radius:var(--rayon-s);font-size:.82rem;font-weight:600;transition:.2s;white-space:nowrap}
+.btn-panier:hover{background:var(--vert-clair)}
+
+/* Panier flottant */
+.panier-fab{position:fixed;bottom:24px;right:24px;z-index:60;background:var(--terre);color:#fff;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem;box-shadow:var(--ombre-forte);transition:.2s}
+.panier-fab:hover{transform:scale(1.06)}
+.panier-fab .compte{position:absolute;top:-4px;right:-4px;background:var(--vert);color:#fff;font-size:.72rem;font-weight:700;min-width:22px;height:22px;border-radius:999px;display:grid;place-items:center;border:2px solid var(--creme)}
+.overlay{position:fixed;inset:0;background:rgba(44,38,32,.5);z-index:70;opacity:0;pointer-events:none;transition:.25s}
+.overlay.ouvert{opacity:1;pointer-events:auto}
+.tiroir{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--creme);z-index:80;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.tiroir.ouvert{transform:none}
+.tiroir-tete{padding:20px;border-bottom:1px solid var(--gris-clair);display:flex;align-items:center;justify-content:space-between}
+.tiroir-tete h3{font-size:1.3rem}
+.tiroir-corps{flex:1;overflow-y:auto;padding:20px}
+.ligne-panier{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--gris-clair)}
+.ligne-panier .mini{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;font-size:1.7rem;flex-shrink:0}
+.ligne-panier .infos{flex:1;min-width:0}
+.ligne-panier .infos b{font-size:.9rem;display:block}
+.ligne-panier .infos span{font-size:.8rem;color:var(--gris)}
+.qte{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qte button{width:24px;height:24px;border-radius:6px;background:var(--creme-2);font-weight:700;display:grid;place-items:center}
+.tiroir-pied{padding:20px;border-top:1px solid var(--gris-clair);background:var(--blanc)}
+.total-ligne{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.9rem}
+.total-ligne.grand{font-size:1.2rem;font-weight:700;margin-top:10px;padding-top:10px;border-top:1px solid var(--gris-clair)}
+.btn-plein{width:100%;background:var(--terre);color:#fff;padding:14px;border-radius:var(--rayon-s);font-weight:700;font-size:.95rem;transition:.2s}
+.btn-plein:hover{background:var(--terre-fonce)}
+.btn-plein:disabled{opacity:.5;cursor:not-allowed}
+.vide-msg{text-align:center;color:var(--gris);padding:40px 0}
+
+/* Confirmation client */
+.confirmation{text-align:center;padding:20px}
+.confirmation .rond{width:72px;height:72px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;font-size:2rem;margin:0 auto 16px}
+
+/* ============ ESPACE VENDEUR ============ */
+.vendeur-tete{background:var(--blanc);border-bottom:1px solid var(--gris-clair);padding:20px 0}
+.vendeur-tete .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.vendeur-tete h2{font-size:1.5rem}
+.vendeur-tete p{color:var(--gris);font-size:.9rem}
+.onglets{display:flex;gap:4px;border-bottom:1px solid var(--gris-clair);margin-top:18px;overflow-x:auto}
+.onglets button{padding:12px 18px;font-weight:600;font-size:.9rem;color:var(--gris);border-bottom:2px solid transparent;white-space:nowrap;transition:.2s}
+.onglets button.actif{color:var(--terre);border-bottom-color:var(--terre)}
+.panneau{display:none;padding-top:26px}
+.panneau.actif{display:block}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.stat{background:var(--blanc);border-radius:var(--rayon);padding:20px;box-shadow:var(--ombre);border:1px solid rgba(217,208,196,.6)}
+.stat .lib{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);margin-bottom:8px}
+.stat .val{font-size:1.9rem;font-weight:700;font-family:var(--font-titre)}
+.stat .val.vert{color:var(--ok)}
+.stat .val.terre{color:var(--terre)}
+.stat .sous{font-size:.78rem;color:var(--gris);margin-top:4px}
+
+/* Coach */
+.coach{background:linear-gradient(120deg,var(--vert),var(--vert-clair));color:var(--creme);border-radius:var(--rayon);padding:18px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--ombre)}
+.coach .ico{font-size:1.5rem;flex-shrink:0;margin-top:1px}
+.coach b{display:block;margin-bottom:3px}
+.coach p{font-size:.88rem;opacity:.94}
+.coach.clair{background:var(--attente-bg);color:var(--encre);border:1px solid rgba(201,138,43,.35)}
+.coach.info{background:var(--info-bg);color:var(--encre);border:1px solid rgba(61,111,164,.3)}
+
+/* Commandes / pipeline */
+.barre-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.btn-sec{background:var(--vert);color:#fff;padding:10px 16px;border-radius:var(--rayon-s);font-weight:600;font-size:.85rem;transition:.2s;display:inline-flex;align-items:center;gap:7px}
+.btn-sec:hover{background:var(--vert-clair)}
+.btn-ghost{background:var(--creme-2);color:var(--encre);padding:10px 16px;border-radius:var(--rayon-s);font-weight:600;font-size:.85rem;transition:.2s}
+.btn-ghost:hover{background:var(--gris-clair)}
+.filtres{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.filtres button{padding:7px 13px;border-radius:999px;font-size:.8rem;font-weight:600;background:var(--creme-2);color:var(--gris);transition:.2s}
+.filtres button.actif{background:var(--encre);color:var(--creme)}
+
+.cmd{background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);margin-bottom:16px;overflow:hidden;border:1px solid rgba(217,208,196,.6)}
+.cmd-tete{padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;cursor:pointer}
+.cmd-tete .num{font-weight:700;font-family:var(--font-titre)}
+.cmd-tete .client{font-size:.85rem;color:var(--gris)}
+.cmd-tete .date{font-size:.78rem;color:var(--gris);margin-left:auto}
+.statut{font-size:.72rem;font-weight:700;padding:5px 11px;border-radius:999px;letter-spacing:.03em;white-space:nowrap}
+.st-payee{background:var(--attente-bg);color:var(--attente)}
+.st-commandee{background:var(--info-bg);color:var(--info)}
+.st-expediee{background:#efe6f7;color:#7d4fa4}
+.st-livree{background:var(--ok-bg);color:var(--ok)}
+.st-annulee{background:#f6e2de;color:var(--danger)}
+.cmd-corps{padding:0 18px 18px;border-top:1px solid var(--gris-clair);display:none}
+.cmd.ouverte .cmd-corps{display:block}
+.cmd-grille{display:grid;grid-template-columns:1fr auto;gap:20px;padding-top:16px}
+@media(max-width:640px){.cmd-grille{grid-template-columns:1fr}}
+.cmd-items .item{display:flex;gap:10px;align-items:center;padding:7px 0;font-size:.88rem}
+.cmd-items .item .mini{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+.cmd-items .item .q{color:var(--gris);font-size:.8rem}
+.cmd-items .item .px{margin-left:auto;font-weight:600}
+.cmd-eco{background:var(--creme);border-radius:var(--rayon-s);padding:14px;min-width:210px;font-size:.85rem;height:fit-content}
+.cmd-eco .l{display:flex;justify-content:space-between;padding:3px 0}
+.cmd-eco .l.marge{border-top:1px dashed var(--gris-clair);margin-top:6px;padding-top:8px;font-weight:700;color:var(--ok)}
+.cmd-livraison{font-size:.82rem;color:var(--gris);margin-top:14px;padding-top:12px;border-top:1px solid var(--gris-clair)}
+.cmd-livraison b{color:var(--encre)}
+.cmd-pied{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--gris-clair);align-items:center}
+.etape-info{font-size:.82rem;color:var(--gris);margin-right:auto}
+.btn-etape{background:var(--terre);color:#fff;padding:10px 18px;border-radius:var(--rayon-s);font-weight:700;font-size:.85rem;transition:.2s}
+.btn-etape:hover{background:var(--terre-fonce)}
+.btn-annuler{background:transparent;color:var(--danger);font-size:.8rem;font-weight:600;padding:8px 10px}
+.btn-annuler:hover{text-decoration:underline}
+
+/* Progress steps */
+.progression{display:flex;gap:0;margin:4px 0 2px}
+.progression .pas{flex:1;text-align:center;position:relative;font-size:.68rem;color:var(--gris);padding-top:20px}
+.progression .pas:before{content:"";position:absolute;top:6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--gris-clair);transform:translateX(-50%);z-index:2}
+.progression .pas:after{content:"";position:absolute;top:11px;left:-50%;width:100%;height:2px;background:var(--gris-clair);z-index:1}
+.progression .pas:first-child:after{display:none}
+.progression .pas.fait{color:var(--vert);font-weight:600}
+.progression .pas.fait:before{background:var(--vert)}
+.progression .pas.fait:after{background:var(--vert)}
+.progression .pas.actuel:before{background:var(--terre);box-shadow:0 0 0 4px rgba(198,106,74,.2)}
+.progression .pas.actuel{color:var(--terre);font-weight:700}
+
+/* Produits (gestion) */
+.prod-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.prod-carte{background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);overflow:hidden;border:1px solid rgba(217,208,196,.6)}
+.prod-carte .haut{display:flex;gap:14px;padding:16px}
+.prod-carte .em{width:60px;height:60px;border-radius:12px;display:grid;place-items:center;font-size:2rem;flex-shrink:0}
+.prod-carte .meta{flex:1;min-width:0}
+.prod-carte .meta b{font-family:var(--font-titre);font-size:1.02rem;display:block;margin-bottom:2px}
+.prod-carte .meta .cat{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--or);font-weight:700}
+.prod-eco{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--gris-clair);text-align:center}
+.prod-eco div{padding:12px 6px;border-right:1px solid var(--gris-clair)}
+.prod-eco div:last-child{border-right:none}
+.prod-eco .lib{font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gris);margin-bottom:3px}
+.prod-eco .ch{font-size:1.02rem;font-weight:700}
+.prod-eco .ch.marge{color:var(--ok)}
+.prod-carte .actif-off{opacity:.5}
+.prod-pied{padding:10px 16px;border-top:1px solid var(--gris-clair);display:flex;gap:8px;font-size:.8rem}
+.prod-pied button{color:var(--gris);font-weight:600}
+.prod-pied button:hover{color:var(--terre)}
+
+/* Formulaire */
+.champ{margin-bottom:14px}
+.champ label{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px}
+.champ input,.champ select,.champ textarea{width:100%;padding:10px 12px;border:1px solid var(--gris-clair);border-radius:var(--rayon-s);font-family:inherit;font-size:.9rem;background:var(--blanc)}
+.champ textarea{resize:vertical;min-height:60px}
+.champ small{color:var(--gris);font-size:.76rem;display:block;margin-top:4px}
+.champ-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(44,38,32,.5);z-index:90;display:none;place-items:center;padding:20px;overflow-y:auto}
+.modal-overlay.ouvert{display:grid}
+.modal{background:var(--creme);border-radius:var(--rayon);max-width:480px;width:100%;box-shadow:var(--ombre-forte);max-height:90vh;overflow-y:auto}
+.modal-tete{padding:18px 20px;border-bottom:1px solid var(--gris-clair);display:flex;justify-content:space-between;align-items:center}
+.modal-tete h3{font-size:1.25rem}
+.modal-corps{padding:20px}
+.modal-pied{padding:16px 20px;border-top:1px solid var(--gris-clair);display:flex;gap:10px;justify-content:flex-end}
+.apercu-marge{background:var(--ok-bg);color:var(--encre);border-radius:var(--rayon-s);padding:12px 14px;font-size:.85rem;margin-top:6px}
+.apercu-marge b{color:var(--ok)}
+
+/* Guide */
+.guide-etapes{counter-reset:g}
+.guide-etape{background:var(--blanc);border-radius:var(--rayon);padding:20px 20px 20px 62px;position:relative;margin-bottom:14px;box-shadow:var(--ombre);border:1px solid rgba(217,208,196,.6)}
+.guide-etape:before{counter-increment:g;content:counter(g);position:absolute;left:18px;top:20px;width:30px;height:30px;border-radius:50%;background:var(--terre);color:#fff;display:grid;place-items:center;font-weight:700;font-family:var(--font-titre)}
+.guide-etape h4{font-family:var(--font-titre);font-size:1.1rem;margin-bottom:6px}
+.guide-etape p{font-size:.9rem;color:var(--gris)}
+.guide-etape .todo{display:inline-block;margin-top:8px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--attente-bg);color:var(--attente)}
+.guide-etape .todo.moi{background:var(--info-bg);color:var(--info)}
+
+/* Footer app */
+.pied-app{background:var(--encre);color:var(--creme);padding:30px 20px;text-align:center;font-size:.82rem;line-height:1.7;margin-top:40px}
+.pied-app b{color:var(--or)}
+.pied-app .avert{max-width:640px;margin:10px auto 0;opacity:.75;font-size:.78rem}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--encre);color:var(--creme);padding:13px 22px;border-radius:999px;font-size:.88rem;font-weight:600;z-index:100;opacity:0;transition:.3s;box-shadow:var(--ombre-forte);pointer-events:none}
+.toast.montre{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:640px){
+  .appbar{padding:10px 14px;gap:10px}
+  .brand{font-size:1.05rem}
+  .mode-switch button{padding:7px 12px;font-size:.78rem}
+  .wrap{padding:0 14px}
+  .champ-2{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ EN-TÊTE ============ -->
+<header class="appbar">
+  <div class="brand">
+    <span class="logo">🏡</span>
+    <span>Cosy Maison<small>Boutique déco &amp; bien-être</small></span>
+  </div>
+  <span class="badge-demo" title="Rien n'est réel : ni argent, ni vraies commandes">Mode simulation</span>
+  <div class="mode-switch" role="tablist" aria-label="Changer de vue">
+    <button id="btnVitrine" class="actif" role="tab" aria-selected="true">🛍️ La boutique</button>
+    <button id="btnVendeur" role="tab" aria-selected="false">📊 Mon espace vendeur</button>
+  </div>
+</header>
+
+<!-- ============ VUE VITRINE (CÔTÉ CLIENT) ============ -->
+<main id="vueVitrine" class="vue actif">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="kicker">Ambiance • Détente • Petits prix</p>
+      <h1>Transformez votre intérieur en cocon</h1>
+      <p>Des objets déco et bien-être choisis avec soin pour rendre votre maison plus douce, chaleureuse et apaisante.</p>
+      <a href="#catalogue" class="cta">Découvrir la sélection</a>
+      <p class="promo">🚚 Livraison offerte dès 35 € &nbsp;·&nbsp; 💌 -10 % avec le code COSY10</p>
+    </div>
+  </section>
+
+  <div class="rassure">
+    <span>⭐ 4,8/5 — 2 300 avis</span>
+    <span>🔒 Paiement sécurisé</span>
+    <span>↩️ Retour sous 14 jours</span>
+    <span>🚚 Suivi de colis</span>
+  </div>
+
+  <section class="section-pad" id="catalogue">
+    <div class="wrap">
+      <h2 class="section-titre">Notre sélection cosy</h2>
+      <p class="section-sous">Ajoutez au panier les articles qui vous font envie.</p>
+      <div class="grille-produits" id="grilleClient"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ VUE ESPACE VENDEUR ============ -->
+<main id="vueVendeur" class="vue">
+  <div class="vendeur-tete">
+    <div class="wrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <h2>Mon espace vendeur</h2>
+          <p>Ton tableau de bord — comme dans un vrai Shopify.</p>
+        </div>
+      </div>
+      <div class="onglets" role="tablist">
+        <button class="actif" data-panneau="tdb" role="tab">📈 Tableau de bord</button>
+        <button data-panneau="commandes" role="tab">📦 Commandes <span id="pastilleCmd"></span></button>
+        <button data-panneau="produits" role="tab">🏷️ Mes produits</button>
+        <button data-panneau="guide" role="tab">🎓 Guide &amp; prochaines étapes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section-pad">
+
+    <!-- PANNEAU : TABLEAU DE BORD -->
+    <div class="panneau actif" id="p-tdb">
+      <div class="coach">
+        <span class="ico">👋</span>
+        <div>
+          <b>Bienvenue dans ton espace vendeur</b>
+          <p>Ici tu vois tout ce qui compte : ton chiffre d'affaires, ta <em>marge</em> (ce qu'il te reste vraiment dans la poche), et les commandes à traiter. Va dans « La boutique », passe une fausse commande, puis reviens ici : tu la verras arriver.</p>
+        </div>
+      </div>
+      <div class="stats" id="statsGrille"></div>
+      <div class="coach clair">
+        <span class="ico">💡</span>
+        <div>
+          <b>La règle d'or du dropshipping</b>
+          <p>Ton bénéfice = <b>Prix de vente</b> − <b>Coût fournisseur</b> − <b>Frais</b> (pub, plateforme). En simulation on te montre chaque euro : c'est là que se gagne ou se perd l'argent. Vise une marge d'au moins <b>×2,5 à ×3</b> sur le coût fournisseur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANNEAU : COMMANDES -->
+    <div class="panneau" id="p-commandes">
+      <div class="coach info">
+        <span class="ico">📦</span>
+        <div>
+          <b>Comment traiter une commande (les 4 gestes du dropshipping)</b>
+          <p><b>1.</b> Le client paie → <b>2.</b> Tu commandes le produit chez ton fournisseur → <b>3.</b> Le fournisseur expédie (tu reçois un suivi) → <b>4.</b> Livré. Ton seul vrai travail : le clic de l'étape 2. Clique sur une commande pour l'ouvrir.</p>
+        </div>
+      </div>
+      <div class="barre-actions">
+        <button class="btn-sec" id="btnGenerer">✨ Simuler une commande client</button>
+        <button class="btn-ghost" id="btnAutoTraiter" title="Fait avancer d'un cran toutes les commandes en cours">⏩ Avancer le temps</button>
+        <div class="filtres" id="filtresCmd">
+          <button class="actif" data-f="tous">Toutes</button>
+          <button data-f="payee">À traiter</button>
+          <button data-f="commandee">Commandées</button>
+          <button data-f="expediee">Expédiées</button>
+          <button data-f="livree">Livrées</button>
+        </div>
+      </div>
+      <div id="listeCommandes"></div>
+    </div>
+
+    <!-- PANNEAU : PRODUITS -->
+    <div class="panneau" id="p-produits">
+      <div class="coach">
+        <span class="ico">🏷️</span>
+        <div>
+          <b>Ton catalogue</b>
+          <p>Voici les produits que je t'ai sélectionnés pour la niche « Maison cosy » : bonnes marges, faciles à vendre, visuels qui donnent envie. Tu peux modifier les prix, désactiver un produit, ou en ajouter un toi-même pour t'entraîner à calculer une marge.</p>
+        </div>
+      </div>
+      <div class="barre-actions">
+        <button class="btn-sec" id="btnAjoutProduit">➕ Ajouter un produit</button>
+        <button class="btn-ghost" id="btnReset" style="margin-left:auto">↺ Réinitialiser la démo</button>
+      </div>
+      <div class="prod-grille" id="grilleProduits"></div>
+    </div>
+
+    <!-- PANNEAU : GUIDE -->
+    <div class="panneau" id="p-guide">
+      <div class="coach">
+        <span class="ico">🎓</span>
+        <div>
+          <b>De la simulation au vrai lancement</b>
+          <p>Ce simulateur reproduit exactement le parcours d'un vrai Shopify. Quand tu seras prêt (tes 18 ans, ou avec l'accord d'un parent), voici les étapes pour passer au réel. <b>Bleu = ce que je fais pour toi. Orange = ce que toi seul peux faire</b> (identité, argent, mots de passe).</p>
+        </div>
+      </div>
+      <div class="guide-etapes">
+        <div class="guide-etape">
+          <h4>Choisir et valider la niche</h4>
+          <p>On analyse la demande, la concurrence et les marges. Ici c'est « Maison cosy » — on peut en tester d'autres.</p>
+          <span class="todo moi">Je le fais avec toi</span>
+        </div>
+        <div class="guide-etape">
+          <h4>Créer la micro-entreprise (statut légal)</h4>
+          <p>Inscription gratuite sur le guichet unique (INPI). Obligatoire pour vendre. À 16 ans : avec l'accord d'un parent qui porte le statut, ou à tes 18 ans.</p>
+          <span class="todo">Toi + un parent (je te guide clic par clic)</span>
+        </div>
+        <div class="guide-etape">
+          <h4>Ouvrir le compte Shopify</h4>
+          <p>~1 €/mois le premier mois, puis ~30 €/mois. C'est le socle de la boutique.</p>
+          <span class="todo">Toi (ta carte, ton identité)</span>
+        </div>
+        <div class="guide-etape">
+          <h4>Monter la vraie boutique</h4>
+          <p>Design, fiches produits, textes de vente, pages légales (CGV, mentions, retours). Je reprends tout ce qu'on a construit ici.</p>
+          <span class="todo moi">Je le fais pour toi</span>
+        </div>
+        <div class="guide-etape">
+          <h4>Connecter le fournisseur + automatiser</h4>
+          <p>AliExpress / CJ Dropshipping / fournisseur EU. J'automatise « commande reçue → commande fournisseur → email client » avec Make.</p>
+          <span class="todo moi">Je le fais pour toi</span>
+        </div>
+        <div class="guide-etape">
+          <h4>Lancer le marketing</h4>
+          <p>Visuels (Canva), pubs TikTok/Insta, emails. On teste petit, on garde ce qui marche.</p>
+          <span class="todo moi">Je le prépare, tu valides</span>
+        </div>
+      </div>
+      <div class="coach clair" style="margin-top:20px">
+        <span class="ico">🤝</span>
+        <div>
+          <b>En attendant tes 18 ans</b>
+          <p>Entraîne-toi ici autant que tu veux — c'est gratuit et sans risque. Quand tu maîtrises le simulateur, tu auras une vraie longueur d'avance sur 90 % des débutants. Si un parent est partant, on peut lancer pour de vrai dès maintenant à son nom.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Panier flottant -->
+<button class="panier-fab" id="fabPanier" aria-label="Ouvrir le panier">🛒<span class="compte" id="compteFab" style="display:none">0</span></button>
+<div class="overlay" id="overlayPanier"></div>
+<aside class="tiroir" id="tiroirPanier" aria-label="Panier">
+  <div class="tiroir-tete">
+    <h3>Votre panier</h3>
+    <button id="fermerPanier" aria-label="Fermer" style="font-size:1.4rem">✕</button>
+  </div>
+  <div class="tiroir-corps" id="corpsPanier"></div>
+  <div class="tiroir-pied" id="piedPanier"></div>
+</aside>
+
+<!-- Modal produit -->
+<div class="modal-overlay" id="modalProduit">
+  <div class="modal">
+    <div class="modal-tete">
+      <h3 id="modalTitre">Ajouter un produit</h3>
+      <button id="modalFermer" aria-label="Fermer" style="font-size:1.3rem">✕</button>
+    </div>
+    <div class="modal-corps">
+      <div class="champ">
+        <label for="fNom">Nom du produit</label>
+        <input id="fNom" type="text" placeholder="Ex. Lampe coucher de soleil">
+      </div>
+      <div class="champ-2">
+        <div class="champ">
+          <label for="fEmoji">Visuel (emoji)</label>
+          <input id="fEmoji" type="text" placeholder="🌅" maxlength="4">
+        </div>
+        <div class="champ">
+          <label for="fCat">Catégorie</label>
+          <input id="fCat" type="text" placeholder="Luminaire">
+        </div>
+      </div>
+      <div class="champ">
+        <label for="fDesc">Description courte</label>
+        <textarea id="fDesc" placeholder="Une phrase qui donne envie…"></textarea>
+      </div>
+      <div class="champ-2">
+        <div class="champ">
+          <label for="fCout">Coût fournisseur (€)</label>
+          <input id="fCout" type="number" step="0.01" min="0" placeholder="6.00">
+          <small>Ce que TU paies au fournisseur</small>
+        </div>
+        <div class="champ">
+          <label for="fPrix">Prix de vente (€)</label>
+          <input id="fPrix" type="number" step="0.01" min="0" placeholder="24.90">
+          <small>Ce que le CLIENT paie</small>
+        </div>
+      </div>
+      <div class="apercu-marge" id="apercuMarge">Renseigne les deux prix pour voir ta marge.</div>
+    </div>
+    <div class="modal-pied">
+      <button class="btn-ghost" id="modalAnnuler">Annuler</button>
+      <button class="btn-sec" id="modalEnregistrer">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="pied-app">
+  <p><b>Cosy Maison</b> — simulateur pédagogique de dropshipping</p>
+  <p class="avert">⚠️ Maquette de démonstration. Aucun produit, aucune commande, aucun paiement n'est réel. Les avis, notes et promotions sont fictifs. Créée pour apprendre le fonctionnement d'une boutique en ligne, sans aucune transaction réelle.</p>
+</footer>
+
+<script>
+/* ============ ÉTAT & DONNÉES ============ */
+const LS = 'cosyMaisonDemo_v1';
+
+const PRODUITS_DEFAUT = [
+  {id:'p1', nom:'Lampe coucher de soleil', emoji:'🌅', cat:'Luminaire', desc:'Projette un dégradé orangé façon coucher de soleil. Le produit star des réseaux.', cout:6, prix:24.90, actif:true, grad:['#ffb26b','#c66a4a']},
+  {id:'p2', nom:"Diffuseur d'huiles essentielles", emoji:'🌫️', cat:'Bien-être', desc:'Brume parfumée + lumière douce. Idéal pour se détendre le soir.', cout:9, prix:29.90, actif:true, grad:['#9ec7b8','#3f5c4e']},
+  {id:'p3', nom:'Projecteur ciel étoilé', emoji:'🌌', cat:'Ambiance', desc:'Transforme le plafond en galaxie. Effet garanti dans une chambre.', cout:12, prix:34.90, actif:true, grad:['#5b6fb0','#2b2d5c']},
+  {id:'p4', nom:'Plaid polaire XXL', emoji:'🧣', cat:'Textile', desc:'Ultra-doux, parfait pour les soirées cocooning sur le canapé.', cout:11, prix:32.90, actif:true, grad:['#d9a679','#a4512f']},
+  {id:'p5', nom:'Mini humidificateur', emoji:'💧', cat:'Bien-être', desc:'Assainit l\'air d\'un bureau ou d\'une chambre. Silencieux, USB.', cout:7, prix:22.90, actif:true, grad:['#8fd0e0','#3d6fa4']},
+  {id:'p6', nom:'Guirlande LED photo', emoji:'✨', cat:'Ambiance', desc:'Pour accrocher ses souvenirs avec une lumière chaleureuse.', cout:4, prix:16.90, actif:true, grad:['#f2d98a','#c9a24b']},
+  {id:'p7', nom:'Organisateur bambou', emoji:'🎍', cat:'Rangement', desc:'Range-tout élégant en bambou pour un bureau zen et net.', cout:8, prix:26.90, actif:true, grad:['#cbd6a0','#5c7d6c']},
+  {id:'p8', nom:'Bougie LED rechargeable', emoji:'🕯️', cat:'Ambiance', desc:'La flamme dansante d\'une vraie bougie, sans le danger. Sans fil.', cout:5, prix:18.90, actif:true, grad:['#ffd9a0','#c66a4a']},
+];
+
+const PRENOMS = ['Léa','Hugo','Camille','Nathan','Emma','Lucas','Chloé','Théo','Manon','Enzo','Sarah','Louis','Inès','Jules','Zoé','Adam','Lina','Gabriel','Jade','Raphaël'];
+const NOMS = ['Martin','Bernard','Dubois','Robert','Petit','Durand','Leroy','Moreau','Simon','Laurent','Michel','Garcia','Roux','Fontaine','Blanc'];
+const VILLES = ['Paris','Lyon','Marseille','Bordeaux','Lille','Nantes','Toulouse','Rennes','Strasbourg','Nice','Montpellier','Grenoble','Rouen','Dijon','Angers'];
+
+let etat = charger();
+
+function charger(){
+  try{
+    const s = JSON.parse(localStorage.getItem(LS));
+    if(s && s.produits && s.commandes){ return s; }
+  }catch(e){}
+  return { produits: JSON.parse(JSON.stringify(PRODUITS_DEFAUT)), commandes: [], compteur: 1000, panier: {} };
+}
+function sauver(){ localStorage.setItem(LS, JSON.stringify(etat)); }
+
+/* ============ UTILITAIRES ============ */
+const eur = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const prod = id => etat.produits.find(p=>p.id===id);
+
+function grad(p){ return p.grad ? `linear-gradient(135deg,${p.grad[0]},${p.grad[1]})` : 'linear-gradient(135deg,#e8ddcd,#c9b89e)'; }
+
+let toastTimer;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('montre');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('montre'), 2600);
+}
+
+/* ============ NAVIGATION VUES ============ */
+$('#btnVitrine').onclick = ()=>basculer('vitrine');
+$('#btnVendeur').onclick = ()=>basculer('vendeur');
+function basculer(vue){
+  const v = vue==='vitrine';
+  $('#vueVitrine').classList.toggle('actif',v);
+  $('#vueVendeur').classList.toggle('actif',!v);
+  $('#btnVitrine').classList.toggle('actif',v);
+  $('#btnVendeur').classList.toggle('actif',!v);
+  $('#btnVitrine').setAttribute('aria-selected',v);
+  $('#btnVendeur').setAttribute('aria-selected',!v);
+  $('#fabPanier').style.display = v ? 'grid' : 'none';
+  if(!v){ rendreStats(); rendreCommandes(); rendreProduits(); }
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+/* Onglets vendeur */
+$$('.onglets button').forEach(b=>{
+  b.onclick = ()=>{
+    $$('.onglets button').forEach(x=>x.classList.remove('actif'));
+    b.classList.add('actif');
+    $$('.panneau').forEach(p=>p.classList.remove('actif'));
+    $('#p-'+b.dataset.panneau).classList.add('actif');
+  };
+});
+
+/* ============ VITRINE : rendu produits ============ */
+function rendreVitrine(){
+  const g = $('#grilleClient');
+  const actifs = etat.produits.filter(p=>p.actif);
+  g.innerHTML = actifs.map(p=>`
+    <article class="carte-produit">
+      <div class="pv-visuel" style="background:${grad(p)}">
+        <span class="pv-tag">Coup de cœur</span>${p.emoji}
+      </div>
+      <div class="pv-corps">
+        <div class="pv-cat">${p.cat}</div>
+        <div class="pv-nom">${p.nom}</div>
+        <div class="pv-desc">${p.desc}</div>
+        <div class="pv-bas">
+          <div class="pv-prix"><s>${eur(p.prix*1.4)}</s>${eur(p.prix)}</div>
+          <button class="btn-panier" data-add="${p.id}">Ajouter 🛒</button>
+        </div>
+      </div>
+    </article>`).join('');
+  g.querySelectorAll('[data-add]').forEach(b=>{
+    b.onclick = ()=>{ ajouterPanier(b.dataset.add); };
+  });
+}
+
+/* ============ PANIER ============ */
+function ajouterPanier(id){
+  etat.panier[id] = (etat.panier[id]||0)+1; sauver();
+  rendrePanier(); majFab();
+  toast('Ajouté au panier ✓');
+}
+function majFab(){
+  const n = Object.values(etat.panier).reduce((a,b)=>a+b,0);
+  const c = $('#compteFab');
+  c.textContent = n; c.style.display = n>0 ? 'grid':'none';
+}
+function totalPanier(){
+  return Object.entries(etat.panier).reduce((s,[id,q])=>{
+    const p = prod(id); return p ? s + p.prix*q : s;
+  },0);
+}
+function rendrePanier(){
+  const c = $('#corpsPanier'), pied = $('#piedPanier');
+  const entrees = Object.entries(etat.panier).filter(([id])=>prod(id));
+  if(!entrees.length){
+    c.innerHTML = '<div class="vide-msg">🛒<br>Votre panier est vide.<br><small>Ajoutez des articles depuis la boutique.</small></div>';
+    pied.innerHTML = ''; return;
+  }
+  c.innerHTML = entrees.map(([id,q])=>{
+    const p = prod(id);
+    return `<div class="ligne-panier">
+      <div class="mini" style="background:${grad(p)}">${p.emoji}</div>
+      <div class="infos">
+        <b>${p.nom}</b><span>${eur(p.prix)}</span>
+        <div class="qte">
+          <button data-moins="${id}" aria-label="Moins">−</button>
+          <span>${q}</span>
+          <button data-plus="${id}" aria-label="Plus">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const st = totalPanier();
+  const port = st>=35 ? 0 : 4.90;
+  pied.innerHTML = `
+    <div class="total-ligne"><span>Sous-total</span><span>${eur(st)}</span></div>
+    <div class="total-ligne"><span>Livraison</span><span>${port===0?'Offerte':eur(port)}</span></div>
+    <div class="total-ligne grand"><span>Total</span><span>${eur(st+port)}</span></div>
+    <button class="btn-plein" id="btnCommander">Payer ma commande (simulation)</button>`;
+  c.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{etat.panier[b.dataset.plus]++;sauver();rendrePanier();majFab();});
+  c.querySelectorAll('[data-moins]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.moins; etat.panier[id]--; if(etat.panier[id]<=0) delete etat.panier[id];
+    sauver();rendrePanier();majFab();
+  });
+  $('#btnCommander').onclick = passerCommandeClient;
+}
+
+/* Ouverture/fermeture tiroir */
+function ouvrirPanier(o){
+  $('#tiroirPanier').classList.toggle('ouvert',o);
+  $('#overlayPanier').classList.toggle('ouvert',o);
+}
+$('#fabPanier').onclick = ()=>{rendrePanier();ouvrirPanier(true);};
+$('#fermerPanier').onclick = ()=>ouvrirPanier(false);
+$('#overlayPanier').onclick = ()=>ouvrirPanier(false);
+
+/* ============ CRÉATION DE COMMANDE ============ */
+function nouvelleCommande(items, source){
+  const st = items.reduce((s,it)=>{const p=prod(it.id);return p?s+p.prix*it.qte:s;},0);
+  const cout = items.reduce((s,it)=>{const p=prod(it.id);return p?s+p.cout*it.qte:s;},0);
+  const port = st>=35 ? 0 : 4.90;
+  etat.compteur++;
+  const c = {
+    id: 'c'+etat.compteur,
+    num: '#CM'+etat.compteur,
+    client: pick(PRENOMS)+' '+pick(NOMS),
+    ville: pick(VILLES),
+    date: Date.now(),
+    items: items,
+    sousTotal: st,
+    port: port,
+    coutFournisseur: cout,
+    fraisPlateforme: +(st*0.029+0.30).toFixed(2), // ~frais type Stripe
+    statut: 'payee',
+    suivi: null,
+    source: source||'boutique'
+  };
+  etat.commandes.unshift(c);
+  sauver();
+  return c;
+}
+
+/* Depuis le panier client */
+function passerCommandeClient(){
+  const items = Object.entries(etat.panier).filter(([id])=>prod(id)).map(([id,q])=>({id,qte:q}));
+  if(!items.length) return;
+  const c = nouvelleCommande(items,'boutique');
+  etat.panier = {}; sauver(); majFab(); rendrePanier();
+  // Écran de confirmation client
+  $('#corpsPanier').innerHTML = `<div class="confirmation">
+    <div class="rond">✓</div>
+    <h3>Merci pour votre commande !</h3>
+    <p style="color:var(--gris);margin:10px 0">Commande <b>${c.num}</b> confirmée.<br>Un email de suivi vous sera envoyé.</p>
+    <div class="coach info" style="text-align:left;margin-top:16px">
+      <span class="ico">👉</span>
+      <div><b>Côté vendeur, ça vient de tomber !</b><p>Va dans « Mon espace vendeur » → Commandes : cette commande t'attend pour être traitée.</p></div>
+    </div>
+  </div>`;
+  $('#piedPanier').innerHTML = `<button class="btn-plein" id="versVendeur">Aller la traiter →</button>`;
+  $('#versVendeur').onclick = ()=>{ ouvrirPanier(false); basculer('vendeur'); $('[data-panneau="commandes"]').click(); };
+  majPastille();
+}
+
+/* Générateur de commande aléatoire (côté vendeur) */
+$('#btnGenerer').onclick = ()=>{
+  const actifs = etat.produits.filter(p=>p.actif);
+  if(!actifs.length){ toast('Ajoute d\'abord un produit actif !'); return; }
+  const nb = 1 + Math.floor(Math.random()*2);
+  const items = [];
+  for(let i=0;i<nb;i++){
+    const p = pick(actifs);
+    const ex = items.find(it=>it.id===p.id);
+    if(ex) ex.qte++; else items.push({id:p.id,qte:1+Math.floor(Math.random()*2)});
+  }
+  const c = nouvelleCommande(items,'simulateur');
+  rendreCommandes(); majPastille(); rendreStats();
+  toast('Nouvelle commande '+c.num+' 🎉');
+};
+
+/* Avancer le temps : fait progresser les commandes en cours */
+$('#btnAutoTraiter').onclick = ()=>{
+  let bougé = 0;
+  etat.commandes.forEach(c=>{
+    if(c.statut==='commandee'){ c.statut='expediee'; c.suivi = c.suivi||genSuivi(); bougé++; }
+    else if(c.statut==='expediee'){ c.statut='livree'; bougé++; }
+  });
+  sauver(); rendreCommandes(); rendreStats(); majPastille();
+  toast(bougé ? bougé+' commande(s) ont avancé ⏩' : 'Rien à faire avancer. Commande d\'abord chez le fournisseur.');
+};
+
+function genSuivi(){
+  const l='ABCDEFGHJKLMNPQRSTUVWXYZ', d='0123456789';
+  let s='LP'; for(let i=0;i<9;i++) s+=d[Math.floor(Math.random()*10)]; s+='FR';
+  return s;
+}
+
+/* ============ AFFICHAGE COMMANDES ============ */
+const STATUTS = {
+  payee:    {lib:'Payée · à traiter', cls:'st-payee'},
+  commandee:{lib:'Commandée fournisseur', cls:'st-commandee'},
+  expediee: {lib:'Expédiée', cls:'st-expediee'},
+  livree:   {lib:'Livrée', cls:'st-livree'},
+  annulee:  {lib:'Annulée', cls:'st-annulee'},
+};
+const ORDRE = ['payee','commandee','expediee','livree'];
+const LABELS_PAS = ['Payée','Commandée','Expédiée','Livrée'];
+const ACTION_SUIVANTE = {
+  payee:    {txt:'📤 Commander chez le fournisseur', suiv:'commandee', info:"Tu transmets la commande à ton fournisseur (ex. AliExpress). C'est LE geste du dropshipping."},
+  commandee:{txt:'🚚 Marquer comme expédiée', suiv:'expediee', info:'Le fournisseur a envoyé le colis. Tu ajoutes un numéro de suivi pour le client.'},
+  expediee: {txt:'✅ Marquer comme livrée', suiv:'livree', info:'Le colis est arrivé chez le client. La commande est terminée, la marge est encaissée.'},
+};
+
+let filtreActuel = 'tous';
+$$('#filtresCmd button').forEach(b=>{
+  b.onclick=()=>{ $$('#filtresCmd button').forEach(x=>x.classList.remove('actif')); b.classList.add('actif'); filtreActuel=b.dataset.f; rendreCommandes(); };
+});
+
+function rendreCommandes(){
+  const cont = $('#listeCommandes');
+  let liste = etat.commandes;
+  if(filtreActuel!=='tous') liste = liste.filter(c=>c.statut===filtreActuel);
+  if(!etat.commandes.length){
+    cont.innerHTML = `<div class="vide-msg" style="padding:60px 20px">📭<br><b>Aucune commande pour l'instant.</b><br><small>Clique sur « Simuler une commande client » ci-dessus, ou passe une commande depuis la boutique.</small></div>`;
+    return;
+  }
+  if(!liste.length){ cont.innerHTML = `<div class="vide-msg" style="padding:40px">Aucune commande dans ce filtre.</div>`; return; }
+
+  cont.innerHTML = liste.map(c=>{
+    const idx = ORDRE.indexOf(c.statut);
+    const prog = c.statut==='annulee' ? '' : `<div class="progression">${LABELS_PAS.map((l,i)=>`<div class="pas ${i<idx?'fait':''} ${i===idx?'actuel':''} ${i<=idx?'fait':''}">${l}</div>`).join('')}</div>`;
+    const items = c.items.map(it=>{const p=prod(it.id); if(!p) return ''; return `<div class="item"><div class="mini" style="background:${grad(p)}">${p.emoji}</div><div><div>${p.nom}</div><div class="q">Quantité : ${it.qte}</div></div><div class="px">${eur(p.prix*it.qte)}</div></div>`;}).join('');
+    const encaisse = c.sousTotal + c.port;
+    const marge = c.sousTotal - c.coutFournisseur - c.fraisPlateforme;
+    const act = ACTION_SUIVANTE[c.statut];
+    return `<div class="cmd" data-id="${c.id}">
+      <div class="cmd-tete" data-toggle="${c.id}">
+        <span class="num">${c.num}</span>
+        <span class="client">${c.client} · ${c.ville}</span>
+        <span class="statut ${STATUTS[c.statut].cls}">${STATUTS[c.statut].lib}</span>
+        <span class="date">${new Date(c.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</span>
+      </div>
+      <div class="cmd-corps">
+        ${prog}
+        <div class="cmd-grille">
+          <div class="cmd-items">${items}
+            ${c.suivi?`<div class="cmd-livraison">📮 Numéro de suivi : <b>${c.suivi}</b></div>`:''}
+          </div>
+          <div class="cmd-eco">
+            <div class="l"><span>Payé par le client</span><b>${eur(encaisse)}</b></div>
+            <div class="l"><span>− Coût fournisseur</span><span>${eur(c.coutFournisseur)}</span></div>
+            <div class="l"><span>− Frais paiement</span><span>${eur(c.fraisPlateforme)}</span></div>
+            <div class="l marge"><span>= Ta marge</span><span>${eur(marge)}</span></div>
+          </div>
+        </div>
+        <div class="cmd-pied">
+          ${act?`<span class="etape-info">${act.info}</span><button class="btn-etape" data-etape="${c.id}">${act.txt}</button>`:(c.statut==='livree'?`<span class="etape-info">✅ Commande terminée. Marge encaissée : <b style="color:var(--ok)">${eur(marge)}</b></span>`:'<span class="etape-info">Commande annulée.</span>')}
+          ${(c.statut!=='livree'&&c.statut!=='annulee')?`<button class="btn-annuler" data-annuler="${c.id}">Annuler</button>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Interactions
+  cont.querySelectorAll('[data-toggle]').forEach(t=>t.onclick=()=>{
+    t.closest('.cmd').classList.toggle('ouverte');
+  });
+  cont.querySelectorAll('[data-etape]').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation(); avancerCommande(b.dataset.etape);
+  });
+  cont.querySelectorAll('[data-annuler]').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation(); annulerCommande(b.dataset.annuler);
+  });
+}
+
+function avancerCommande(id){
+  const c = etat.commandes.find(x=>x.id===id); if(!c) return;
+  const act = ACTION_SUIVANTE[c.statut]; if(!act) return;
+  const ouverte = document.querySelector(`.cmd[data-id="${id}"]`)?.classList.contains('ouverte');
+  c.statut = act.suiv;
+  if(c.statut==='expediee' && !c.suivi) c.suivi = genSuivi();
+  sauver(); rendreCommandes(); rendreStats(); majPastille();
+  if(ouverte) document.querySelector(`.cmd[data-id="${id}"]`)?.classList.add('ouverte');
+  const msgs = {commandee:'Commande transmise au fournisseur 📤', expediee:'Colis expédié, suivi envoyé au client 🚚', livree:'Commande livrée ! Marge encaissée ✅'};
+  toast(msgs[c.statut]||'Commande mise à jour');
+}
+function annulerCommande(id){
+  const c = etat.commandes.find(x=>x.id===id); if(!c) return;
+  const ouverte = document.querySelector(`.cmd[data-id="${id}"]`)?.classList.contains('ouverte');
+  c.statut='annulee'; sauver(); rendreCommandes(); rendreStats(); majPastille();
+  if(ouverte) document.querySelector(`.cmd[data-id="${id}"]`)?.classList.add('ouverte');
+  toast('Commande annulée');
+}
+
+function majPastille(){
+  const n = etat.commandes.filter(c=>c.statut==='payee').length;
+  const p = $('#pastilleCmd');
+  if(p) p.innerHTML = n ? `<span style="background:var(--terre);color:#fff;font-size:.68rem;padding:1px 7px;border-radius:999px;font-weight:700;margin-left:2px">${n}</span>` : '';
+}
+
+/* ============ STATISTIQUES ============ */
+function rendreStats(){
+  const livrees = etat.commandes.filter(c=>c.statut==='livree');
+  const enCours = etat.commandes.filter(c=>['payee','commandee','expediee'].includes(c.statut));
+  const caLivre = livrees.reduce((s,c)=>s+c.sousTotal+c.port,0);
+  const margeLivre = livrees.reduce((s,c)=>s+(c.sousTotal-c.coutFournisseur-c.fraisPlateforme),0);
+  const aTraiter = etat.commandes.filter(c=>c.statut==='payee').length;
+  const totalCmd = etat.commandes.filter(c=>c.statut!=='annulee').length;
+  const panierMoyen = totalCmd ? (etat.commandes.filter(c=>c.statut!=='annulee').reduce((s,c)=>s+c.sousTotal+c.port,0)/totalCmd) : 0;
+  const tauxMarge = caLivre ? (margeLivre/caLivre*100) : 0;
+
+  $('#statsGrille').innerHTML = `
+    <div class="stat"><div class="lib">Chiffre d'affaires</div><div class="val">${eur(caLivre)}</div><div class="sous">sur commandes livrées</div></div>
+    <div class="stat"><div class="lib">Bénéfice (marge)</div><div class="val vert">${eur(margeLivre)}</div><div class="sous">${tauxMarge.toFixed(0)}% du CA — l'argent réel</div></div>
+    <div class="stat"><div class="lib">À traiter</div><div class="val terre">${aTraiter}</div><div class="sous">commande(s) en attente</div></div>
+    <div class="stat"><div class="lib">Commandes</div><div class="val">${totalCmd}</div><div class="sous">${enCours.length} en cours · ${livrees.length} livrées</div></div>
+    <div class="stat"><div class="lib">Panier moyen</div><div class="val">${eur(panierMoyen)}</div><div class="sous">par commande</div></div>`;
+}
+
+/* ============ GESTION PRODUITS ============ */
+function rendreProduits(){
+  const g = $('#grilleProduits');
+  g.innerHTML = etat.produits.map(p=>{
+    const marge = p.prix - p.cout;
+    const coef = p.cout ? (p.prix/p.cout) : 0;
+    return `<div class="prod-carte ${p.actif?'':'actif-off'}" data-id="${p.id}">
+      <div class="haut">
+        <div class="em" style="background:${grad(p)}">${p.emoji}</div>
+        <div class="meta">
+          <span class="cat">${p.cat}</span>
+          <b>${p.nom}</b>
+          <div style="font-size:.8rem;color:var(--gris)">${p.actif?'🟢 En vente':'⚪ Désactivé'}</div>
+        </div>
+      </div>
+      <div class="prod-eco">
+        <div><div class="lib">Coût</div><div class="ch">${eur(p.cout)}</div></div>
+        <div><div class="lib">Vente</div><div class="ch">${eur(p.prix)}</div></div>
+        <div><div class="lib">Marge</div><div class="ch marge">${eur(marge)}<div style="font-size:.62rem;color:var(--gris);font-weight:400">×${coef.toFixed(1)}</div></div></div>
+      </div>
+      <div class="prod-pied">
+        <button data-edit="${p.id}">✏️ Modifier</button>
+        <button data-toggle-actif="${p.id}">${p.actif?'⏸️ Désactiver':'▶️ Activer'}</button>
+        <button data-suppr="${p.id}" style="margin-left:auto">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+  g.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>ouvrirModal(b.dataset.edit));
+  g.querySelectorAll('[data-toggle-actif]').forEach(b=>b.onclick=()=>{
+    const p=prod(b.dataset.toggleActif); p.actif=!p.actif; sauver(); rendreProduits(); rendreVitrine();
+    toast(p.actif?'Produit remis en vente':'Produit désactivé');
+  });
+  g.querySelectorAll('[data-suppr]').forEach(b=>b.onclick=()=>{
+    if(confirm('Supprimer ce produit du catalogue ?')){
+      etat.produits = etat.produits.filter(x=>x.id!==b.dataset.suppr); sauver(); rendreProduits(); rendreVitrine();
+      toast('Produit supprimé');
+    }
+  });
+}
+
+/* Modal produit */
+let editId = null;
+function ouvrirModal(id){
+  editId = id||null;
+  const p = id ? prod(id) : null;
+  $('#modalTitre').textContent = id ? 'Modifier le produit' : 'Ajouter un produit';
+  $('#fNom').value = p?p.nom:''; $('#fEmoji').value=p?p.emoji:''; $('#fCat').value=p?p.cat:'';
+  $('#fDesc').value=p?p.desc:''; $('#fCout').value=p?p.cout:''; $('#fPrix').value=p?p.prix:'';
+  majApercuMarge();
+  $('#modalProduit').classList.add('ouvert');
+}
+function fermerModal(){ $('#modalProduit').classList.remove('ouvert'); editId=null; }
+function majApercuMarge(){
+  const cout=parseFloat($('#fCout').value), prix=parseFloat($('#fPrix').value);
+  const el=$('#apercuMarge');
+  if(isNaN(cout)||isNaN(prix)||cout<0||prix<0){ el.innerHTML='Renseigne les deux prix pour voir ta marge.'; return; }
+  const marge=prix-cout, coef=cout?prix/cout:0;
+  let verdict = coef>=3?'💚 Excellente marge !':coef>=2.5?'👍 Bonne marge':coef>=2?'😐 Marge un peu juste (attention aux frais de pub)':'⚠️ Marge trop faible pour du dropshipping';
+  el.innerHTML=`Marge par vente : <b>${eur(marge)}</b> (coefficient ×${coef.toFixed(1)}). ${verdict}`;
+}
+$('#fCout').oninput=majApercuMarge; $('#fPrix').oninput=majApercuMarge;
+$('#btnAjoutProduit').onclick=()=>ouvrirModal(null);
+$('#modalFermer').onclick=fermerModal; $('#modalAnnuler').onclick=fermerModal;
+$('#modalProduit').onclick=(e)=>{ if(e.target===$('#modalProduit')) fermerModal(); };
+$('#modalEnregistrer').onclick=()=>{
+  const nom=$('#fNom').value.trim();
+  const cout=parseFloat($('#fCout').value), prix=parseFloat($('#fPrix').value);
+  if(!nom){ toast('Donne un nom au produit'); return; }
+  if(isNaN(cout)||isNaN(prix)){ toast('Renseigne les deux prix'); return; }
+  const data={ nom, emoji:$('#fEmoji').value.trim()||'📦', cat:$('#fCat').value.trim()||'Divers',
+    desc:$('#fDesc').value.trim()||'Un joli produit pour la maison.', cout, prix, actif:true };
+  if(editId){ Object.assign(prod(editId), data); toast('Produit modifié'); }
+  else { data.id='p'+Date.now(); data.grad=['#d9c9a8','#5c7d6c']; etat.produits.push(data); toast('Produit ajouté au catalogue ✓'); }
+  sauver(); rendreProduits(); rendreVitrine(); fermerModal();
+};
+
+/* Réinitialiser */
+$('#btnReset').onclick=()=>{
+  if(confirm('Réinitialiser toute la démo ? (produits, commandes et panier reviendront à zéro)')){
+    localStorage.removeItem(LS); etat=charger(); sauver();
+    rendreVitrine(); rendrePanier(); majFab(); rendreProduits(); rendreCommandes(); rendreStats(); majPastille();
+    toast('Démo réinitialisée ↺');
+  }
+};
+
+/* ============ INIT ============ */
+rendreVitrine(); rendrePanier(); majFab(); majPastille();
+</script>
+</body>
+</html>
