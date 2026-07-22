@@ -95,7 +95,7 @@ img{max-width:100%}
 .grille-produits{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px}
 .carte-produit{background:var(--blanc);border-radius:var(--rayon);overflow:hidden;box-shadow:var(--ombre);transition:.25s;display:flex;flex-direction:column;border:1px solid rgba(217,208,196,.6)}
 .carte-produit:hover{transform:translateY(-4px);box-shadow:var(--ombre-forte)}
-.pv-visuel{aspect-ratio:1/1;display:grid;place-items:center;font-size:4.2rem;position:relative}
+.pv-visuel{aspect-ratio:1/1;display:grid;place-items:center;font-size:4.2rem;position:relative;overflow:hidden}
 .pv-tag{position:absolute;top:12px;left:12px;background:var(--terre);color:#fff;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.03em}
 .pv-corps{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
 .pv-cat{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or);font-weight:700;margin-bottom:5px}
@@ -222,7 +222,7 @@ img{max-width:100%}
 .prod-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .prod-carte{background:var(--blanc);border-radius:var(--rayon);box-shadow:var(--ombre);overflow:hidden;border:1px solid rgba(217,208,196,.6)}
 .prod-carte .haut{display:flex;gap:14px;padding:16px}
-.prod-carte .em{width:60px;height:60px;border-radius:12px;display:grid;place-items:center;font-size:2rem;flex-shrink:0}
+.prod-carte .em{width:60px;height:60px;border-radius:12px;display:grid;place-items:center;font-size:2rem;flex-shrink:0;overflow:hidden}
 .prod-carte .meta{flex:1;min-width:0}
 .prod-carte .meta b{font-family:var(--font-titre);font-size:1.02rem;display:block;margin-bottom:2px}
 .prod-carte .meta .cat{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--or);font-weight:700}
@@ -539,6 +539,21 @@ const PRODUITS_DEFAUT = [
   {id:'p8', nom:'Bougie LED rechargeable', emoji:'🕯️', cat:'Ambiance', desc:'La flamme dansante d\'une vraie bougie, sans le danger. Sans fil.', cout:5, prix:18.90, actif:true, grad:['#ffd9a0','#c66a4a']},
 ];
 
+/* Illustrations produits (SVG intégrés, aucune dépendance externe).
+   Clés = id produit, pour rester valides même avec un état déjà sauvegardé. */
+const SVG_OUV = '<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block" aria-hidden="true">';
+const VISUELS = {
+  p1: SVG_OUV+'<defs><radialGradient id="v1s" cx="50%" cy="42%" r="52%"><stop offset="0%" stop-color="#fff1c9"/><stop offset="45%" stop-color="#ffab5e"/><stop offset="100%" stop-color="#d06a3f"/></radialGradient><linearGradient id="v1w" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f7dcc0"/><stop offset="100%" stop-color="#eec59b"/></linearGradient></defs><rect width="200" height="200" fill="url(#v1w)"/><circle cx="100" cy="84" r="66" fill="url(#v1s)"/><circle cx="100" cy="84" r="66" fill="none" stroke="#ffd9a0" stroke-width="2" opacity=".5"/><rect y="158" width="200" height="42" fill="#d9a878"/><rect y="158" width="200" height="4" fill="#c69566"/><rect x="84" y="150" width="32" height="20" rx="4" fill="#453b34"/><ellipse cx="100" cy="150" rx="17" ry="5" fill="#5c5049"/><circle cx="100" cy="149" r="7" fill="#ffe9b0"/></svg>',
+  p2: SVG_OUV+'<defs><linearGradient id="v2b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7efe8"/><stop offset="1" stop-color="#cdddd0"/></linearGradient></defs><rect width="200" height="200" fill="url(#v2b)"/><rect y="164" width="200" height="36" fill="#c7ab80"/><rect y="164" width="200" height="4" fill="#b2966b"/><g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".7"><path d="M92 96 q-8 -12 0 -24 q8 -12 0 -24"/><path d="M108 96 q8 -12 0 -24 q-8 -12 0 -24"/><path d="M100 92 q-6 -14 0 -28"/></g><ellipse cx="100" cy="150" rx="36" ry="30" fill="#efe9e1"/><path d="M64 150 a36 30 0 0 0 72 0 z" fill="#b98b57"/><ellipse cx="100" cy="124" rx="16" ry="5" fill="#d7cfc4"/><circle cx="100" cy="151" r="5" fill="#ffd98a"/></svg>',
+  p3: SVG_OUV+'<defs><linearGradient id="v3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f7a"/><stop offset="1" stop-color="#1e2145"/></linearGradient></defs><rect width="200" height="200" fill="url(#v3)"/><g fill="#fdf3d0"><circle cx="40" cy="40" r="2.5"/><circle cx="70" cy="24" r="1.5"/><circle cx="120" cy="34" r="2"/><circle cx="164" cy="52" r="2.5"/><circle cx="30" cy="90" r="1.5"/><circle cx="176" cy="104" r="2"/><circle cx="52" cy="130" r="2"/><circle cx="150" cy="140" r="1.5"/><circle cx="90" cy="70" r="1.5"/><circle cx="130" cy="94" r="2.5"/><circle cx="24" cy="150" r="1.5"/></g><path d="M100 42 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" fill="#fff4cf"/><circle cx="150" cy="66" r="15" fill="#fdeaa8"/><circle cx="144" cy="61" r="13" fill="#242850"/><rect y="176" width="200" height="24" fill="#12142e"/><ellipse cx="100" cy="182" rx="26" ry="8" fill="#454a86"/><path d="M78 182 a22 20 0 0 1 44 0 z" fill="#5a60a0"/><circle cx="100" cy="176" r="5" fill="#bfe3ff"/></svg>',
+  p4: SVG_OUV+'<rect width="200" height="200" fill="#f3e7d6"/><rect x="34" y="72" width="132" height="88" rx="10" fill="#c98f5e"/><rect x="40" y="60" width="120" height="80" rx="10" fill="#dba873"/><rect x="46" y="50" width="108" height="72" rx="10" fill="#e8bd8c"/><path d="M46 74 h108 M46 96 h108" stroke="#d3a878" stroke-width="3" opacity=".6"/><path d="M46 50 q-14 36 0 72" fill="none" stroke="#d9ac7e" stroke-width="4"/><path d="M154 50 q14 36 0 72" fill="none" stroke="#cf9f6f" stroke-width="3" opacity=".7"/></svg>',
+  p5: SVG_OUV+'<defs><linearGradient id="v5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4f2f4"/><stop offset="1" stop-color="#c2e0e6"/></linearGradient></defs><rect width="200" height="200" fill="url(#v5)"/><rect y="166" width="200" height="34" fill="#cbb892"/><g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".75"><path d="M96 84 q-7 -12 0 -24"/><path d="M104 84 q7 -12 0 -24"/><path d="M100 78 q0 -14 0 -26"/></g><rect x="72" y="104" width="56" height="62" rx="26" fill="#eaf3f5"/><rect x="72" y="104" width="56" height="62" rx="26" fill="none" stroke="#cfe2e6" stroke-width="2"/><ellipse cx="100" cy="110" rx="12" ry="4" fill="#bcd6dc"/><path d="M100 128 c-7 8 -10 13 -10 18 a10 10 0 0 0 20 0 c0 -5 -3 -10 -10 -18z" fill="#7fc4d6"/></svg>',
+  p6: SVG_OUV+'<rect width="200" height="200" fill="#f6ead0"/><path d="M6 40 Q50 68 100 44 T196 52" fill="none" stroke="#a98d5a" stroke-width="2"/><g><circle cx="30" cy="54" r="10" fill="#ffe08a" opacity=".5"/><circle cx="30" cy="54" r="5" fill="#ffcf5f"/><circle cx="64" cy="53" r="10" fill="#ffe08a" opacity=".5"/><circle cx="64" cy="53" r="5" fill="#ffcf5f"/><circle cx="100" cy="44" r="10" fill="#ffe08a" opacity=".5"/><circle cx="100" cy="44" r="5" fill="#ffcf5f"/><circle cx="140" cy="49" r="10" fill="#ffe08a" opacity=".5"/><circle cx="140" cy="49" r="5" fill="#ffcf5f"/><circle cx="172" cy="52" r="10" fill="#ffe08a" opacity=".5"/><circle cx="172" cy="52" r="5" fill="#ffcf5f"/></g><g><rect x="52" y="96" width="34" height="42" rx="2" fill="#fff" stroke="#e2d6bf" transform="rotate(-6 69 117)"/><rect x="56" y="100" width="26" height="26" fill="#cbb89a" transform="rotate(-6 69 113)"/><rect x="114" y="106" width="34" height="42" rx="2" fill="#fff" stroke="#e2d6bf" transform="rotate(5 131 127)"/><rect x="118" y="110" width="26" height="26" fill="#b7c4a6" transform="rotate(5 131 123)"/></g></svg>',
+  p7: SVG_OUV+'<rect width="200" height="200" fill="#eef1e2"/><rect y="150" width="200" height="50" fill="#d8c7a4"/><rect y="150" width="200" height="4" fill="#c7b48d"/><rect x="58" y="60" width="6" height="36" rx="3" fill="#3f5c4e"/><rect x="68" y="54" width="6" height="42" rx="3" fill="#c66a4a"/><rect x="76" y="64" width="6" height="32" rx="3" fill="#c9a24b"/><rect x="128" y="58" width="20" height="40" rx="3" fill="#2c2620"/><rect x="130" y="62" width="16" height="32" rx="2" fill="#5c7d6c"/><rect x="46" y="88" width="108" height="14" fill="#d8b878"/><rect x="46" y="96" width="108" height="64" rx="6" fill="#c9a86a"/><path d="M46 118 h108 M46 138 h108" stroke="#b9954f" stroke-width="2" opacity=".5"/><rect x="86" y="96" width="4" height="64" fill="#b9954f"/><rect x="120" y="96" width="4" height="64" fill="#b9954f"/></svg>',
+  p8: SVG_OUV+'<defs><radialGradient id="v8" cx="50%" cy="30%" r="60%"><stop offset="0" stop-color="#fbe3b8"/><stop offset="1" stop-color="#eec99a"/></radialGradient></defs><rect width="200" height="200" fill="url(#v8)"/><rect y="160" width="200" height="40" fill="#d9b98f"/><circle cx="100" cy="70" r="26" fill="#ffdf9e" opacity=".55"/><rect x="76" y="90" width="48" height="72" rx="4" fill="#f6efe2"/><ellipse cx="100" cy="90" rx="24" ry="6" fill="#fffaf0"/><ellipse cx="100" cy="162" rx="24" ry="6" fill="#e7ddca"/><rect x="99" y="74" width="2" height="10" fill="#5a4a3a"/><path d="M100 50 c8 9 11 15 11 22 a11 12 0 0 1 -22 0 c0 -9 3 -13 11 -22z" fill="#ffb24d"/><path d="M100 60 c4 5 5 8 5 12 a5 6 0 0 1 -10 0 c0 -4 1 -7 5 -12z" fill="#ffe6a0"/></svg>',
+};
+function visuel(p){ return VISUELS[p.id] || p.emoji; }
+
 const PRENOMS = ['Léa','Hugo','Camille','Nathan','Emma','Lucas','Chloé','Théo','Manon','Enzo','Sarah','Louis','Inès','Jules','Zoé','Adam','Lina','Gabriel','Jade','Raphaël'];
 const NOMS = ['Martin','Bernard','Dubois','Robert','Petit','Durand','Leroy','Moreau','Simon','Laurent','Michel','Garcia','Roux','Fontaine','Blanc'];
 const VILLES = ['Paris','Lyon','Marseille','Bordeaux','Lille','Nantes','Toulouse','Rennes','Strasbourg','Nice','Montpellier','Grenoble','Rouen','Dijon','Angers'];
@@ -602,7 +617,7 @@ function rendreVitrine(){
   g.innerHTML = actifs.map(p=>`
     <article class="carte-produit">
       <div class="pv-visuel" style="background:${grad(p)}">
-        <span class="pv-tag">Coup de cœur</span>${p.emoji}
+        <span class="pv-tag">Coup de cœur</span>${visuel(p)}
       </div>
       <div class="pv-corps">
         <div class="pv-cat">${p.cat}</div>
@@ -890,7 +905,7 @@ function rendreProduits(){
     const coef = p.cout ? (p.prix/p.cout) : 0;
     return `<div class="prod-carte ${p.actif?'':'actif-off'}" data-id="${p.id}">
       <div class="haut">
-        <div class="em" style="background:${grad(p)}">${p.emoji}</div>
+        <div class="em" style="background:${grad(p)}">${visuel(p)}</div>
         <div class="meta">
           <span class="cat">${p.cat}</span>
           <b>${p.nom}</b>
