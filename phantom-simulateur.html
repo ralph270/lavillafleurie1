@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000000">
+<title>Portefeuille — Simulateur d'entraînement (argent fictif)</title>
+<style>
+/* ============ TOKENS DE DESIGN ============ */
+:root{
+  --violet:#ab9ff2;        /* accent Phantom */
+  --violet-fonce:#8a7ce0;
+  --violet-vif:#5a4bd6;
+  --noir:#000000;
+  --fond:#111111;
+  --carte:#1c1c1c;
+  --carte-2:#242424;
+  --carte-3:#2c2c2c;
+  --bord:#2a2a2a;
+  --blanc:#ffffff;
+  --gris:#a3a3a3;
+  --gris-2:#6f6f6f;
+  --vert:#21e56f;
+  --vert-2:#31d07a;
+  --rouge:#f6465d;
+  --rouge-2:#ff5c6c;
+  --or:#f0b90b;
+  --rayon:22px;
+  --rayon-s:16px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  color:var(--blanc);
+  background:
+    radial-gradient(1200px 600px at 50% -200px, #1a1730 0%, transparent 60%),
+    #050505;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;align-items:center;
+  min-height:100dvh;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+::-webkit-scrollbar{width:0;height:0}
+:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+/* ============ CADRE TÉLÉPHONE ============ */
+.tel{
+  position:relative;
+  width:100%;max-width:440px;height:100dvh;max-height:940px;
+  background:var(--noir);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 40px 120px rgba(0,0,0,.7);
+}
+@media(min-width:520px){
+  .tel{border-radius:44px;border:1px solid #1e1e1e;height:900px}
+}
+
+/* Barre d'état iOS factice */
+.statusbar{
+  height:46px;flex:0 0 46px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px 0 30px;font-size:.92rem;font-weight:600;
+  position:relative;z-index:5;
+}
+.statusbar .dyn{
+  position:absolute;left:50%;top:8px;transform:translateX(-50%);
+  width:118px;height:30px;background:#0a0a0a;border-radius:18px;
+}
+.statusbar .droite{display:flex;align-items:center;gap:6px}
+.batt{display:inline-flex;align-items:center;gap:4px}
+.batt .cell{width:24px;height:12px;border:1.5px solid #fff;border-radius:3px;position:relative;padding:1.5px}
+.batt .cell::after{content:"";position:absolute;right:-3px;top:3px;width:2px;height:5px;background:#fff;border-radius:0 2px 2px 0}
+.batt .fill{height:100%;width:70%;background:var(--vert);border-radius:1px}
+
+/* ============ EN-TÊTE / ONGLETS ============ */
+.topbar{
+  flex:0 0 auto;
+  display:flex;align-items:center;gap:10px;
+  padding:4px 14px 12px;
+}
+.avatar{
+  width:40px;height:40px;flex:0 0 40px;border-radius:50%;
+  background:linear-gradient(135deg,#ffd36e,#ff8f4c);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;cursor:pointer;
+}
+.avatar svg{width:40px;height:40px}
+.tabs{
+  display:flex;gap:8px;overflow-x:auto;flex:1;
+  scrollbar-width:none;-ms-overflow-style:none;
+  mask-image:linear-gradient(90deg,#000 88%,transparent);
+}
+.tab{
+  flex:0 0 auto;
+  padding:9px 18px;border-radius:22px;
+  background:var(--carte);color:var(--gris);
+  font-weight:600;font-size:1.02rem;white-space:nowrap;
+  transition:all .18s;
+}
+.tab.actif{background:var(--violet);color:#1a1730}
+
+/* ============ ZONE DÉFILANTE ============ */
+.ecran{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 120px;-webkit-overflow-scrolling:touch}
+.vue{display:none;animation:fade .3s ease}
+.vue.actif{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ============ ACCUEIL ============ */
+.compte-sel{display:inline-flex;align-items:center;gap:6px;color:var(--gris);font-weight:600;margin:6px 0 4px;font-size:1.05rem}
+.compte-sel svg{width:16px;height:16px}
+.solde{font-size:3.4rem;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.variation{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.chip{padding:3px 10px;border-radius:9px;font-weight:700;font-size:.98rem}
+.chip.plus{background:rgba(33,229,111,.16);color:var(--vert)}
+.chip.moins{background:rgba(246,70,93,.16);color:var(--rouge)}
+.montant-var{font-weight:700;font-size:1.05rem}
+
+.actions-rap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0 8px}
+.act{background:var(--carte);border-radius:var(--rayon-s);padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:.8rem;font-weight:600;color:var(--blanc);transition:background .15s}
+.act:active{background:var(--carte-3)}
+.act .ic{width:38px;height:38px;border-radius:50%;background:rgba(171,159,242,.16);display:flex;align-items:center;justify-content:center}
+.act .ic svg{width:20px;height:20px;stroke:var(--violet)}
+
+.ligne-espece{display:flex;align-items:center;gap:14px;background:var(--carte);border-radius:var(--rayon);padding:16px;margin-top:14px;cursor:pointer;transition:background .15s}
+.ligne-espece:active{background:var(--carte-2)}
+.ic-rond{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--carte-3);overflow:hidden}
+.ic-rond svg{width:44px;height:44px}
+.grow{flex:1;min-width:0}
+.droite-txt{text-align:right;white-space:nowrap}
+
+.sect-titre{display:flex;align-items:center;gap:6px;font-size:1.35rem;font-weight:800;margin:26px 0 12px}
+.sect-titre .fleche{color:var(--gris-2);font-size:1.1rem}
+.sect-titre.lien{cursor:pointer}
+
+.jeton{display:flex;align-items:center;gap:14px;padding:12px 4px;cursor:pointer;border-radius:12px;transition:background .15s}
+.jeton:active{background:var(--carte)}
+.jeton .nom{font-weight:700;font-size:1.08rem;display:flex;align-items:center;gap:6px}
+.jeton .sub{color:var(--gris);font-size:.95rem}
+.jeton .val{font-weight:700;font-size:1.08rem}
+.verifie{width:15px;height:15px}
+.pos{color:var(--vert)}.neg{color:var(--rouge)}
+
+.carte-promo{background:var(--carte);border-radius:var(--rayon);padding:20px;margin-top:6px;position:relative;overflow:hidden}
+.carte-promo h4{font-size:1.15rem;margin-bottom:6px}
+.carte-promo p{color:var(--gris);font-size:.96rem}
+.promo-ic{width:34px;height:34px;margin-bottom:14px}
+.promo-scroll{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;margin-top:6px}
+.promo-scroll::-webkit-scrollbar{display:none}
+.promo-scroll .carte-promo{flex:0 0 82%;margin-top:0}
+.mini-carte{flex:0 0 64px;background:var(--carte);border-radius:var(--rayon);display:flex;align-items:flex-end;justify-content:center;padding:14px 0;color:var(--gris-2);font-weight:800;font-size:1.4rem;letter-spacing:-.05em}
+
+/* ============ ÉCHANGE ============ */
+.swap-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:6px 0 16px}
+.swap-tabs::-webkit-scrollbar{display:none}
+.swap-tab{flex:0 0 auto;display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:22px;background:var(--carte);color:var(--gris);font-weight:700;font-size:.98rem;white-space:nowrap}
+.swap-tab svg{width:16px;height:16px}
+.swap-box{background:var(--carte);border-radius:var(--rayon);padding:18px;position:relative}
+.swap-box .lbl{color:var(--gris);font-weight:700;font-size:1rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.swap-box .rangee{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.swap-input{font-size:2.6rem;font-weight:800;letter-spacing:-.02em;background:none;border:none;color:var(--blanc);width:60%;outline:none}
+.swap-input::placeholder{color:#3a3a3a}
+.pastille{display:flex;align-items:center;gap:8px;background:var(--carte-3);border-radius:22px;padding:7px 12px 7px 8px;font-weight:800;font-size:1.05rem;flex:0 0 auto}
+.pastille .ic-rond{width:30px;height:30px;flex:0 0 30px}
+.pastille .ic-rond svg{width:30px;height:30px}
+.pastille .chev{width:16px;height:16px;color:var(--gris)}
+.swap-sub{display:flex;justify-content:space-between;color:var(--gris);font-size:.98rem;margin-top:8px}
+.swap-switch{position:absolute;left:50%;bottom:-19px;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:var(--violet);display:flex;align-items:center;justify-content:center;z-index:3;border:4px solid var(--noir)}
+.swap-switch svg{width:18px;height:18px;color:#1a1730}
+.swap-gap{height:10px}
+.detail{background:var(--carte);border-radius:var(--rayon);margin-top:20px;overflow:hidden}
+.detail .row{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-bottom:1px solid #232323;font-size:1rem}
+.detail .row:last-child{border-bottom:none}
+.detail .row .k{color:var(--gris);display:flex;align-items:center;gap:6px}
+.detail .row .v{font-weight:700}
+.info-i{width:15px;height:15px;color:var(--gris-2)}
+.note-frais{color:var(--gris-2);font-size:.86rem;padding:0 18px 15px;display:flex;justify-content:space-between;gap:10px}
+
+/* ============ PRÉDIRE ============ */
+.pred-carte{background:var(--carte);border-radius:var(--rayon);padding:18px;position:relative;overflow:hidden}
+.pred-haut{display:flex;justify-content:space-between;align-items:flex-start}
+.pred-prix{font-size:2.5rem;font-weight:800;letter-spacing:-.02em;line-height:1}
+.pred-cible{color:var(--gris);font-size:1rem;margin-top:2px}
+.pred-timer{display:flex;align-items:center;gap:5px;color:var(--gris);font-weight:700;font-size:.98rem}
+.pred-timer svg{width:15px;height:15px}
+.pred-graph{position:relative;height:150px;margin:14px 0 6px}
+.pred-graph svg{width:100%;height:100%;overflow:visible}
+.cible-badge{position:absolute;right:0;background:var(--carte-3);border-radius:8px;padding:2px 8px;font-size:.82rem;font-weight:700;transform:translateY(-50%)}
+.pred-btns{display:flex;gap:10px;margin-top:10px}
+.pred-btn{flex:1;border-radius:14px;padding:13px;font-weight:800;font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .1s}
+.pred-btn:active{transform:scale(.97)}
+.pred-btn.haut{background:rgba(33,229,111,.14);color:var(--vert)}
+.pred-btn.bas{background:rgba(246,70,93,.14);color:var(--rouge)}
+.marches{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.marche{background:var(--carte);border-radius:var(--rayon);padding:18px;cursor:pointer;transition:background .15s}
+.marche:active{background:var(--carte-2)}
+.marche .ic-rond{width:46px;height:46px;margin-bottom:38px}
+.marche .ic-rond svg{width:46px;height:46px}
+.marche .nom{font-weight:800;font-size:1.15rem}
+.marche .dur{color:var(--gris);font-size:.95rem}
+.mes-paris{background:var(--carte);border-radius:var(--rayon);padding:6px 4px;margin-top:6px}
+.pari{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #232323}
+.pari:last-child{border-bottom:none}
+.pari .badge{padding:3px 9px;border-radius:8px;font-weight:800;font-size:.82rem}
+
+/* ============ EXPLORATEUR ============ */
+.rangee-carte{background:var(--carte);border-radius:var(--rayon);overflow:hidden;margin-bottom:6px}
+.item-explore{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid #202020}
+.item-explore:last-child{border-bottom:none}
+.rank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#000;position:absolute;bottom:-3px;right:-3px}
+.avat-wrap{position:relative}
+.lev{background:var(--carte-3);border-radius:7px;padding:2px 7px;font-size:.78rem;font-weight:800;color:var(--violet)}
+.suivre{background:var(--violet);color:#1a1730;border-radius:20px;padding:8px 18px;font-weight:800;font-size:.95rem}
+.news{padding:14px 2px;border-bottom:1px solid #1c1c1c}
+.news .src{color:var(--gris-2);font-size:.85rem;margin-bottom:4px}
+.news .titre{font-size:1.02rem;font-weight:600;margin-bottom:5px;line-height:1.3}
+.news .tags{display:flex;gap:12px;font-weight:800;font-size:.95rem}
+.avert-explore{color:var(--gris-2);font-size:.82rem;padding:20px 2px;display:flex;gap:8px}
+.avert-explore a{color:var(--violet)}
+
+/* ============ BARRE DU BAS ============ */
+.barre-bas{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:10px 18px calc(14px + env(safe-area-inset-bottom));
+  display:flex;gap:12px;align-items:center;
+  background:linear-gradient(0deg,#000 60%,transparent);
+  z-index:20;
+}
+.recherche{flex:1;display:flex;align-items:center;gap:10px;background:var(--carte);border-radius:26px;padding:14px 18px;color:var(--gris-2);font-size:1.02rem}
+.recherche svg{width:18px;height:18px}
+.fab{width:52px;height:52px;flex:0 0 52px;border-radius:50%;background:var(--violet);display:flex;align-items:center;justify-content:center}
+.fab svg{width:24px;height:24px;color:#1a1730}
+
+/* ============ FEUILLE (bottom sheet) ============ */
+.voile{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.voile.on{opacity:1;pointer-events:auto}
+.feuille{
+  position:absolute;left:0;right:0;bottom:0;z-index:50;
+  background:#181818;border-radius:26px 26px 0 0;
+  padding:12px 20px calc(26px + env(safe-area-inset-bottom));
+  transform:translateY(105%);transition:transform .32s cubic-bezier(.22,1,.36,1);
+  max-height:88%;overflow-y:auto;
+}
+.feuille.on{transform:none}
+.poignee{width:40px;height:5px;border-radius:3px;background:#3a3a3a;margin:2px auto 16px}
+.feuille h3{font-size:1.5rem;margin-bottom:4px}
+.feuille .desc{color:var(--gris);margin-bottom:18px;font-size:.98rem}
+.opt{display:flex;align-items:center;gap:14px;padding:15px 6px;border-radius:14px;transition:background .15s}
+.opt:active{background:var(--carte-2)}
+.opt .ic-rond{width:42px;height:42px;background:rgba(171,159,242,.14)}
+.opt .ic-rond svg{width:22px;height:22px;stroke:var(--violet);fill:none}
+.opt .t{font-weight:700;font-size:1.06rem}
+.opt .s{color:var(--gris);font-size:.9rem}
+.champ{width:100%;background:var(--carte);border:1px solid var(--bord);border-radius:14px;padding:16px;color:#fff;font-size:1.3rem;font-weight:800;margin:8px 0 14px;outline:none;text-align:center}
+.btn-plein{width:100%;background:var(--violet);color:#1a1730;border-radius:26px;padding:16px;font-weight:800;font-size:1.1rem;transition:transform .1s}
+.btn-plein:active{transform:scale(.98)}
+.btn-plein.disabled{background:var(--carte-3);color:var(--gris-2)}
+.btn-ligne{width:100%;background:var(--carte);color:#fff;border-radius:26px;padding:14px;font-weight:700;margin-top:10px}
+.puces{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.puce{background:var(--carte);border-radius:20px;padding:8px 14px;font-weight:700;color:var(--violet)}
+
+/* Sélecteur de jeton */
+.tok-opt{display:flex;align-items:center;gap:13px;padding:12px 4px;border-radius:12px}
+.tok-opt:active{background:var(--carte-2)}
+
+/* Toast */
+.toast{
+  position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+  background:#e9e9e9;color:#111;font-weight:700;font-size:.98rem;
+  padding:13px 20px;border-radius:16px;z-index:80;
+  opacity:0;pointer-events:none;transition:all .3s;max-width:88%;text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.win{background:#11351f;color:var(--vert)}
+.toast.lose{background:#3a1620;color:var(--rouge-2)}
+
+/* Bandeau d'entraînement */
+.bandeau{
+  background:linear-gradient(90deg,rgba(171,159,242,.14),rgba(90,75,214,.14));
+  border:1px solid rgba(171,159,242,.25);
+  border-radius:14px;padding:10px 14px;margin:2px 0 8px;
+  font-size:.82rem;color:#d7d0ff;display:flex;gap:8px;align-items:center;
+}
+.bandeau b{color:#fff}
+
+/* ============ ONBOARDING / ACCEPTATION ============ */
+.onboard{
+  position:absolute;inset:0;z-index:200;background:#050505;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:36px 30px calc(30px + env(safe-area-inset-bottom));
+  text-align:center;
+  background:radial-gradient(700px 500px at 50% 12%, #221c46 0%, #050505 62%);
+}
+.onboard .logo{width:88px;height:88px;margin:0 auto 22px;border-radius:26px;
+  background:linear-gradient(160deg,#7a68ea,#ab9ff2);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 20px 50px rgba(120,90,240,.45)}
+.onboard .logo svg{width:56px;height:56px}
+.onboard h1{font-size:1.9rem;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+.onboard .surtitre{color:var(--violet);font-weight:800;letter-spacing:.14em;font-size:.78rem;text-transform:uppercase;margin-bottom:16px}
+.onboard p{color:var(--gris);font-size:1rem;margin-bottom:14px}
+.onboard .encart{background:var(--carte);border-radius:16px;padding:16px;text-align:left;font-size:.9rem;color:var(--gris);margin:8px 0 20px;line-height:1.5}
+.onboard .encart b{color:#fff}
+.check{display:flex;gap:11px;align-items:flex-start;text-align:left;background:var(--carte);border-radius:14px;padding:14px;margin-bottom:18px;cursor:pointer}
+.check .box{width:24px;height:24px;flex:0 0 24px;border-radius:7px;border:2px solid var(--gris-2);display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px}
+.check.ok .box{background:var(--violet);border-color:var(--violet)}
+.check .box svg{width:15px;height:15px;color:#1a1730;opacity:0;transition:opacity .15s}
+.check.ok .box svg{opacity:1}
+.check span{font-size:.92rem;color:#ddd}
+</style>
+</head>
+<body>
+
+<div class="tel" id="tel">
+
+  <!-- ===== BARRE D'ÉTAT ===== -->
+  <div class="statusbar">
+    <span id="horloge">13:33</span>
+    <div class="dyn"></div>
+    <div class="droite">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="#fff"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4" width="3" height="8" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1" opacity=".4"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".4"/></svg>
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="#fff"><path d="M8.5 2.2c2.4 0 4.6.9 6.2 2.4l1.2-1.3C14 1.4 11.4.3 8.5.3S3 1.4 1.1 3.3l1.2 1.3C3.9 3.1 6.1 2.2 8.5 2.2z"/><path d="M8.5 5.6c1.4 0 2.7.5 3.6 1.5l1.2-1.3C12.1 4.5 10.4 3.8 8.5 3.8S4.9 4.5 3.7 5.8l1.2 1.3c.9-1 2.2-1.5 3.6-1.5z"/><circle cx="8.5" cy="9.8" r="1.8"/></svg>
+      <span class="batt"><span class="cell"><span class="fill"></span></span></span>
+    </div>
+  </div>
+
+  <!-- ===== EN-TÊTE / ONGLETS ===== -->
+  <div class="topbar">
+    <div class="avatar" id="avatarBtn" title="Réinitialiser le simulateur">
+      <svg viewBox="0 0 40 40"><rect width="40" height="40" fill="url(#av)"/><defs><linearGradient id="av" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd36e"/><stop offset="1" stop-color="#ff8f4c"/></linearGradient></defs><circle cx="14" cy="18" r="2.4" fill="#3a2a12"/><circle cx="26" cy="18" r="2.4" fill="#3a2a12"/><path d="M13 25c2 2.4 12 2.4 14 0" stroke="#3a2a12" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6 14c3-8 25-8 28 0-4-3-9-4.5-14-4.5S10 11 6 14z" fill="#5a3a12"/></svg>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab actif" data-vue="accueil">Accueil</button>
+      <button class="tab" data-vue="echange">Échange</button>
+      <button class="tab" data-vue="predire">Prédire</button>
+      <button class="tab" data-vue="explorer">Explorateur</button>
+    </div>
+  </div>
+
+  <!-- ===== ÉCRANS ===== -->
+  <div class="ecran" id="ecran">
+
+    <!-- ============ ACCUEIL ============ -->
+    <section class="vue actif" id="vue-accueil">
+      <div class="bandeau">💡 <span><b>Mode entraînement.</b> Argent 100&nbsp;% fictif — entraîne-toi sans aucun risque.</span></div>
+      <div class="compte-sel">Compte 1
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="solde" id="soldeTotal">$0.00</div>
+      <div class="variation">
+        <span class="montant-var" id="soldeVarAbs">+$0.00</span>
+        <span class="chip plus" id="soldeVarPct">+0.00%</span>
+      </div>
+
+      <div class="actions-rap">
+        <button class="act" data-action="ajouter"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter</button>
+        <button class="act" data-action="recevoir"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>Recevoir</button>
+        <button class="act" data-action="envoyer"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span>Envoyer</button>
+        <button class="act" data-action="echanger"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l-3 3 3 3M4 13h11M17 14l3-3-3-3M20 11H9"/></svg></span>Échanger</button>
+      </div>
+
+      <div class="ligne-espece" data-action="ajouter">
+        <span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#2c2c2c"/><rect x="12" y="16" width="20" height="13" rx="2.5" fill="none" stroke="#9a9a9a" stroke-width="2"/><circle cx="22" cy="22.5" r="3" fill="none" stroke="#9a9a9a" stroke-width="2"/></svg></span>
+        <span class="grow"><div style="font-weight:700;font-size:1.08rem">Espèces</div><div style="color:var(--gris);font-size:.92rem">Appuie pour créditer</div></span>
+        <span class="droite-txt" style="font-weight:700;font-size:1.08rem" id="especeVal">$0.00</span>
+      </div>
+
+      <div class="sect-titre lien" data-vue="tokdetail">Jetons <span class="fleche">›</span></div>
+      <div id="listeJetons"></div>
+
+      <div class="sect-titre lien" data-vue="predire">Perps <span class="fleche">›</span></div>
+      <div class="promo-scroll">
+        <div class="mini-carte">20x<br>50x<br>100x</div>
+        <div class="carte-promo">
+          <svg class="promo-ic" viewBox="0 0 34 34" fill="none" stroke="#ab9ff2" stroke-width="2.4"><path d="M10 24c-4 0-7-3-7-7s3-7 7-7c3 0 5 2 7 4M24 10c4 0 7 3 7 7s-3 7-7 7c-3 0-5-2-7-4"/></svg>
+          <h4>Lancez-vous avec Perps</h4>
+          <p>Apprenez à négocier les fluctuations de prix avec effet de levier — en fictif.</p>
+        </div>
+      </div>
+
+      <div class="sect-titre lien" data-vue="predire">Prédictions <span class="fleche">›</span></div>
+      <div class="promo-scroll">
+        <div class="carte-promo" style="flex:0 0 46%">
+          <div style="font-size:1.8rem">📈</div>
+          <h4 style="margin-top:10px">Grand Prix…</h4>
+        </div>
+        <div class="carte-promo" style="flex:0 0 70%">
+          <div style="font-size:1.8rem">🎟️</div>
+          <h4 style="margin-top:10px">Lancez-vous avec les Prédictions</h4>
+          <p>Parcourir les évènements à venir.</p>
+        </div>
+      </div>
+
+      <div class="sect-titre">Liste de surveillance <span class="fleche">›</span></div>
+      <div class="carte-promo">
+        <svg class="promo-ic" viewBox="0 0 34 34" fill="none" stroke="#ab9ff2" stroke-width="2.4"><path d="M17 29S4 22 4 13a6 6 0 0 1 11-3 6 6 0 0 1 11 3c0 9-13 16-13 16z"/></svg>
+        <h4>Suivez ce qui est important</h4>
+        <p>Trouvez des actifs ou des listes à suivre.</p>
+      </div>
+
+      <div class="sect-titre lien" data-vue="explorer">Explorer <span class="fleche">›</span></div>
+      <div style="height:8px"></div>
+    </section>
+
+    <!-- ============ ÉCHANGE ============ -->
+    <section class="vue" id="vue-echange">
+      <div class="swap-tabs">
+        <div class="swap-tab" style="color:var(--violet)"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0l1.8 4.5L14 5l-3.4 2.9L11.6 13 8 10.3 4.4 13l1-5.1L2 5l4.2-.5z"/></svg>Featured</div>
+        <div class="swap-tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 5v6"/></svg>Top Volume</div>
+        <div class="swap-tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 13V3M4 7l4-4 4 4"/></svg>Top Gainers</div>
+      </div>
+
+      <div class="swap-box">
+        <div class="lbl">Vous payez <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#a3a3a3" stroke-width="1.6"><path d="M3 6h12M5 9h8M7 12h4"/></svg></div>
+        <div class="rangee">
+          <input class="swap-input" id="payAmt" type="text" inputmode="decimal" value="0.4">
+          <button class="pastille" data-sel="pay"><span class="ic-rond" id="payIc"></span><span id="paySym">SOL</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        </div>
+        <div class="swap-sub"><span id="payFiat">$31.09</span><span id="payBal">Solde 1.46851 SOL</span></div>
+        <div class="swap-switch" id="swapSwitch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5v14M5 16l3 3 3-3M16 19V5M13 8l3-3 3 3"/></svg></div>
+      </div>
+
+      <div class="swap-gap"></div>
+
+      <div class="swap-box">
+        <div class="lbl">Vous recevez</div>
+        <div class="rangee">
+          <div class="swap-input" id="recAmt" style="width:60%">0</div>
+          <button class="pastille" data-sel="rec"><span class="ic-rond" id="recIc"></span><span id="recSym">BTC</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        </div>
+        <div class="swap-sub"><span id="recFiat">$0.00</span><span id="recBal">Solde 0 BTC</span></div>
+      </div>
+
+      <div class="detail">
+        <div class="row"><span class="k">Tarification <svg class="info-i" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5h.01"/></svg></span><span class="v" id="rowRate">—</span></div>
+        <div class="row"><span class="k">Glissement <svg class="info-i" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5h.01"/></svg></span><span class="v">Auto · 0.7 %</span></div>
+        <div class="row"><span class="k">Impact sur le prix <svg class="info-i" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5h.01"/></svg></span><span class="v" id="rowImpact">2.09%</span></div>
+        <div class="row"><span class="k">Frais <svg class="info-i" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5h.01"/></svg></span><span class="v" id="rowFee">$0.27</span></div>
+        <div class="note-frais"><span>Le devis inclut une commission de 0.85% (fictive).</span><span>ⓘ</span></div>
+      </div>
+    </section>
+
+    <!-- ============ PRÉDIRE ============ -->
+    <section class="vue" id="vue-predire">
+      <div class="sect-titre lien" id="predTitre">Up or Down · <span id="predAsset">BTC</span> <span class="fleche">›</span></div>
+      <div class="pred-carte">
+        <div class="pred-haut">
+          <div>
+            <div class="pred-prix" id="predPrix">$0</div>
+            <div class="pred-cible">Cibler <span id="predCible">$0</span></div>
+          </div>
+          <div class="pred-timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6" stroke-linecap="round"/></svg><span id="predTimer">1m00s</span></div>
+        </div>
+        <div class="pred-graph">
+          <svg id="predSvg" viewBox="0 0 300 150" preserveAspectRatio="none">
+            <line id="cibleLine" x1="0" x2="300" stroke="#555" stroke-width="1" stroke-dasharray="4 4"/>
+            <polyline id="predLine" fill="none" stroke="#f6465d" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points=""/>
+            <circle id="predDot" r="4" fill="#f6465d"/>
+          </svg>
+          <div class="cible-badge" id="cibleBadge">$0</div>
+        </div>
+        <div class="pred-btns">
+          <button class="pred-btn haut" data-dir="haut">▲ Haut · <span id="pctHaut">50%</span></button>
+          <button class="pred-btn bas" data-dir="bas">▼ Bas · <span id="pctBas">50%</span></button>
+        </div>
+      </div>
+
+      <div id="zoneParis"></div>
+
+      <div class="sect-titre">15 Minute Markets</div>
+      <div class="marches" id="marches"></div>
+      <div style="height:8px"></div>
+    </section>
+
+    <!-- ============ EXPLORATEUR ============ -->
+    <section class="vue" id="vue-explorer">
+      <div class="swap-tabs">
+        <div class="swap-tab" style="color:var(--violet)">Jetons</div>
+        <div class="swap-tab">Personnes</div>
+        <div class="swap-tab">Sites</div>
+        <div class="swap-tab">Apprendre</div>
+      </div>
+
+      <div class="sect-titre">Jetons tendance <span class="fleche">›</span></div>
+      <div class="rangee-carte" id="jetonsTendance"></div>
+
+      <div class="sect-titre">Perps tendance <span class="fleche">›</span></div>
+      <div class="rangee-carte" id="perpsTendance"></div>
+
+      <div class="sect-titre">Meilleurs négociants <span class="fleche">›</span></div>
+      <div class="rangee-carte" id="negociants"></div>
+
+      <div class="sect-titre">Sites <span class="fleche">›</span></div>
+      <div class="rangee-carte">
+        <div class="item-explore"><span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#e8622c"/><text x="22" y="29" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">J</text></svg></span><span class="grow"><div style="font-weight:700">Jupiter</div><div style="color:var(--gris);font-size:.9rem">DeFi</div></span><span style="color:var(--gris)">↗</span></div>
+        <div class="item-explore"><span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#1a7f5a"/><text x="22" y="29" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">G</text></svg></span><span class="grow"><div style="font-weight:700">GMGN</div><div style="color:var(--gris);font-size:.9rem">DeFi</div></span><span style="color:var(--gris)">↗</span></div>
+      </div>
+
+      <div class="sect-titre">Apprendre <span class="fleche">›</span></div>
+      <div class="rangee-carte">
+        <div class="item-explore"><span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#14b87a"/></svg></span><span class="grow"><div style="font-weight:700">Liquid Staking 101</div><div style="color:var(--gris);font-size:.9rem">Qu'est-ce que le staking liquide ?</div></span></div>
+        <div class="item-explore"><span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#6b5bd6"/></svg></span><span class="grow"><div style="font-weight:700">Sécurité du portefeuille</div><div style="color:var(--gris);font-size:.9rem">Ne partage jamais ta phrase secrète.</div></span></div>
+        <div class="item-explore"><span class="ic-rond"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#3d6fa4"/></svg></span><span class="grow"><div style="font-weight:700">Nouvelles façons de payer</div><div style="color:var(--gris);font-size:.9rem">Découvre l'écosystème.</div></span></div>
+      </div>
+
+      <div class="sect-titre">Ce qui se passe <span class="fleche">›</span></div>
+      <div class="news"><div class="src">170 sources · 1 h</div><div class="titre">Micron annonce un revenu trimestriel record porté par la demande de mémoire pour l'IA.</div><div class="tags"><span class="pos">MU +4.6%</span></div></div>
+      <div class="news"><div class="src">110 sources · 6 h</div><div class="titre">SpaceX rejoint le Nasdaq-100 en un temps record après un changement de règle.</div><div class="tags"><span class="neg">SPCX -6.8%</span><span class="neg">SPCXx -6.6%</span></div></div>
+      <div class="news"><div class="src">82 sources · 9 h</div><div class="titre">Le Bitcoin consolide autour de ses récents sommets pendant que les altcoins reprennent des couleurs.</div><div class="tags"><span class="pos" id="newsSol">SOL +2.1%</span></div></div>
+
+      <div class="avert-explore">ⓘ <span>Les listes de jetons sont générées à des fins de démonstration. Les performances indiquées sont fictives et ne préjugent pas de performances réelles. La négociation de crypto-actifs comporte des risques importants. <a href="#" onclick="return false">En savoir plus</a></span></div>
+    </section>
+
+  </div>
+
+  <!-- ===== BARRE DU BAS ===== -->
+  <div class="barre-bas">
+    <div class="recherche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>Rechercher</div>
+    <button class="fab" id="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== VOILE + FEUILLE ===== -->
+  <div class="voile" id="voile"></div>
+  <div class="feuille" id="feuille"><div class="poignee"></div><div id="feuilleContenu"></div></div>
+
+  <!-- ===== ONBOARDING / ACCEPTATION ===== -->
+  <div class="onboard" id="onboard">
+    <div class="surtitre">Simulateur d'entraînement</div>
+    <div class="logo">
+      <svg viewBox="0 0 56 56" fill="none"><path d="M46 28c0 9.9-8 18-18 18-8.4 0-15.4-5.7-17.4-13.5 0 0 3 1.2 6.6 1.2 5 0 5.6-2.9 9.8-2.9 3.4 0 4 2.2 7.2 2.2 3 0 4.8-2.4 4.8-5.4 0-6.5-6.4-11.6-14.6-11.6C16.5 15.9 10 22.9 10 31.4" stroke="#fff" stroke-width="0"/><path d="M28 10C18 10 10 18 10 28c0 1.8.3 3.6.8 5.2.9-3 3.6-4.9 7.1-4.9 4.3 0 4.9 2.9 9.1 2.9 3.4 0 4-2.2 7.2-2.2 2.6 0 4.4 1.9 4.7 4.6.7-1.7 1.1-3.6 1.1-5.6C47 18 38 10 28 10z" fill="#fff"/><circle cx="20" cy="24" r="2.4" fill="#7a68ea"/><circle cx="30" cy="24" r="2.4" fill="#7a68ea"/></svg>
+    </div>
+    <h1>Ton portefeuille d'entraînement</h1>
+    <p>Une réplique pédagogique pour apprendre à naviguer, échanger et prédire — <b style="color:#fff">avec de l'argent 100&nbsp;% fictif et illimité</b>.</p>
+    <div class="encart">
+      <b>À lire avant de commencer :</b><br>
+      • Ceci est un <b>simulateur non officiel</b>, sans lien avec Phantom ni aucune vraie plateforme.<br>
+      • Aucune vraie crypto, aucun vrai euro, aucune transaction réelle.<br>
+      • On ne te demandera <b>jamais</b> de phrase secrète, de mot de passe ni de vrai moyen de paiement.<br>
+      • Le but : t'entraîner sans aucun risque.
+    </div>
+    <div class="check" id="checkAcc">
+      <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span>
+      <span>J'ai compris qu'il s'agit d'un entraînement avec de l'argent fictif, et j'accepte de continuer.</span>
+    </div>
+    <button class="btn-plein disabled" id="btnCommencer">Commencer l'entraînement</button>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   SIMULATEUR DE PORTEFEUILLE — ENTRAÎNEMENT (argent fictif, illimité)
+   Réplique pédagogique inspirée d'une appli de portefeuille crypto.
+   100 % autonome, aucune donnée envoyée nulle part.
+   ===================================================================== */
+
+/* ---------- Icônes de jetons (SVG inline) ---------- */
+const IC = {
+  SOL:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#0c0c14"/><defs><linearGradient id="s1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9945FF"/><stop offset="1" stop-color="#14F195"/></linearGradient></defs><g fill="url(#s1)"><path d="M14 27.5l2.4-2.4a1 1 0 0 1 .7-.3H33a.5.5 0 0 1 .35.85l-2.4 2.4a1 1 0 0 1-.7.3H14.3a.5.5 0 0 1-.35-.85z"/><path d="M14 16.1l2.4 2.4c.2.2.44.3.7.3H33a.5.5 0 0 0 .35-.85l-2.4-2.4a1 1 0 0 0-.7-.3H14.3a.5.5 0 0 0-.35.85z"/><path d="M30.95 21.75l-2.4-2.4a1 1 0 0 0-.7-.3H11.3a.5.5 0 0 0-.35.85l2.4 2.4c.2.2.44.3.7.3h16.55a.5.5 0 0 0 .35-.85z"/></g></svg>`,
+  BTC:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#f7931a"/><text x="22" y="30" font-size="22" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial">₿</text></svg>`,
+  ETH:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#5c74e8"/><path d="M22 9l-8 13 8 5 8-5-8-13z" fill="#fff" opacity=".95"/><path d="M22 28.5l-8-5 8 11 8-11-8 5z" fill="#fff" opacity=".7"/></svg>`,
+  USDC:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#2775ca"/><text x="22" y="30" font-size="20" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial">$</text></svg>`,
+  XRP:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#111"/><path d="M14 15l8 8 8-8M14 29l8-8 8 8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`,
+  HYPE:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#072a24"/><path d="M13 26c3-6 5-6 9 0s6 6 9 0" stroke="#4fe9c4" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  BONK:`<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="#f5ac1e"/><text x="22" y="30" font-size="18" font-weight="800" fill="#111" text-anchor="middle" font-family="Arial">B</text></svg>`
+};
+function icoLettre(l,c){return `<svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="22" fill="${c}"/><text x="22" y="29" font-size="18" font-weight="800" fill="#fff" text-anchor="middle" font-family="Arial">${l}</text></svg>`}
+
+/* ---------- Marché (prix simulés) ---------- */
+const MARCHE = {
+  SOL:{nom:'Solana',    prix:114.02, base:114.02, ic:IC.SOL, dec:5},
+  BTC:{nom:'Bitcoin',   prix:65584,  base:65584,  ic:IC.BTC, dec:6},
+  ETH:{nom:'Ethereum',  prix:3486,   base:3486,   ic:IC.ETH, dec:5},
+  USDC:{nom:'USD Coin', prix:1,      base:1,      ic:IC.USDC,dec:2},
+  XRP:{nom:'XRP',       prix:2.34,   base:2.34,   ic:IC.XRP, dec:2},
+  HYPE:{nom:'Hyperliquid',prix:38.7, base:38.7,   ic:IC.HYPE,dec:3},
+  BONK:{nom:'Bonk',     prix:0.0000214, base:0.0000214, ic:IC.BONK, dec:0}
+};
+const ORDRE_JETONS = ['SOL','BTC','ETH','HYPE','XRP','BONK','USDC'];
+
+/* ---------- État persistant ---------- */
+const CLE='phantomSimV1';
+const ETAT_DEFAUT = {
+  accepte:false,
+  espece:0,
+  holdings:{SOL:1.46851},   // on démarre comme dans la vidéo, on enrichit ensuite
+  soldeRef:0,               // référence pour la variation du jour
+  paris:[]
+};
+let S = charger();
+function charger(){
+  try{const j=JSON.parse(localStorage.getItem(CLE));if(j&&typeof j==='object')return Object.assign({},structuredClone(ETAT_DEFAUT),j);}catch(e){}
+  return structuredClone(ETAT_DEFAUT);
+}
+function sauver(){try{localStorage.setItem(CLE,JSON.stringify(S));}catch(e){}}
+
+/* ---------- Utilitaires format ---------- */
+function usd(n){
+  if(n===0)return '$0.00';
+  const abs=Math.abs(n);
+  let d=2;
+  if(abs<0.01&&abs>0)d=6;
+  else if(abs<1)d=4;
+  return (n<0?'-$':'$')+abs.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+function usdCourt(n){
+  if(n>=1e9)return '$'+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6)return '$'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3)return '$'+(n/1e3).toFixed(1)+'K';
+  return '$'+n.toFixed(0);
+}
+function qtt(n,dec){
+  if(n===0)return '0';
+  if(dec===0){ // micro-prix / gros nombres
+    if(n>=1e6)return (n/1e6).toFixed(2)+'M';
+    return n.toLocaleString('en-US',{maximumFractionDigits:0});
+  }
+  return n.toLocaleString('en-US',{maximumFractionDigits:dec});
+}
+function valeurTotale(){
+  let t=S.espece;
+  for(const k in S.holdings){ if(MARCHE[k]) t+=S.holdings[k]*MARCHE[k].prix; }
+  return t;
+}
+
+/* ---------- Navigation onglets ---------- */
+const vues={accueil:'vue-accueil',echange:'vue-echange',predire:'vue-predire',explorer:'vue-explorer'};
+function aller(v){
+  if(v==='tokdetail')v='accueil';
+  if(!vues[v])return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('actif',t.dataset.vue===v));
+  document.querySelectorAll('.vue').forEach(s=>s.classList.remove('actif'));
+  document.getElementById(vues[v]).classList.add('actif');
+  document.getElementById('ecran').scrollTop=0;
+}
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)aller(b.dataset.vue);});
+document.querySelectorAll('[data-vue]').forEach(el=>{
+  if(el.classList.contains('tab'))return;
+  el.addEventListener('click',()=>aller(el.dataset.vue));
+});
+
+/* ---------- Rendu ACCUEIL ---------- */
+function rendreAccueil(){
+  const tot=valeurTotale();
+  if(!S.soldeRef)S.soldeRef=tot||1;
+  document.getElementById('soldeTotal').textContent=usd(tot);
+  document.getElementById('especeVal').textContent=usd(S.espece);
+  const diff=tot-S.soldeRef;
+  const pct=S.soldeRef?diff/S.soldeRef*100:0;
+  const abs=document.getElementById('soldeVarAbs');
+  const chip=document.getElementById('soldeVarPct');
+  abs.textContent=(diff>=0?'+':'-')+usd(Math.abs(diff)).replace('$','$');
+  abs.className='montant-var '+(diff>=0?'pos':'neg');
+  chip.textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';
+  chip.className='chip '+(pct>=0?'plus':'moins');
+
+  // liste des jetons possédés (valeur > 0)
+  const cont=document.getElementById('listeJetons');
+  cont.innerHTML='';
+  const possedes=ORDRE_JETONS.filter(k=>S.holdings[k]&&S.holdings[k]*MARCHE[k].prix>=0.005);
+  if(!possedes.length){cont.innerHTML='<div style="color:var(--gris);padding:8px 4px">Aucun jeton. Appuie sur « Ajouter » pour créditer ton compte.</div>';}
+  possedes.forEach(k=>{
+    const m=MARCHE[k];const q=S.holdings[k];const val=q*m.prix;
+    const chg=(m.prix-m.base)/m.base*100;
+    const d=document.createElement('div');
+    d.className='jeton';
+    d.innerHTML=`<span class="ic-rond">${m.ic}</span>
+      <span class="grow"><div class="nom">${m.nom} <svg class="verifie" viewBox="0 0 24 24" fill="#ab9ff2"><path d="M12 2l2.4 2.1 3.1-.5 1 3 2.8 1.4-1.1 3 1.1 3-2.8 1.4-1 3-3.1-.5L12 22l-2.4-2.1-3.1.5-1-3L2.7 15l1.1-3-1.1-3L5.5 7.6l1-3 3.1.5z"/><path d="M8 12l3 3 5-5.5" stroke="#111" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sub">${qtt(q,m.dec)} ${k}</div></span>
+      <span class="droite-txt"><div class="val">${usd(val)}</div><div class="sub ${chg>=0?'pos':'neg'}">${chg>=0?'+':''}${usd(Math.abs(val*chg/100)).replace('$',chg>=0?'$':'-$').replace('--','-')}</div></span>`;
+    d.addEventListener('click',()=>ouvrirJetonDetail(k));
+    cont.appendChild(d);
+  });
+  document.getElementById('newsSol').textContent='SOL '+((MARCHE.SOL.prix-MARCHE.SOL.base)/MARCHE.SOL.base*100>=0?'+':'')+((MARCHE.SOL.prix-MARCHE.SOL.base)/MARCHE.SOL.base*100).toFixed(1)+'%';
+  document.getElementById('newsSol').className='pos';
+}
+
+/* ---------- Détail d'un jeton (feuille) ---------- */
+function ouvrirJetonDetail(k){
+  const m=MARCHE[k];const q=S.holdings[k]||0;
+  feuille(`
+    <div style="text-align:center;margin-bottom:6px">
+      <span class="ic-rond" style="width:64px;height:64px;margin:0 auto 12px;display:flex">${m.ic.replace(/width="44" height="44"/,'').replace('viewBox="0 0 44 44"','viewBox="0 0 44 44" width="64" height="64"')}</span>
+      <h3>${m.nom}</h3>
+      <div class="desc">${qtt(q,m.dec)} ${k} · ${usd(q*m.prix)}</div>
+      <div style="font-size:2rem;font-weight:800">${usd(m.prix)}</div>
+      <div class="${(m.prix-m.base)>=0?'pos':'neg'}" style="font-weight:700">${(m.prix-m.base)>=0?'+':''}${((m.prix-m.base)/m.base*100).toFixed(2)}% aujourd'hui</div>
+    </div>
+    <button class="btn-plein" onclick="fermerFeuille();aller('echange');preselEchange('${k}')">Échanger ${k}</button>
+    <button class="btn-ligne" onclick="fermerFeuille()">Fermer</button>
+  `);
+}
+
+/* ---------- ÉCHANGE ---------- */
+let selPay='SOL', selRec='BTC';
+function preselEchange(k){selPay=k;majEchange();}
+function majEchange(){
+  document.getElementById('payIc').innerHTML=MARCHE[selPay].ic;
+  document.getElementById('recIc').innerHTML=MARCHE[selRec].ic;
+  document.getElementById('paySym').textContent=selPay;
+  document.getElementById('recSym').textContent=selRec;
+  const amt=parseFloat(document.getElementById('payAmt').value.replace(',','.'))||0;
+  const pm=MARCHE[selPay], rm=MARCHE[selRec];
+  const brut=amt*pm.prix/rm.prix;
+  const fee=0.0085;                 // commission 0.85 %
+  const impact=Math.min(6,amt*pm.prix/9000+0.4); // impact ~ taille de l'ordre
+  const net=brut*(1-fee-impact/100);
+  document.getElementById('payFiat').textContent=usd(amt*pm.prix);
+  document.getElementById('payBal').textContent='Solde '+qtt(S.holdings[selPay]||0,pm.dec)+' '+selPay;
+  document.getElementById('recAmt').textContent=net>0?qtt(net,rm.dec===2?2:8):'0';
+  document.getElementById('recFiat').textContent=usd(net*rm.prix);
+  document.getElementById('recBal').textContent='Solde '+qtt(S.holdings[selRec]||0,rm.dec)+' '+selRec;
+  document.getElementById('rowRate').textContent='1 '+selPay+' ≈ '+qtt(pm.prix/rm.prix,rm.dec===2?4:8)+' '+selRec;
+  document.getElementById('rowImpact').textContent=impact.toFixed(2)+'%';
+  document.getElementById('rowFee').textContent=usd(amt*pm.prix*fee);
+}
+document.getElementById('payAmt').addEventListener('input',majEchange);
+document.getElementById('swapSwitch').addEventListener('click',()=>{[selPay,selRec]=[selRec,selPay];majEchange();});
+document.querySelectorAll('[data-sel]').forEach(b=>{
+  b.addEventListener('click',()=>ouvrirSelecteur(b.dataset.sel));
+});
+function ouvrirSelecteur(cote){
+  let html='<h3>Choisir un jeton</h3><div class="desc">Sélectionne l\'actif '+(cote==='pay'?'à envoyer':'à recevoir')+'.</div>';
+  ORDRE_JETONS.forEach(k=>{
+    const m=MARCHE[k];
+    html+=`<div class="tok-opt" data-tok="${k}"><span class="ic-rond">${m.ic}</span><span class="grow"><div style="font-weight:700">${m.nom}</div><div style="color:var(--gris);font-size:.9rem">${qtt(S.holdings[k]||0,m.dec)} ${k}</div></span><span style="font-weight:700">${usd(m.prix)}</span></div>`;
+  });
+  feuille(html);
+  document.querySelectorAll('#feuilleContenu .tok-opt').forEach(o=>{
+    o.addEventListener('click',()=>{
+      const k=o.dataset.tok;
+      if(cote==='pay'){ if(k===selRec)selRec=selPay; selPay=k;}
+      else { if(k===selPay)selPay=selRec; selRec=k;}
+      fermerFeuille();majEchange();
+    });
+  });
+}
+// Bouton "Échanger maintenant" flottant sous la vue échange (créé dynamiquement)
+function executerEchange(){
+  const amt=parseFloat(document.getElementById('payAmt').value.replace(',','.'))||0;
+  if(amt<=0){toast('Saisis un montant.');return;}
+  const dispo=S.holdings[selPay]||0;
+  if(amt>dispo+1e-9){
+    toast('Solde '+selPay+' insuffisant — utilise « Ajouter » (fictif).');
+    return;
+  }
+  const pm=MARCHE[selPay], rm=MARCHE[selRec];
+  const fee=0.0085, impact=Math.min(6,amt*pm.prix/9000+0.4)/100;
+  const net=amt*pm.prix/rm.prix*(1-fee-impact);
+  S.holdings[selPay]=dispo-amt;
+  S.holdings[selRec]=(S.holdings[selRec]||0)+net;
+  sauver();majEchange();rendreAccueil();
+  toast('✅ Échangé '+qtt(amt,pm.dec)+' '+selPay+' → '+qtt(net,rm.dec===2?2:6)+' '+selRec);
+}
+
+/* ---------- PRÉDIRE (Up or Down) ---------- */
+let predActif='BTC';
+let serie=[], cible=0, restant=60, probHaut=0.5, tickPred=null;
+const MARCHES15=['ETH','HYPE','SOL','XRP'];
+function initPred(asset){
+  predActif=asset;
+  const p=MARCHE[asset].prix;
+  serie=[]; for(let i=0;i<40;i++)serie.push(p*(1+(Math.random()-0.5)*0.004));
+  cible=p*(1+(Math.random()-0.48)*0.002);
+  restant=60+Math.floor(Math.random()*40);
+  document.getElementById('predAsset').textContent=asset;
+  dessinerPred();
+}
+function dessinerPred(){
+  const p=MARCHE[predActif].prix;
+  serie.push(p); if(serie.length>60)serie.shift();
+  const min=Math.min(...serie,cible), max=Math.max(...serie,cible);
+  const rng=(max-min)||1;
+  const X=i=>i/(serie.length-1)*300;
+  const Y=v=>145-(v-min)/rng*140+2.5;
+  const pts=serie.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+  const line=document.getElementById('predLine');
+  const monte=p>=cible;
+  const col=monte?'#21e56f':'#f6465d';
+  line.setAttribute('points',pts);
+  line.setAttribute('stroke',col);
+  const dot=document.getElementById('predDot');
+  dot.setAttribute('cx',X(serie.length-1)); dot.setAttribute('cy',Y(p)); dot.setAttribute('fill',col);
+  const cl=document.getElementById('cibleLine'); cl.setAttribute('y1',Y(cible)); cl.setAttribute('y2',Y(cible));
+  const cb=document.getElementById('cibleBadge'); cb.textContent=usd(cible); cb.style.top=(Y(cible)/150*100)+'%';
+  document.getElementById('predPrix').textContent=usd(p);
+  document.getElementById('predPrix').style.color=col;
+  document.getElementById('predCible').parentElement.querySelector('#predCible').textContent=usd(cible);
+  // probabilités « du marché »
+  const ecart=(p-cible)/cible;
+  probHaut=Math.max(0.06,Math.min(0.94,0.5+ecart*40));
+  document.getElementById('pctHaut').textContent=Math.round(probHaut*100)+'%';
+  document.getElementById('pctBas').textContent=Math.round((1-probHaut)*100)+'%';
+  const m=Math.floor(restant/60), s=restant%60;
+  document.getElementById('predTimer').textContent=(m>0?m+'m':'')+String(s).padStart(m>0?2:1,'0')+'s';
+}
+function tourPred(){
+  restant--;
+  if(restant<=0){ resoudreParis(); initPred(MARCHES15[Math.floor(Math.random()*MARCHES15.length)]); }
+  else dessinerPred();
+  rendreParis();
+}
+document.querySelectorAll('.pred-btn').forEach(b=>{
+  b.addEventListener('click',()=>ouvrirPari(b.dataset.dir));
+});
+function ouvrirPari(dir){
+  const prob=dir==='haut'?probHaut:(1-probHaut);
+  const cote=(1/prob);
+  feuille(`
+    <h3>${dir==='haut'?'▲ Parier Haut':'▼ Parier Bas'}</h3>
+    <div class="desc">${predActif} sera-t-il ${dir==='haut'?'au-dessus':'en-dessous'} de <b style="color:#fff">${usd(cible)}</b> à la fin du compte à rebours&nbsp;? Cote ×${cote.toFixed(2)}.</div>
+    <div class="puces">
+      <button class="puce" data-mise="10">$10</button>
+      <button class="puce" data-mise="50">$50</button>
+      <button class="puce" data-mise="100">$100</button>
+      <button class="puce" data-mise="500">$500</button>
+    </div>
+    <input class="champ" id="miseInput" type="text" inputmode="decimal" value="50">
+    <div class="desc" style="text-align:center">Gain potentiel : <b style="color:var(--vert)" id="gainPot">$95.00</b></div>
+    <button class="btn-plein" id="validerPari">Placer ${dir==='haut'?'Haut':'Bas'} (fictif)</button>
+    <button class="btn-ligne" onclick="fermerFeuille()">Annuler</button>
+  `);
+  const inp=document.getElementById('miseInput');
+  const maj=()=>{const v=parseFloat(inp.value.replace(',','.'))||0;document.getElementById('gainPot').textContent=usd(v*cote);};
+  inp.addEventListener('input',maj);maj();
+  document.querySelectorAll('#feuilleContenu .puce').forEach(p=>p.addEventListener('click',()=>{inp.value=p.dataset.mise;maj();}));
+  document.getElementById('validerPari').addEventListener('click',()=>{
+    const mise=parseFloat(inp.value.replace(',','.'))||0;
+    if(mise<=0){toast('Mise invalide.');return;}
+    if(mise>S.espece){toast('Espèces insuffisantes — appuie sur « Ajouter » (fictif).');return;}
+    S.espece-=mise;
+    S.paris.push({asset:predActif,dir,cible,mise,cote,restant});
+    sauver();fermerFeuille();rendreAccueil();rendreParis();
+    toast('🎟️ Pari placé : '+usd(mise)+' sur '+(dir==='haut'?'Haut':'Bas'));
+  });
+}
+function resoudreParis(){
+  const p=MARCHE[predActif].prix;
+  const gagne=p>=cible; // « Haut » gagne si prix >= cible
+  let reste=[];
+  S.paris.forEach(b=>{
+    if(b.asset!==predActif){reste.push(b);return;}
+    const ok=(b.dir==='haut'&&gagne)||(b.dir==='bas'&&!gagne);
+    if(ok){const gain=b.mise*b.cote;S.espece+=gain;toast('🎉 Pari gagné +'+usd(gain),'win');}
+    else{toast('💸 Pari perdu -'+usd(b.mise),'lose');}
+  });
+  S.paris=reste;sauver();rendreAccueil();
+}
+function rendreParis(){
+  const z=document.getElementById('zoneParis');
+  const actifs=S.paris;
+  if(!actifs.length){z.innerHTML='';return;}
+  let h='<div class="sect-titre" style="margin-top:20px">Mes paris en cours</div><div class="mes-paris">';
+  actifs.forEach(b=>{
+    h+=`<div class="pari"><span class="badge ${b.dir==='haut'?'plus':'moins'}" style="background:${b.dir==='haut'?'rgba(33,229,111,.16)':'rgba(246,70,93,.16)'};color:${b.dir==='haut'?'var(--vert)':'var(--rouge)'}">${b.dir==='haut'?'▲ Haut':'▼ Bas'}</span>
+      <span class="grow"><div style="font-weight:700">${b.asset} · ${usd(b.cible)}</div><div style="color:var(--gris);font-size:.88rem">Mise ${usd(b.mise)} · cote ×${b.cote.toFixed(2)}</div></span>
+      <span style="color:var(--vert);font-weight:700">${usd(b.mise*b.cote)}</span></div>`;
+  });
+  h+='</div>';z.innerHTML=h;
+}
+function rendreMarches15(){
+  const c=document.getElementById('marches');c.innerHTML='';
+  MARCHES15.forEach(k=>{
+    const m=MARCHE[k];
+    const d=document.createElement('div');d.className='marche';
+    d.innerHTML=`<span class="ic-rond">${m.ic}</span><div class="nom">${k}</div><div class="dur">15m · ${usd(m.prix)}</div>`;
+    d.addEventListener('click',()=>{initPred(k);document.getElementById('ecran').scrollTop=0;toast('Marché '+k+' chargé.');});
+    c.appendChild(d);
+  });
+}
+
+/* ---------- EXPLORATEUR (listes fictives, animées) ---------- */
+const TENDANCE=[
+  {n:'Jimothy',mc:'$30M MC',p:0.0308,chg:6.53,c:'#c98a2b',r:'#f0b90b'},
+  {n:'BOP',mc:'$2.1M MC',p:0.00222517,chg:181.36,c:'#8a8a8a',r:'#c0c0c0'},
+  {n:'ANSEM',mc:'$178M MC',p:0.18,chg:-9.39,c:'#333',r:'#e8622c'}
+];
+const PERPS=[
+  {n:'GOOGL',lev:'20x',vol:'$184M Vol',p:327.56,chg:-6.29,c:'#4285F4'},
+  {n:'GIGADEV',lev:'10x',vol:'$105K Vol',p:66.76,chg:-2.75,c:'#1a73e8'},
+  {n:'TSLA',lev:'20x',vol:'$79M Vol',p:351.19,chg:-7.14,c:'#e82127'}
+];
+const NEGOS=[
+  {n:'@M4ks148',chg:3822.25,c:'#f0b90b'},
+  {n:'@quaid12',chg:2020.96,c:'#8a7ce0'},
+  {n:'@Sukamelo',chg:1880.53,c:'#e8622c'}
+];
+const RANGS=['#f0b90b','#c0c0c0','#e8622c'];
+function rendreExplorer(){
+  const jt=document.getElementById('jetonsTendance');jt.innerHTML='';
+  TENDANCE.forEach((t,i)=>{
+    jt.insertAdjacentHTML('beforeend',`<div class="item-explore"><span class="avat-wrap"><span class="ic-rond">${icoLettre(t.n[0],t.c)}</span><span class="rank" style="background:${RANGS[i]}">${i+1}</span></span>
+      <span class="grow"><div style="font-weight:700">${t.n}</div><div style="color:var(--gris);font-size:.9rem">${t.mc}</div></span>
+      <span class="droite-txt"><div style="font-weight:700">${usd(t.p)}</div><div class="${t.chg>=0?'pos':'neg'}" style="font-size:.9rem;font-weight:700">${t.chg>=0?'+':''}${t.chg}%</div></span></div>`);
+  });
+  const pt=document.getElementById('perpsTendance');pt.innerHTML='';
+  PERPS.forEach((t,i)=>{
+    pt.insertAdjacentHTML('beforeend',`<div class="item-explore"><span class="avat-wrap"><span class="ic-rond">${icoLettre(t.n[0],t.c)}</span><span class="rank" style="background:${RANGS[i]}">${i+1}</span></span>
+      <span class="grow"><div style="font-weight:700;display:flex;align-items:center;gap:8px">${t.n} <span class="lev">${t.lev}</span></div><div style="color:var(--gris);font-size:.9rem">${t.vol}</div></span>
+      <span class="droite-txt"><div style="font-weight:700">$${t.p}</div><div class="${t.chg>=0?'pos':'neg'}" style="font-size:.9rem;font-weight:700">${t.chg}%</div></span></div>`);
+  });
+  const ng=document.getElementById('negociants');ng.innerHTML='';
+  NEGOS.forEach((t,i)=>{
+    ng.insertAdjacentHTML('beforeend',`<div class="item-explore"><span class="avat-wrap"><span class="ic-rond">${icoLettre(t.n[1].toUpperCase(),t.c)}</span><span class="rank" style="background:${RANGS[i]}">${i+1}</span></span>
+      <span class="grow"><div style="font-weight:700">${t.n}</div><div class="pos" style="font-size:.95rem;font-weight:700">+${t.chg.toLocaleString('en-US',{minimumFractionDigits:2})}%</div></span>
+      <button class="suivre">Suivre</button></div>`);
+  });
+}
+
+/* ---------- Boucle de simulation des prix ---------- */
+function simuler(){
+  for(const k in MARCHE){
+    const m=MARCHE[k];
+    if(k==='USDC'){m.prix=1;continue;}
+    // marche aléatoire douce avec léger rappel vers la base
+    const vol=k==='BONK'?0.012:0.0035;
+    const drift=(m.base-m.prix)/m.base*0.02;
+    m.prix=Math.max(m.prix*(1+ (Math.random()-0.5)*2*vol + drift),0);
+  }
+  MARCHE.SOL.prix=Math.max(MARCHE.SOL.prix,0.01);
+  if(document.getElementById('vue-accueil').classList.contains('actif'))rendreAccueil();
+  if(document.getElementById('vue-echange').classList.contains('actif'))majEchange();
+}
+
+/* ---------- Feuille / voile ---------- */
+function feuille(html){
+  document.getElementById('feuilleContenu').innerHTML=html;
+  document.getElementById('voile').classList.add('on');
+  document.getElementById('feuille').classList.add('on');
+}
+function fermerFeuille(){
+  document.getElementById('voile').classList.remove('on');
+  document.getElementById('feuille').classList.remove('on');
+}
+document.getElementById('voile').addEventListener('click',fermerFeuille);
+
+/* ---------- Toast ---------- */
+let toastT=null;
+function toast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast on'+(type?' '+type:'');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600);
+}
+
+/* ---------- Actions rapides + FAB ---------- */
+function feuilleActions(){
+  feuille(`
+    <h3>Actions</h3>
+    <div class="desc">Portefeuille d'entraînement — tout est fictif.</div>
+    <div class="opt" data-a="ajouter"><span class="ic-rond"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="grow"><div class="t">Ajouter des fonds</div><div class="s">Crédite ton compte, montant illimité</div></span></div>
+    <div class="opt" data-a="recevoir"><span class="ic-rond"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span><span class="grow"><div class="t">Recevoir</div><div class="s">Ton adresse de démonstration</div></span></div>
+    <div class="opt" data-a="envoyer"><span class="ic-rond"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span><span class="grow"><div class="t">Envoyer</div><div class="s">Simuler un envoi</div></span></div>
+    <div class="opt" data-a="echanger"><span class="ic-rond"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l-3 3 3 3M4 13h11M17 14l3-3-3-3M20 11H9"/></svg></span><span class="grow"><div class="t">Échanger</div><div class="s">Convertir un jeton en un autre</div></span></div>
+    <div class="opt" data-a="reset"><span class="ic-rond" style="background:rgba(246,70,93,.14)"><svg viewBox="0 0 24 24" stroke="#f6465d" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 4v4h4"/></svg></span><span class="grow"><div class="t">Réinitialiser</div><div class="s">Repartir de zéro</div></span></div>
+  `);
+  document.querySelectorAll('#feuilleContenu .opt').forEach(o=>o.addEventListener('click',()=>action(o.dataset.a)));
+}
+function action(a){
+  if(a==='ajouter'){
+    feuille(`
+      <h3>Ajouter des fonds</h3>
+      <div class="desc">Argent fictif et illimité — sers-toi.</div>
+      <div class="puces">
+        <button class="puce" data-add="1000">+$1 000</button>
+        <button class="puce" data-add="10000">+$10 000</button>
+        <button class="puce" data-add="100000">+$100 000</button>
+        <button class="puce" data-add="1000000">+$1 000 000</button>
+      </div>
+      <input class="champ" id="addInput" type="text" inputmode="decimal" value="10000">
+      <div class="desc" style="text-align:center">Reçu en <b style="color:#fff">Espèces</b> (USDC de démonstration).</div>
+      <button class="btn-plein" id="addOk">Créditer (fictif)</button>
+      <button class="btn-ligne" onclick="fermerFeuille()">Annuler</button>
+    `);
+    const inp=document.getElementById('addInput');
+    document.querySelectorAll('#feuilleContenu .puce').forEach(p=>p.addEventListener('click',()=>inp.value=p.dataset.add));
+    document.getElementById('addOk').addEventListener('click',()=>{
+      const v=parseFloat(inp.value.replace(/[^0-9.]/g,''))||0;
+      if(v<=0){toast('Montant invalide.');return;}
+      S.espece+=v;S.holdings.USDC=(S.holdings.USDC||0)+v;
+      sauver();rendreAccueil();fermerFeuille();toast('💰 +'+usd(v)+' crédités (fictif)');
+    });
+  }
+  else if(a==='recevoir'){
+    feuille(`
+      <h3>Recevoir</h3>
+      <div class="desc">Adresse de démonstration (ne reçoit rien de réel).</div>
+      <div style="background:#fff;border-radius:16px;padding:18px;width:180px;height:180px;margin:8px auto 16px;display:grid;grid-template-columns:repeat(9,1fr);gap:2px">
+        ${Array.from({length:81}).map(()=>`<div style="background:${Math.random()>0.5?'#000':'#fff'};border-radius:1px"></div>`).join('')}
+      </div>
+      <div style="background:var(--carte);border-radius:14px;padding:14px;text-align:center;font-family:monospace;font-size:.86rem;word-break:break-all;color:var(--gris)">DEMO7xF…kQ9zTraiNiNgWaLLeTonLyfictif4pZ</div>
+      <button class="btn-plein" style="margin-top:16px" onclick="toast('Adresse copiée (démo)');fermerFeuille()">Copier l'adresse</button>
+    `);
+  }
+  else if(a==='envoyer'){
+    feuille(`
+      <h3>Envoyer</h3>
+      <div class="desc">Simule un envoi — rien ne quitte réellement ton compte au-delà du fictif.</div>
+      <input class="champ" id="envDest" type="text" value="DEMO…ami" style="font-size:1rem">
+      <input class="champ" id="envAmt" type="text" inputmode="decimal" value="25" placeholder="Montant en $ (Espèces)">
+      <button class="btn-plein" id="envOk">Envoyer (fictif)</button>
+      <button class="btn-ligne" onclick="fermerFeuille()">Annuler</button>
+    `);
+    document.getElementById('envOk').addEventListener('click',()=>{
+      const v=parseFloat(document.getElementById('envAmt').value.replace(',','.'))||0;
+      if(v<=0){toast('Montant invalide.');return;}
+      if(v>S.espece){toast('Espèces insuffisantes.');return;}
+      S.espece-=v;S.holdings.USDC=Math.max(0,(S.holdings.USDC||0)-v);
+      sauver();rendreAccueil();fermerFeuille();toast('📤 '+usd(v)+' envoyés (fictif)');
+    });
+  }
+  else if(a==='echanger'){fermerFeuille();aller('echange');}
+  else if(a==='reset'){
+    feuille(`
+      <h3>Réinitialiser&nbsp;?</h3>
+      <div class="desc">Efface ton portefeuille d'entraînement et repart de zéro. Irréversible.</div>
+      <button class="btn-plein" style="background:#f6465d;color:#fff" id="resetOk">Oui, tout réinitialiser</button>
+      <button class="btn-ligne" onclick="fermerFeuille()">Annuler</button>
+    `);
+    document.getElementById('resetOk').addEventListener('click',()=>{
+      localStorage.removeItem(CLE);S=structuredClone(ETAT_DEFAUT);S.accepte=true;
+      doterDepart();sauver();rendreAccueil();fermerFeuille();toast('Portefeuille réinitialisé.');
+    });
+  }
+}
+document.getElementById('fab').addEventListener('click',feuilleActions);
+document.querySelectorAll('.act[data-action],[data-action]').forEach(el=>{
+  el.addEventListener('click',()=>{const a=el.dataset.action;if(a)action(a);});
+});
+document.getElementById('avatarBtn').addEventListener('click',()=>action('reset'));
+
+/* ---------- Dotation de départ (généreuse, fictive) ---------- */
+function doterDepart(){
+  // Un portefeuille d'entraînement richement doté : « argent illimité »
+  S.espece=250000;
+  S.holdings=Object.assign({SOL:1.46851},{USDC:250000,BTC:2.5,ETH:40,HYPE:1200,XRP:50000,BONK:2500000000,SOL:1200});
+  S.soldeRef=valeurTotale();
+}
+
+/* ---------- Horloge ---------- */
+function horloge(){
+  const d=new Date();
+  document.getElementById('horloge').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+
+/* ---------- Bouton « Échanger maintenant » (injecté dans la vue) ---------- */
+(function(){
+  const b=document.createElement('button');
+  b.className='btn-plein';b.textContent='Échanger maintenant';
+  b.style.cssText='margin-top:22px;position:sticky;bottom:0';
+  b.addEventListener('click',executerEchange);
+  document.getElementById('vue-echange').appendChild(b);
+})();
+
+/* ---------- Onboarding ---------- */
+const chk=document.getElementById('checkAcc');
+const btnC=document.getElementById('btnCommencer');
+chk.addEventListener('click',()=>{
+  chk.classList.toggle('ok');
+  btnC.classList.toggle('disabled',!chk.classList.contains('ok'));
+});
+btnC.addEventListener('click',()=>{
+  if(!chk.classList.contains('ok'))return;
+  S.accepte=true;
+  doterDepart();          // portefeuille d'entraînement richement doté (argent illimité)
+  sauver();
+  document.getElementById('onboard').style.display='none';
+  demarrer();
+});
+
+/* ---------- Démarrage ---------- */
+function demarrer(){
+  rendreAccueil();majEchange();rendreMarches15();rendreParis();rendreExplorer();
+  initPred('BTC');
+  if(tickPred)clearInterval(tickPred);
+  tickPred=setInterval(tourPred,1000);
+  setInterval(simuler,2000);
+  horloge();setInterval(horloge,10000);
+}
+
+if(S.accepte){
+  document.getElementById('onboard').style.display='none';
+  if(valeurTotale()<1)doterDepart();
+  demarrer();
+}else{
+  horloge();
+}
+</script>
+</body>
+</html>
